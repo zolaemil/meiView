@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>meiView Skeleton</title>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="support/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<script type="text/JavaScript" src="support/Fabric-all.js"></script>
+	<script type="text/JavaScript" src="support/jquery-1.7.1.min.js"></script>
+	<script type="text/JavaScript" src="support/vexflow-min.js"></script>
+	<script type="text/JavaScript" src="support/meitovexflow-min.js"></script>
+	<script type="text/JavaScript" src="js/loadxmldoc.js"></script>
+	<script type="text/JavaScript" src="js/meiview.js"></script>
+	<script type="application/javascript" language="javascript">
+
+		$(document).ready( function(){
+
+			var titleElem = $('span.title')[0];
+			$(titleElem).html('Henricus Isaac: Rogamus te piissima virgo Maria');
+
+			// var wholePieceXML = meiView.getPageXML(new meiView.Page(1,24));
+			// var variant_mei = meiView.loadXMLString(wholePieceXML);
+		  var variant_mei = loadXMLDoc('xml/Rogamus.xml');
+			var Apps = MeiLib.parseAPPs(variant_mei);
+			console.log('JS Object:');
+			console.log(Apps);
+
+			meiView.pages.AddPage(1, 12);
+			meiView.pages.AddPage(13, 24);  
+			meiView.appReplacements = {};
+			meiView.appReplacements['app.m3.tie'] = new MeiLib.AppReplacement('rdg', 'rdg1.app.m3.tie');
+			// meiView.appReplacements['app.n1l1s1m8'] = new MeiLib.AppReplacement('rdg', 'rdg.app.n1l1s1m8');
+			// meiView.appReplacements['app01.m8'] = new MeiLib.AppReplacement('rdg', 'rdg1.n1l1s4m8');
+			// meiView.appReplacements['app.n1l1s2m27'] = new MeiLib.AppReplacement('rdg', 'rdg1.app.n1l1s2m27');
+			meiView.fabrCanvas = new fabric.Canvas('maincanvas');
+
+			meiView.nextPage();
+
+			// 	fabrCanv.add(oImg);
+			// 	// var circle = new fabric.Circle({
+			// 	//   radius: 5, fill: 'green', left: 100, top: 100
+			// 	// });
+			// 	// fabrCanv.add(circle);
+			// 	
+		})
+	</script>
+</head>
+
+<body>
+	<script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
+	<h5><span class='title' property='dc:title'>Title Comes Here</span></h5>
+
+	<div class="container"> 
+
+		<div class="row">
+
+			<div class="span10">
+				<ul>
+					<div class="canvasdiv">
+						<canvas class="canvas" id="maincanvas" width="780" height="600"></canvas>
+					</div>
+				</ul>
+			</div>
+
+			<div class="span2">
+				<div class="sidebar"> 
+					<ul>
+						<li>Source1</li>
+						<li>Source2</li>
+						<li>Source3</li>
+						<li>Source4</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	
+</body>
+</html>

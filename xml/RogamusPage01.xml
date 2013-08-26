@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mei meiversion="2013" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.music-encoding.org/ns/mei" xmlns:mei="http://www.music-encoding.org/ns/mei">
+	<meiHead>
+		<fileDesc>
+			<titleStmt>
+				<title/>
+			</titleStmt>
+			<pubStmt/>
+			<sourceDesc>
+				<source xml:id="A"></source>
+				<source xml:id="BQ18"></source>
+				<source xml:id="FC2439"></source>
+				<source xml:id="Lo31922"></source>
+				<source xml:id="SG461"></source>
+				<source xml:id="CF59"></source>
+				<source xml:id="HK17"></source>
+			</sourceDesc>
+		</fileDesc>
+	</meiHead>
+	<music>
+		<body>
+			<mdiv>
+				<score>
+					<mei:scoreDef key.pname="c" key.mode="major">
+						<staffGrp barthru="false" symbol="bracket">
+							<staffDef n="1" label="Supremus" clef.line="2" clef.shape="G" meter.count="2" meter.unit="1"/>
+							<staffDef n="2" label="Altus" clef.line="2" clef.shape="G" clef.dis="8" clef.dis.place="below" meter.count="2" meter.unit="1"/>
+							<staffDef n="3" label="Tenor" clef.line="2" clef.shape="G" clef.dis="8" clef.dis.place="below" meter.count="2" meter.unit="1"/>
+							<staffDef n="4" label="Bassus" clef.line="4" clef.shape="F" meter.count="2" meter.unit="1"/>
+						</staffGrp>
+					</mei:scoreDef>
+					<section>
+						<measure n="1">
+							<staff n="1">
+								<layer>
+									<note pname="a" oct="4" dur="1" tie="i">
+										<syl wordpos="i">Ro</syl>
+									</note>
+									<note pname="a" oct="4" dur="1" tie="t"></note>
+								</layer>
+							</staff>
+							<staff n="2">
+								<layer>
+									<note pname="a" oct="3" dur="1" tie="i">
+										<syl wordpos="i">Ro</syl>
+									</note>									
+									<note pname="a" oct="3" dur="1" tie="t"></note>
+								</layer>
+							</staff>
+							<staff n="3">
+								<layer>
+									<mRest/>
+								</layer>
+							</staff>
+							<staff n="4">
+								<layer>
+									<mRest/>
+								</layer>
+							</staff>
+						</measure>
+						<measure n="2">
+							<staff n="1">
+								<layer>
+									<note pname="e" oct="4" dur="1">
+										<syl wordpos="m">ga</syl>
+									</note>
+									<note pname="a" oct="4" dur="1">
+										<syl wordpos="t">mus</syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="2">
+								<layer>
+									<note pname="c" oct="4" dur="1">
+										<syl wordpos="m">ga</syl>
+									</note>
+									<note pname="d" oct="4" dur="1">
+										<syl wordpos="t">mus</syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="3">
+								<layer>
+									<mRest/>
+								</layer>
+							</staff>
+							<staff n="4">
+								<layer>
+									<mRest/>
+								</layer>
+							</staff>
+						</measure>
+						<measure n="3">
+							<staff n="1">
+								<layer>
+									<note pname="g" oct="4" dur="1">
+										<syl>te</syl>
+									</note>
+									<rest dur="2"></rest>
+									<note xml:id="n2l1s1m3" pname="a" oct="4" dur="2">
+										<syl wordpos="i">pi</syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="2">
+								<layer>
+									<note pname="e" oct="4" dur="2" dots="1">
+										<syl>te</syl>
+									</note>
+									<note pname="d" oct="4" dur="4">
+									</note>
+									<note pname="c" oct="4" dur="2">
+										<syl wordpos="i">pi</syl>
+									</note>
+									<note pname="b" oct="3" dur="4">
+										<syl wordpos="m">is</syl>
+									</note>
+									<note pname="a" oct="3" dur="4">
+									</note>
+								</layer>
+							</staff>
+							<staff n="3">
+								<layer>
+									<mRest/>
+								</layer>
+							</staff>
+							<staff n="4">
+								<layer>
+									<rest dur="1"></rest>
+									<note pname="a" oct="3" dur="1">
+										<syl wordpos="i">Ro</syl>
+									</note>	
+								</layer>
+							</staff>
+							<app xml:id="app.m3.tie">
+								<lem></lem>
+								<rdg xml:id="rdg1.app.m3.tie" source="#BQ18 #FC2439 #Lo31922">
+									<tie staff="1" startid="n2l1s1m3" endid="n1l1s1m4"/>
+								</rdg>
+							</app>
+						</measure>
+						<measure n="4">
+							<staff n="1">
+								<layer>
+									<note xml:id="n1l1s1m4" pname="a" oct="4" dur="2">
+										<syl wordpos="m">is</syl>
+									</note>
+									<note pname="g" oct="4" dur="2">
+										<syl wordpos="m">si</syl>
+									</note>
+									<note pname="a" oct="4" dur="1">
+										<syl wordpos="t">ma</syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="2">
+								<layer>
+									<note pname="b" oct="3" dur="1">
+										<syl wordpos="m">si</syl>
+									</note>
+									<note pname="a" oct="3" dur="2">
+										<syl wordpos="t">ma</syl>
+									</note>
+									<note xml:id="n3l1s2m4" pname="e" oct="4" dur="2">
+										<app xml:id="app.n3l1s2m4">
+											<lem>
+												<syl wordpos="i">vir</syl>
+											</lem>
+											<rdg source="#HK17">
+													<syl wordpos="i">Je</syl>
+											</rdg>
+										</app>
+									</note>
+								</layer>
+							</staff>
+							<staff n="3">
+								<layer>
+									<mRest/>
+								</layer>
+							</staff>
+							<staff n="4">
+								<layer>
+									<note pname="e" oct="3" dur="1">
+										<syl wordpos="m">ga</syl>
+									</note>
+									<note pname="a" oct="3" dur="1">
+										<syl wordpos="t">mus</syl>
+									</note>
+								</layer>
+							</staff>
+							<app xml:id="app.m4.slur">
+								<lem>
+									<tie staff="2" startid="n3l1s2m4" endid="n1l1s2m5"/>
+								</lem>
+								<rdg source="#SG461"></rdg>
+							</app>
+						</measure>
+						<measure n="5">
+							<staff n="1">
+								<layer>
+									<note pname="e" oct="4" dur="2">
+										<syl wordpos="i">vir</syl>
+									</note>
+									<note pname="b" oct="4" dur="2">
+										<syl wordpos="t">go</syl>
+									</note>
+									<note pname="c" oct="5" dur="1">
+										<syl wordpos="i">Ma</syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="2">
+								<layer>
+									<note xml:id="n1l1s2m5" pname="e" oct="4" dur="2"/>
+									<note pname="d" oct="4" dur="2">
+										<app xml:id="app.n2l1s2m5">
+											<lem>
+												<syl wordpos="t">go</syl>
+											</lem>
+											<rdg source="#HK17">
+												<syl wordpos="t">su</syl>
+											</rdg>
+										</app>
+									</note>
+									<note pname="e" oct="4" dur="2" dots="1">
+										<app xml:id="app.n3l1s2m5">
+											<lem>
+												<syl wordpos="i">Ma</syl>
+											</lem>
+											<rdg source="#HK17">
+												<syl wordpos="i">Chri</syl>
+											</rdg>
+										</app>
+									</note>
+									<app xml:id="app.n4l1s2m5">
+										<lem>
+											<note pname="c" oct="4" dur="4">
+												<syl wordpos="m"></syl>
+											</note>
+										</lem>
+										<rdg source="#HK17">
+											<note pname="d" oct="4" dur="4">
+												<syl wordpos="m"></syl>
+											</note>
+										</rdg>
+									</app>
+								</layer>
+							</staff>
+							<staff n="3">
+								<layer>
+									<mRest/>
+								</layer>
+							</staff>
+							<staff n="4">
+								<layer>
+									<note pname="g" oct="3" dur="1">
+										<syl>te</syl>
+									</note>
+									<rest dur="2"/>
+									<note pname="a" oct="3" dur="2">
+										<app xml:id="app.n2l1s4m5">
+											<lem>
+												<syl wordpos="i">vir</syl>
+											</lem>
+											<rdg source="#HK17">
+													<syl wordpos="i">Je</syl>
+											</rdg>
+										</app>
+									</note>
+								</layer>
+							</staff>
+						</measure>
+						<measure n="6">
+							<staff n="1">
+								<layer>
+									<note pname="b" oct="4" dur="2">
+										<syl wordpos="m">ri</syl>
+									</note>
+									<app xml:id="app.n2l1s1m6">
+										<lem>
+											<note pname="a" oct="4" dur="1"/>
+										</lem>
+										<rdg source="#BQ18 #SG461">
+											<note pname="a" oct="4" dur="2"/>
+											<note pname="a" oct="4" dur="2"/>
+										</rdg>
+									</app>
+									<note pname="g" oct="4" accid="s" dur="2"/>
+								</layer>
+							</staff>
+							<staff n="2">
+								<layer>
+									<app xml:id="app.n1l1s2m6">
+										<lem>
+											<note pname="d" oct="4" dur="2" dots="1">
+												<syl wordpos="m"></syl>
+											</note>
+											<note pname="a" oct="3" dur="4">
+												<syl wordpos="m"></syl>
+											</note>
+										</lem>
+										<rdg source="#BQ18 #FC2439 #SG461 #Lo31922">
+											<note pname="d" oct="4" dur="2">
+												<syl wordpos="m"></syl>
+											</note>
+											<note pname="a" oct="3" dur="2">
+												<syl wordpos="m"></syl>
+											</note>
+										</rdg>
+									</app>
+									<note pname="b" oct="3" dur="1">
+										<app xml:id="app.n3l1s2m6">
+											<lem>
+												<syl wordpos="m">ri</syl>
+											</lem>
+											<rdg source="#HK17">
+												<syl wordpos="m"></syl>
+											</rdg>
+										</app>
+									</note>
+								</layer>
+							</staff>
+							<staff n="3">
+								<layer>
+									<mRest/>
+								</layer>
+							</staff>
+							<staff n="4">
+								<layer>
+									<note pname="g" oct="3" dur="2">
+										<app xml:id="app.n1l1s4m6">
+											<lem>
+												<syl wordpos="t">go</syl>
+											</lem>
+											<rdg source="#HK17">
+												<syl wordpos="t">su</syl>
+											</rdg>
+										</app>
+									</note>
+									<note pname="a" oct="3" dur="2">
+										<app xml:id="app.n2l1s4m6">
+											<lem>
+												<syl wordpos="i">Ma</syl>
+											</lem>
+											<rdg source="#HK17">
+												<syl wordpos="i">Chri</syl>
+											</rdg>
+										</app>
+									</note>
+									<note pname="e" oct="3" dur="1">
+										<app xml:id="app.n3l1s4m6"> 
+											<lem>
+												<syl wordpos="m">ri</syl>
+											</lem>
+											<rdg source="#HK17">
+												<syl wordpos="t">ste</syl>
+											</rdg>
+										</app>
+									</note>
+								</layer>
+							</staff>
+						</measure>
+					</section>
+				</score>
+			</mdiv>
+		</body>
+	</music>
+</mei>
