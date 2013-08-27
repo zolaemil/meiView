@@ -5,10 +5,12 @@
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="support/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+	<!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> -->
+	<link rel="stylesheet" href="jquery-ui-1.10.3.custom/css/pepper-grinder/jquery-ui-1.10.3.custom.css" />
 	<script type="text/JavaScript" src="support/Fabric-all.js"></script>
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> -->
+	<script src="jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
 <!-- <script type="text/JavaScript" src="support/jquery-1.7.1.min.js"></script> -->
 	<script type="text/JavaScript" src="support/vexflow-min.js"></script>
 	<script type="text/JavaScript" src="support/meitovexflow-min.js"></script>
@@ -24,14 +26,17 @@
 			width: 780px;
 			height: 450px;
 			border: 1px solid rgb(148,148,130);
-			background-color: rgb(248,248,240);
+			padding: 10px;
 		}
+			
 		.pagination ul>li>a {
 			background-color: rgb(248,248,240);
 			color: rgb(100,100,100);
 		}
-		
 	</style>
+<!--
+background-color: rgb(248,248,240);
+  -->
 	<script type="application/javascript" language="javascript">
 
 		$(document).ready( function(){
@@ -84,16 +89,10 @@
 			<script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
 			
 			<div id="maindiv" style="margin: 10px 20px auto">
-				<div id="scorediv" align="center">
-					<div class="pagination" id="pagenumdiv" align="center">
-						<ul>
-							<li><a href="#">&laquo;</a></li>
-							<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">&raquo;</a></li>
-						</ul>
-					</div>
+				<div id="scorediv" align="center" class="ui-widget-content">
+					<button class="ui-widget-content ui-corner-all"><span class="ui-icon ui-icon-triangle-1-w"/></button>
+					<span width="10">1/1</span>
+					<button class="ui-widget-content ui-corner-all"><span class="ui-icon ui-icon-triangle-1-e"/></button>
 					<h4><span id='title' class='title' property='dc:title'>Title Comes Here</span></h4>
 					<canvas class="canvas" id="maincanvas" width="780" height="450"></canvas>
 				</div>
