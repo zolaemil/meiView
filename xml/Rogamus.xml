@@ -437,7 +437,7 @@
 												<syl wordpos="m">-li</syl>
 											</note>
 										</lem>
-										<rdg xml:id="rdg.app.n1l1s1m8" source="Lo31922">
+										<rdg xml:id="rdg.app.n1l1s1m8" source="#Lo31922">
 											<note dur="1" dots="1" pname="c" oct="4">
 												<syl wordpos="m">-mi</syl>
 											</note>
@@ -467,7 +467,7 @@
 							<tie staff="3" startid="n1l1s3m8" endid="n2l1s3m8"/>
 							<app xml:id="app01.m8">
 								<lem></lem>
-								<rdg xml:id="rdg1.n1l1s4m8" source="BQ18 FC2439 Lo31922 SG461">
+								<rdg xml:id="rdg1.n1l1s4m8" source="#BQ18 #FC2439 #Lo31922 #SG461">
 									<tie staff="4" startid="n1l1s4m8" endid="n2l1s4m8"/>
 								</rdg>
 							</app>
@@ -506,7 +506,7 @@
 							</staff>
 							<app xml:id="app01.m9">
 								<lem></lem>
-								<rdg xml:id="rdg1.n1l1s4m9" source="BQ18 FC2439 Lo31922 SG461">
+								<rdg xml:id="rdg1.n1l1s4m9" source="#BQ18 #FC2439 #Lo31922 #SG461">
 									<tie staff="4" startid="n1l1s4m9" endid="n2l1s4m9"/>
 								</rdg>
 							</app>
@@ -542,7 +542,7 @@
 							</staff>
 							<app xml:id="app01.m10">
 								<lem></lem>
-								<rdg xml:id="rdg1.n1l1s4m10" source="BQ18 FC2439 Lo31922 SG461">
+								<rdg xml:id="rdg1.n1l1s4m10" source="#BQ18 #FC2439 #Lo31922 #SG461">
 									<tie staff="4" startid="n1l1s4m10" endid="n2l1s4m10"/>
 								</rdg>
 							</app>
@@ -582,7 +582,7 @@
 							</staff>
 							<app xml:id="app01.m11">
 								<lem></lem>
-								<rdg xml:id="rdg1.n1l1s2m11" source="BQ18 Lo31922">
+								<rdg xml:id="rdg1.n1l1s2m11" source="#BQ18 #Lo31922">
 									<tie staff="4" startid="n1l1s2m11" endid="n2l1s2m11"/>
 								</rdg>
 							</app>
@@ -680,7 +680,7 @@
 							</staff>
 							<app xml:id="app.s4m13">
 								<lem></lem>
-								<rdg xml:id="rdg1.app.s4m13" source="Lo31922">
+								<rdg xml:id="rdg1.app.s4m13" source="#Lo31922">
 									<tie staff="4" startid="n1l1s4m13" endid="n1l1s4m14"/>
 								</rdg>
 							</app>
@@ -695,7 +695,7 @@
 										<lem>
 											<note dur="2" pname="b" oct="4" tie="t"></note>
 										</lem>
-										<rdg xml:id="rdg1.app.n1l1st1m14" source="FC2439">
+										<rdg xml:id="rdg1.app.n1l1st1m14" source="#FC2439">
 											<note dur="4" pname="b" oct="4" tie="t"></note>
 											<note dur="4" pname="a" oct="4"></note>
 										</rdg>
@@ -740,7 +740,7 @@
 							</staff>
 							<app xml:id="app.s4m14">
 								<lem></lem>
-								<rdg xml:id="rgd1.app.s4m14" source="FC2439">
+								<rdg xml:id="rgd1.app.s4m14" source="#FC2439">
 									<tie staff="4" startid="n1l1s4m14" endid="n2l1s4m14"/>
 								</rdg>
 							</app>
@@ -839,7 +839,7 @@
 							<tie staff="3" startid="n2l1s3m16" endid="n1l1s3m17"/>
 							<app xml:id="app.m16">
 								<lem></lem>
-								<rdg xml:id="rdg1.app.m16" source="FC2439 SG461 Lo31922">
+								<rdg xml:id="rdg1.app.m16" source="#FC2439 #SG461 #Lo31922">
 									<tie staff="4" startid="n1l1s4m16" endid="n2l1s4m16"/>
 								</rdg>
 							</app>
@@ -965,7 +965,7 @@
 												<syl wordpos="m"></syl>
 											</note>
 										</lem>
-										<rdg xml:id="rdg1.app.n4l1s2m19" source="FC2439">
+										<rdg xml:id="rdg1.app.n4l1s2m19" source="#FC2439">
 											<beam>
 												<note dur="8" pname="f" accid="s" oct="5">
 													<syl wordpos="m"></syl>
@@ -1013,7 +1013,7 @@
 												<syl wordpos="m"></syl>
 											</note>
 										</lem>
-										<rdg xml:id="rdg1.app.n1l1s1m20" source="FC2439">
+										<rdg xml:id="rdg1.app.n1l1s1m20" source="#FC2439">
 											<note dur="4" pname="a" oct="4" tie="t">
 												<syl wordpos="m"></syl>
 											</note>
@@ -1065,7 +1065,7 @@
 								<lem>
 									<tie staff="3" startid="n2l1s3m20" endid="n1l1s3m21"/>
 								</lem>
-								<rdg xml:id="rdg1.app.m20" source="BQ18">
+								<rdg xml:id="rdg1.app.m20" source="#BQ18">
 								</rdg>
 							</app>
 						</measure>
@@ -1137,7 +1137,7 @@
 												<syl wordpos="m">-li</syl>
 											</note>
 										</lem>
-										<rdg xml:id="rdg1.app.n1l1s2m22" source="BQ18 FC2439 Lo31922 SG461">
+										<rdg xml:id="rdg1.app.n1l1s2m22" source="#BQ18 #FC2439 #Lo31922 #SG461">
 											<note dur="1" pname="d" oct="4">
 												<syl wordpos="m">-tuli</syl>
 											</note>
@@ -1351,7 +1351,7 @@
 												<syl wordpos="i">fa</syl>
 											</note>
 										</lem>
-										<rdg xml:id="rdg1.app.n1l1s2m27" source="SG461">
+										<rdg xml:id="rdg1.app.n1l1s2m27" source="#SG461">
 											<note dur="2" dots="1" pname="e" oct="4">
 												<syl wordpos="t">-lem</syl>
 											</note>
