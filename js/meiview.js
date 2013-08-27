@@ -1,5 +1,33 @@
 var meiView = {};
 
+meiView.Apps = [];
+meiView.Sources = {};
+
+meiView.createSourceList = function() {
+  for(var i=0; i<meiView.Apps.length; i++) {
+    var app = meiView.Apps[i];
+    for (var j=0; j<app.variants.length; j++) {
+      var variantItem = app.variants[j];
+      if (variantItem.tagname === 'rdg') {
+        if (!variantItem.source) throw "meiView Error: no source specified for rdg: '" + variantItem.xmlID +"'";
+        var srcIDs = variantItem.source.split(' ');
+        for (var k=0; k<srcIDs.length; k++) {
+          var srcID = srcIDs[k];
+          if (!meiView.Sources[srcID]) {
+            meiView.Sources[srcID] = [];
+          }
+          meiView.Sources[srcID].push( { appID:app.xmlID } );
+        } 
+      } else {
+        if (!meiView.Sources['Lemma']) {
+          meiView.Sources['Lemma'] = [];
+        }
+        meiView.Sources['Lemma'].push( { appID:app.xmlID } );
+      }
+    }
+  }
+}
+
 
 meiView.Page = function(start, end) {
   this.startMeasure = start;

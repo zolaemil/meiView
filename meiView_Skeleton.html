@@ -14,6 +14,7 @@
 	<script type="text/JavaScript" src="support/meitovexflow-min.js"></script>
 	<script type="text/JavaScript" src="js/loadxmldoc.js"></script>
 	<script type="text/JavaScript" src="js/meiview.js"></script>
+	<script type="text/JavaScript" src="js/meiview-ui.js"></script>
 	<style>
 		#sidebar {
 			width: 200px;
@@ -36,10 +37,6 @@
 		$(document).ready( function(){
 			
 			
-			$('#accordion').accordion({
-				collapsible: true
-			});
-			
 			$('#sidebar').position({
 				my: 'left top',
 				at: 'right+10 top',
@@ -52,10 +49,16 @@
 			// var wholePieceXML = meiView.getPageXML(new meiView.Page(1,24));
 			// var variant_mei = meiView.loadXMLString(wholePieceXML);
 			var variant_mei = loadXMLDoc('xml/Rogamus.xml');
-			var Apps = MeiLib.parseAPPs(variant_mei);
+			meiView.Apps = MeiLib.parseAPPs(variant_mei);
 			console.log('JS Object:');
-			console.log(Apps);
+			console.log(meiView.Apps);
+			meiView.createSourceList();
 
+			meiView.UI.fillSideBar($('#accordion'), meiView.Sources);
+			$('#accordion').accordion({
+				collapsible: true
+			});
+				
 			meiView.pages.AddPage(1, 12);
 			meiView.pages.AddPage(13, 24);  
 			meiView.appReplacements = {};
@@ -96,18 +99,6 @@
 				</div>
 				<div id="sidebar">
 					<div id="accordion"> 
-						<h3>Source 1</h3>
-						<div>
-						</div>
-						<h3>Source 2</h3>
-						<div>
-						</div>
-						<h3>Source 3</h3>
-						<div>
-						</div>
-						<h3>Source 4</h3>
-						<div>
-						</div>
 					</div>
 				</div>
 			</div>
