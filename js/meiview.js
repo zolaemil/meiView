@@ -1,37 +1,36 @@
 var meiView = {};
 
-meiView.Apps = [];
-meiView.Sources = {};
-
-meiView.createSourceList = function() {
-  for(var i=0; i<meiView.Apps.length; i++) {
-    var app = meiView.Apps[i];
-    for (var j=0; j<app.variants.length; j++) {
-      var variantItem = app.variants[j];
+meiView.createSourceList = function(Apps) {
+  var result = {}
+  for(appID in Apps) {
+    var app = Apps[appID];
+    for(varXMLID in app.variants) {
+      var variantItem = app.variants[varXMLID];
       if (variantItem.tagname === 'rdg') {
         if (!variantItem.source) throw "meiView Error: no source specified for rdg: '" + variantItem.xmlID +"'";
         var srcIDs = variantItem.source.split(' ');
         for (var k=0; k<srcIDs.length; k++) {
           var srcID = srcIDs[k];
-          if (!meiView.Sources[srcID]) {
-            meiView.Sources[srcID] = [];
+          if (!result[srcID]) {
+            result[srcID] = [];
           }
-          meiView.Sources[srcID].push( { appID:app.xmlID } );
+          result[srcID].push( { appID:app.xmlID } );
         } 
       } else {
-        if (!meiView.Sources['Lemma']) {
-          meiView.Sources['Lemma'] = [];
+        if (!result['lem']) {
+          result['lem'] = [];
         }
-        meiView.Sources['Lemma'].push( { appID:app.xmlID } );
+        result['lem'].push( { appID:app.xmlID } );
       }
     }
   }
+  return result;
 }
 
 
 meiView.Page = function(start, end) {
-  this.startMeasure = start;
-  this.endMeasure = end;
+  this.startMeasureN = start;
+  this.endMeasureN = end;
 }
 
 meiView.Pages = function() {
@@ -44,7 +43,7 @@ meiView.Pages.prototype.AddPage = function(start, end) {
 }
 
 meiView.Pages.prototype.nextPage = function() {
-  if (this.currentPageIndex<meiView.pages.length-1) {
+  if (this.currentPageIndex<this.pages.length-1) {
     this.currentPageIndex++;
   }
 }
@@ -53,6 +52,10 @@ meiView.Pages.prototype.prevPage = function() {
   if (this.currentPageIndex>0) {
     this.currentPageIndex--;
   }
+}
+
+meiView.Pages.prototype.currentPage = function() {
+  return this.pages[this.currentPageIndex];
 }
 
 meiView.nextPage = function(){
@@ -65,9 +68,14 @@ meiView.prevPage = function(){
   this.displayCurrentPage();
 }
 
+meiView.totalPages = function() {
+  return this.pages.length;
+}
+
 meiView.pages = new meiView.Pages();
 meiView.scoreWidth = 1000;
-meiView.scoreHeight = 450;
+meiView.scoreHeight = 1000;
+meiView.dots = {};
 
 meiView.DisplayMainMEI = function(score, canvas) {
   var score_width = $(canvas).attr('width') - 20;
@@ -80,24 +88,28 @@ meiView.DisplayMainMEI = function(score, canvas) {
 
 meiView.displayCurrentPage = function() {
 
-  // var pageXML = meiView.getPageXML(meiView.pages[meiView.current_page_index]);
-  // var variant_page_xmlDoc = meiView.loadXMLString(pageXML);
-  var variant_page_xmlDoc = loadXMLDoc('xml/RogamusPage01.xml');
-  var single_path_score = MeiLib.createSingleVariantPathScore(meiView.appReplacements, variant_page_xmlDoc);  
+  // var variant_page_xmlDoc = loadXMLDoc('xml/Rogamus.xml');
+  // var single_path_score = MeiLib.createSingleVariantPathScore(meiView.appReplacements, variant_page_xmlDoc);  
+
+  var pageXML = meiView.getPageXML(meiView.pages.currentPage());
+  /* pageXML is singleVariantScore, therefore can be displayed. */
   var tempCanvas = new fabric.StaticCanvas();
   tempCanvas.setDimensions({width:meiView.scoreWidth, height:meiView.scoreHeight});
-  meiView.DisplayMainMEI(single_path_score, tempCanvas);
+  meiView.DisplayMainMEI(pageXML, tempCanvas);
   var img = new Image;
   img.src = tempCanvas.toDataURL();
   if (meiView.scoreImg) {
     meiView.fabrCanvas.remove(meiView.scoreImg);    
   }
-  var scale = meiView.fabrCanvas.width/meiView.scoreWidth;
+  meiView.scale = meiView.fabrCanvas.width/meiView.scoreWidth;
   var W = meiView.fabrCanvas.width;
-  var H = meiView.scoreHeight * scale;
+  var H = meiView.scoreHeight * meiView.scale;
   meiView.scoreImg = new fabric.Image(img, {width:W,height:H, left:W/2, top:H/2});
   meiView.scoreImg.hasControls = false;
   meiView.fabrCanvas.add(meiView.scoreImg);
+  meiView.displayDots();
+  
+  $('#pageNumber').html((meiView.pages.currentPageIndex+1).toString() + '/' + meiView.pages.totalPages());
 }
 
 /**
@@ -108,7 +120,8 @@ meiView.displayCurrentPage = function() {
  * @return xml string
  */
 meiView.getPageXML = function(page) {
-  //TODO
+  var noMeter = (page.startMeasureN !== 1);
+  return meiView.currentScore.getSlice({start_n:page.startMeasureN, end_n:page.endMeasureN, noMeter:noMeter});
 }
 
 meiView.loadXMLString = function(txt) {
@@ -125,3 +138,56 @@ meiView.loadXMLString = function(txt) {
   }
   return xmlDoc;
 }
+
+meiView.displayDots = function() {
+  for (dot in meiView.dots) {
+    meiView.fabrCanvas.remove(meiView.dots[dot]);
+  }
+  for (appID in meiView.MEI.APPs) {
+    meiView.displayDotForAPP(appID);
+  }
+}
+
+meiView.displayDotForAPP = function(appID) {
+    
+    // get the coordinates from MEI2VF.rendered_measures!
+    // MEI2VF.rendered_measures is indexed by the measure number and staff number.
+    // so get the measure number first, from variantMEI:
+    var app = $(meiView.MEI.score).find('app[xml\\:id="' + appID + '"]')[0];
+    var parent_measure = $(app).parents('measure');
+    var measure_n = parent_measure.attr('n');
+
+    // then get the staff number first, from variantMEI:
+    var parent_staff = $(app).parents('staff');
+    var staff_n;
+    if (parent_staff.length === 0) {
+      var child = $(app).find('[staff]')
+      staff_n = $(child).attr('staff');
+    } else {
+      staff_n = parent_staff.attr('n');
+    }
+    
+    //...then get the coordinates from MEI2VF.rendered_measures
+    var vexStaffs = MEI2VF.rendered_measures[measure_n];
+    if (vexStaffs) {
+      var vexStaff = vexStaffs[staff_n];
+      if (vexStaff) {
+        
+        var left = (vexStaff.x + vexStaff.width-12) * meiView.scale;
+        var top = (vexStaff.y+20) * meiView.scale;
+        
+        var circle = new fabric.Circle({
+          radius: 5, fill: 'green', left:left, top:top
+        });
+        meiView.fabrCanvas.add(circle);
+      }
+    }
+    
+    meiView.dots[appID] = circle;
+    
+}
+
+meiView.displayVariantInstances = function(appID) {
+  
+}
+
