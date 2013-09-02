@@ -150,47 +150,47 @@ meiView.displayDots = function() {
 }
 
 meiView.displayDotForAPP = function(appID) {
-    
-    // In order to know at what coordiantes to display the dot, we have
-    // get the coordinates off the VexFlow staff object. VexFlow staff objects are 
-    // exposed by MEI2VF via the MEI2VF.rendered_measures:
-    // MEI2VF.rendered_measures is indexed by the measure number and staff number.
-    // so, in order to retreive the right measure we have to know the measure number and the 
-    // staff number:
-    
-    // get the meausure number first, 
-    var app = $(meiView.MEI.score).find('app[xml\\:id="' + appID + '"]')[0];
-    var parent_measure = $(app).parents('measure');
-    var measure_n = parent_measure.attr('n');
 
-    // then the staff number...
-    var parent_staff = $(app).parents('staff');
-    var staff_n;
-    if (parent_staff.length === 0) {
-      var child = $(app).find('[staff]')
-      staff_n = $(child).attr('staff');
-    } else {
-      staff_n = parent_staff.attr('n');
+  // In order to know what coordiantes to display the dot at, we have to
+  // get the coordinates of the VexFlow staff object. VexFlow staff objects are 
+  // exposed by MEI2VF via the MEI2VF.rendered_measures:
+  // MEI2VF.rendered_measures is indexed by the measure number and staff number.
+  // so, in order to retreive the right measure we have to know the measure number and the 
+  // staff number:
+
+  // get the meausure number first, 
+  var app = $(meiView.MEI.score).find('app[xml\\:id="' + appID + '"]')[0];
+  var parent_measure = $(app).parents('measure');
+  var measure_n = parent_measure.attr('n');
+
+  // then the staff number...
+  var parent_staff = $(app).parents('staff');
+  var staff_n;
+  if (parent_staff.length === 0) {
+    var child = $(app).find('[staff]')
+    staff_n = $(child).attr('staff');
+  } else {
+    staff_n = parent_staff.attr('n');
+  }
+
+  //...then get the coordinates from MEI2VF.rendered_measures
+  var vexStaffs = MEI2VF.rendered_measures[measure_n];
+  if (vexStaffs) {
+    var vexStaff = vexStaffs[staff_n];
+    if (vexStaff) {
+
+      var left = (vexStaff.x + vexStaff.width-12) * meiView.scale;
+      var top = (vexStaff.y+25) * meiView.scale;
+
+      var circle = new fabric.Circle({
+        radius: 5, fill: 'green', left:left, top:top
+      });
+      meiView.fabrCanvas.add(circle);
     }
-    
-    //...then get the coordinates from MEI2VF.rendered_measures
-    var vexStaffs = MEI2VF.rendered_measures[measure_n];
-    if (vexStaffs) {
-      var vexStaff = vexStaffs[staff_n];
-      if (vexStaff) {
-        
-        var left = (vexStaff.x + vexStaff.width-12) * meiView.scale;
-        var top = (vexStaff.y+25) * meiView.scale;
-        
-        var circle = new fabric.Circle({
-          radius: 5, fill: 'green', left:left, top:top
-        });
-        meiView.fabrCanvas.add(circle);
-      }
-    }
-    
-    meiView.dots[appID] = circle;
-    
+  }
+
+  meiView.dots[appID] = circle;
+
 }
 
 meiView.displayVariantInstances = function(appID) {
