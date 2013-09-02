@@ -54,8 +54,7 @@ background-color: rgb(248,248,240);
 			meiView.currentScore.updateVariantPath(variantPathUpdate);
 			meiView.displayCurrentPage();
 		}
-
-
+		
 		$(document).ready( function(){
 			
 			
@@ -92,6 +91,40 @@ background-color: rgb(248,248,240);
 			// meiView.appReplacements['app01.m8'] = new MeiLib.AppReplacement('rdg', 'rdg1.n1l1s4m8');
 			// meiView.appReplacements['app.n1l1s2m27'] = new MeiLib.AppReplacement('rdg', 'rdg1.app.n1l1s2m27');
 			meiView.fabrCanvas = new fabric.Canvas('maincanvas');
+			meiView.fabrCanvas.hoverCursor = 'pointer';
+
+			meiView.fabrCanvas.findTarget = (function(originalFn) {
+				return function() {
+					var target = originalFn.apply(this, arguments);
+					if (target) {
+						if (this._hoveredTarget !== target) {
+							meiView.fabrCanvas.fire('object:over', { target: target });
+							if (this._hoveredTarget) {
+								meiView.fabrCanvas.fire('object:out', { target: this._hoveredTarget });
+							}
+							this._hoveredTarget = target;
+						}
+					}
+					else if (this._hoveredTarget) {
+						meiView.fabrCanvas.fire('object:out', { target: this._hoveredTarget });
+						this._hoveredTarget = null;
+					}
+					return target;
+				};
+			})(meiView.fabrCanvas.findTarget);
+			meiView.fabrCanvas.on('object:over', function(e) {
+			  e.target.setFill('red');
+			  meiView.fabrCanvas.renderAll();
+			});
+
+			meiView.fabrCanvas.on('object:out', function(e) {
+			  e.target.setFill('green');
+			  meiView.fabrCanvas.renderAll();
+			});
+
+			meiView.fabrCanvas.on('mouse:down', function(e) {
+				console.log(e.target.meiViewID);
+			})
 			
 			meiView.nextPage();
 
