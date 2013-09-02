@@ -105,8 +105,17 @@ meiView.displayCurrentPage = function() {
   meiView.scale = meiView.fabrCanvas.width/meiView.scoreWidth;
   var W = meiView.fabrCanvas.width;
   var H = meiView.scoreHeight * meiView.scale;
-  meiView.scoreImg = new fabric.Image(img, {width:W,height:H, left:W/2, top:H/2});
-  meiView.scoreImg.hasControls = false;
+  meiView.scoreImg = new fabric.Image(img, {
+    width:W,height:H, left:W/2, top:H/2,
+    lockMovementX: true,
+    lockMovementY: true,
+    lockScalingX: true,
+    lockScalingY: true,
+    lockRotation: true,
+    hasControls: false,
+    hasBorders: false,
+    selectable: false,
+  });
   meiView.fabrCanvas.add(meiView.scoreImg);
   meiView.displayDots();
   
@@ -183,8 +192,19 @@ meiView.displayDotForAPP = function(appID) {
       var top = (vexStaff.y+25) * meiView.scale;
 
       var circle = new fabric.Circle({
-        radius: 5, fill: 'green', left:left, top:top
+        radius: 5, 
+        fill: 'green', 
+        left:left, 
+        top:top, 
+        lockMovementX: true,
+        lockMovementY: true,
+        lockScalingX: true,
+        lockScalingY: true,
+        lockRotation: true,
+        hasControls: false,
+        hasBorders: false,
       });
+      circle.meiViewID = appID;
       meiView.fabrCanvas.add(circle);
     }
   }
