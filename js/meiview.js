@@ -151,14 +151,19 @@ meiView.displayDots = function() {
 
 meiView.displayDotForAPP = function(appID) {
     
-    // get the coordinates from MEI2VF.rendered_measures!
+    // In order to know at what coordiantes to display the dot, we have
+    // get the coordinates off the VexFlow staff object. VexFlow staff objects are 
+    // exposed by MEI2VF via the MEI2VF.rendered_measures:
     // MEI2VF.rendered_measures is indexed by the measure number and staff number.
-    // so get the measure number first, from variantMEI:
+    // so, in order to retreive the right measure we have to know the measure number and the 
+    // staff number:
+    
+    // get the meausure number first, 
     var app = $(meiView.MEI.score).find('app[xml\\:id="' + appID + '"]')[0];
     var parent_measure = $(app).parents('measure');
     var measure_n = parent_measure.attr('n');
 
-    // then get the staff number first, from variantMEI:
+    // then the staff number...
     var parent_staff = $(app).parents('staff');
     var staff_n;
     if (parent_staff.length === 0) {
