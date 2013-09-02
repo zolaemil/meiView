@@ -58,6 +58,10 @@ meiView.Pages.prototype.currentPage = function() {
   return this.pages[this.currentPageIndex];
 }
 
+meiView.Pages.prototype.totalPages = function() {
+  return this.pages.length;
+}
+
 meiView.nextPage = function(){
   this.pages.nextPage();
   this.displayCurrentPage();
@@ -68,9 +72,6 @@ meiView.prevPage = function(){
   this.displayCurrentPage();
 }
 
-meiView.totalPages = function() {
-  return this.pages.length;
-}
 
 meiView.pages = new meiView.Pages();
 meiView.scoreWidth = 1000;
