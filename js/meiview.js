@@ -48,6 +48,12 @@ meiView.Pages.prototype.nextPage = function() {
   }
 }
 
+meiView.Pages.prototype.jumpTo = function(pageno) {
+  if (0<=pageno && pageno<this.pages.length) {
+    this.currentPageIndex = pageno;
+  }
+}
+
 meiView.Pages.prototype.prevPage = function() {
   if (this.currentPageIndex>0) {
     this.currentPageIndex--;
@@ -69,6 +75,11 @@ meiView.nextPage = function(){
 
 meiView.prevPage = function(){
   this.pages.prevPage();
+  this.displayCurrentPage();
+}
+
+meiView.jumpTo = function(i) {
+  this.pages.jumpTo(i);
   this.displayCurrentPage();
 }
 
