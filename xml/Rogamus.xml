@@ -466,7 +466,7 @@
 							</staff>
 							<tie staff="3" startid="n1l1s3m8" endid="n2l1s3m8"/>
 							<app xml:id="app01.m8">
-								<lem></lem>
+								<lem xml:id="lem.app01.m8"></lem>
 								<rdg xml:id="rdg1.n1l1s4m8" source="#BQ18 #FC2439 #Lo31922 #SG461">
 									<tie staff="4" startid="n1l1s4m8" endid="n2l1s4m8"/>
 								</rdg>
