@@ -175,7 +175,7 @@ meiView.displayDotForAPP = function(appID) {
       if (vexStaff) {
         
         var left = (vexStaff.x + vexStaff.width-12) * meiView.scale;
-        var top = (vexStaff.y+20) * meiView.scale;
+        var top = (vexStaff.y+25) * meiView.scale;
         
         var circle = new fabric.Circle({
           radius: 5, fill: 'green', left:left, top:top
