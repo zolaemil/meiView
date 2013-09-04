@@ -1960,11 +1960,469 @@
 									</note>
 								</layer>
 							</staff>
-							<tie staff="3" endid="n2l1s3m37"/>
+							<tie staff="3" endid="n1l1s3m37"/>
 							<tie staff="3" startid="n1l1s3m37" endid="n2l1s3m37"/>
 							<tie staff="3" startid="n2l1s3m37" endid="n1l1s3m38"/>
 						</measure>
 						<measure n="38">
+							<staff n="1">
+								<layer>
+									<note dur="2" pname="b" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="2" pname="a" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="1" pname="b" oct="4">
+										<syl wordpos="t">-um</syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="2">
+								<layer>
+									<note dur="2" pname="g" oct="4">
+										<syl wordpos="m">-is</syl>
+									</note>
+									<note dur="2" pname="c" oct="4">
+										<syl wordpos="m">-si</syl>
+									</note>
+									<note dur="1" pname="g" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="3">
+								<layer>
+									<note xml:id="n1l1s3m38" dur="1" pname="e" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+									<note xml:id="n2l1s3m38" dur="1" pname="e" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="4">
+								<layer>
+									<note dur="2" pname="g" oct="3">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="2" pname="a" oct="3">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="1" pname="e" oct="3">
+										<syl wordpos="t">-um</syl>
+									</note>
+								</layer>
+							</staff>
+							<tie staff="3" startid="n1l1s3m38" endid="n2l1s3m38"/>
+						</measure>
+						<measure n="39">
+							<staff n="1">
+								<layer>
+									<rest dur="2"/>
+									<note dur="1" pname="g" oct="4">
+										<syl>ac</syl>
+									</note>
+									<note dur="2" pname="a" oct="4">
+										<syl wordpos="i">pi</syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="2">
+								<layer>
+									<note dur="1" pname="e" oct="4">
+										<syl wordpos="t">-mum</syl>
+									</note>
+									<rest dur="1"/>
+								</layer>
+							</staff>
+							<staff n="3">
+								<layer>
+									<note xml:id="n1l1s3m39" dur="1" pname="b" oct="3">
+										<syl wordpos="t">na,</syl>
+									</note>
+									<note xml:id="n2l1s3m39" dur="1" pname="b" oct="3"/>
+								</layer>
+							</staff>
+							<staff n="4">
+								<layer>
+									<rest dur="2"/>
+									<note dur="1" pname="e" oct="3">
+										<syl>ac</syl>
+									</note>
+									<note dur="2" pname="d" oct="3">
+										<syl wordpos="i">pi</syl>
+									</note>
+								</layer>
+							</staff>
+							<tie staff="3" startid="n1l1s3m39" endid="n2l1s3m39"/>
+							<tie staff="3" startid="n2l1s3m39" endid="n1l1s3m40"/>
+						</measure>
+						<measure n="40">
+							<staff n="1">
+								<layer>
+									<note dur="2" pname="g" oct="4">
+										<syl wordpos="m">-is</syl>
+									</note>
+									<note dur="1" pname="e" oct="4">
+										<syl wordpos="m">-si</syl>
+									</note>
+									<note dur="2" pname="d" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="2">
+								<layer>
+									<rest dur="1"/>
+									<rest dur="1"/>
+								</layer>
+							</staff>
+							<staff n="3">
+								<layer>
+									<note xml:id="n1l1s3m40" dur="1" pname="b" oct="3"/>
+									<note xml:id="n2l1s3m40" dur="1" pname="b" oct="3"/>
+								</layer>
+							</staff>
+							<staff n="4">
+								<layer>
+									<app xml:id="app.n1l1s1m40">
+										<lem>
+											<note dur="2" pname="e" oct="3">
+												<syl wordpos="m">-is</syl>
+											</note>
+											<note dur="2" pname="e" oct="3">
+												<syl wordpos="m">-si</syl>
+											</note>
+										</lem>
+										<rdg xml:id="rdg1.app.n1l1s4m40" source="#BQ18 #FC2439 #SG461 #Lo31922">
+											<note dur="1" pname="e" oct="3">
+												<syl wordpos="m">-issi</syl>
+											</note>
+										</rdg>
+									</app>
+									<note dur="1" pname="g" oct="3">
+										<syl wordpos="t">-mum</syl>
+									</note>
+								</layer>
+							</staff>
+							<tie staff="3" startid="n1l1s3m40" endid="n2l1s3m40"/>
+							<app xml:id="app.tie.m40">
+								<lem>
+									<tie staff="3" startid="n2l1s3m40" endid="n1l1s3m41"/>
+								</lem>
+								<rdg xml:id="rdg1.app.tie.m40" source="#BQ18"></rdg>
+							</app>
+						</measure>
+						<measure n="41">
+							<staff n="1">
+								<layer>
+									<note dur="1" pname="e" oct="4">
+										<syl wordpos="t">-mum</syl>
+									</note>
+									<rest dur="1"/>
+								</layer>
+							</staff>
+							<staff n="2">
+								<layer>
+									<rest dur="2"/>
+									<note dur="1" pname="g" oct="4">
+										<syl wordpos="i">red</syl>
+									</note>
+									<note dur="2" pname="f" oct="4">
+										<syl wordpos="m">-em</syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="3">
+								<layer>
+									<note xml:id="n1l1s3m41" dur="1" pname="b" oct="3">
+										<app xml:id="app.n1l1s3m41">
+											<lem></lem>
+											<rdg xml:id="rdg1.app.n1l1s3m41" source="#BQ18">
+												<syl>na,</syl>
+											</rdg>
+										</app>
+									</note>
+									<note xml:id="n2l1s3m41" dur="1" pname="b" oct="3"/>
+								</layer>
+							</staff>
+							<staff n="4">
+								<layer>
+									<rest dur="2"/>
+									<note dur="1" pname="e" oct="3">
+										<syl wordpos="i">red</syl>
+									</note>
+									<note dur="2" pname="d" oct="3">
+										<syl wordpos="m">-em</syl>
+									</note>
+								</layer>
+							</staff>
+							<tie staff="3" startid="n1l1s3m41" endid="n2l1s3m41"/>
+							<tie staff="3" startid="n2l1s3m41" endid="n1l1s3m42"/>
+						</measure>
+						<measure n="42">
+							<staff n="1">
+								<layer>
+									<rest dur="1"/>
+									<rest dur="1"/>
+								</layer>
+							</staff>
+							<staff n="2">
+								<layer>
+									<note dur="2" pname="g" oct="4">
+										<syl wordpos="m">-pto</syl>
+									</note>
+									<note dur="1" pname="e" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="2" pname="d" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="3">
+								<layer>
+									<note xml:id="n1l1s3m42" dur="1" pname="b" oct="3"/>
+									<note xml:id="n2l1s3m42" dur="1" pname="b" oct="3"/>
+								</layer>
+							</staff>
+							<staff n="4">
+								<layer>
+									<note dur="1" pname="e" oct="3">
+										<syl wordpos="m">-pto</syl>
+									</note>
+									<note dur="1" pname="g" oct="3">
+										<syl wordpos="m"></syl>
+									</note>
+								</layer>
+							</staff>
+							<tie staff="3" startid="n1l1s3m42" endid="n2l1s3m42"/>
+						</measure>
+						<sb/>
+						<measure n="43">
+							<staff n="1">
+								<layer>
+									<rest dur="1"/>
+									<rest dur="2"/>
+									<note dur="2" pname="e" oct="4">
+										<syl wordpos="i">red</syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="2">
+								<layer>
+									<note dur="1" pname="e" oct="4">
+										<syl wordpos="t">-rem</syl>
+									</note>
+									<note dur="1" pname="g" oct="4"/>
+								</layer>
+							</staff>
+							<staff n="3">
+								<layer>
+									<rest dur="1"/>
+									<rest dur="1"/>
+								</layer>
+							</staff>
+							<staff n="4">
+								<layer>
+									<note dur="1" pname="e" oct="3" tie="i">
+										<syl wordpos="t">-rem</syl>
+									</note>
+									<note dur="1" pname="e" oct="3" tie="t"/>
+								</layer>
+							</staff>
+						</measure>
+						<measure n="44">
+							<staff n="1">
+								<layer>
+									<note dur="2" dots="1" pname="g" oct="4">
+										<syl wordpos="m">-em</syl>
+									</note>
+									<note dur="4" pname="f" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="2" pname="e" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="2" pname="d" oct="4">
+										<syl wordpos="m">-pto</syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="2">
+								<layer>
+									<note dur="1" pname="e" oct="4"/>
+									<rest dur="2"/>
+									<note dur="2" pname="b" oct="3">
+										<syl wordpos="i">no</syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="3">
+								<layer>
+									<rest dur="1"/>
+									<rest dur="1"/>
+								</layer>
+							</staff>
+							<staff n="4">
+								<layer>
+									<rest dur="2"/>
+									<note dur="2" pname="e" oct="3">
+										<syl wordpos="i">no</syl>
+									</note>
+									<note dur="2" dots="1" pname="g" oct="3">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="4" pname="f" oct="3">
+										<syl wordpos="m"></syl>
+									</note>
+								</layer>
+							</staff>
+						</measure>
+						<measure n="45">
+							<staff n="1">
+								<layer>
+									<note dur="2" pname="e" oct="4">
+										<syl wordpos="t">rem</syl>
+									</note>
+									<note dur="2" pname="f" oct="4"/>
+									<note dur="2" pname="g" oct="4"/>
+									<note dur="2" pname="e" oct="4" tie="i">
+										<syl wordpos="i">no</syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="2">
+								<layer>
+									<note dur="2" pname="c" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="2" pname="d" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="2" pname="b" oct="3">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="2" pname="e" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="3">
+								<layer>
+									<rest dur="1"/>
+									<rest dur="1"/>
+								</layer>
+							</staff>
+							<staff n="4">
+								<layer>
+									<note dur="2" pname="e" oct="3">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="2" pname="d" oct="3">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="1" pname="e" oct="3">
+										<syl wordpos="t">-strum</syl>
+									</note>
+								</layer>
+							</staff>
+						</measure>
+						<measure n="46">
+							<staff n="1">
+								<layer>
+									<note dur="2" pname="e" oct="4" tie="t"/>
+									<note dur="1" pname="a" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="2" pname="g" accid="s" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="2">
+								<layer>
+									<note dur="2" pname="c" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="4" pname="b" oct="3">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="4" pname="a" oct="3">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="1" pname="b" oct="3">
+										<syl wordpos="m"></syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="3">
+								<layer>
+									<rest dur="1"/>
+									<rest dur="1"/>
+								</layer>
+							</staff>
+							<staff n="4">
+								<layer>
+									<rest dur="2"/>
+									<note dur="2" pname="c" oct="3">
+										<syl wordpos="i">no</syl>
+									</note>
+									<note dur="2" pname="d" oct="3">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="2" pname="e" oct="3">
+										<syl wordpos="m"></syl>
+									</note>
+								</layer>
+							</staff>
+						</measure>
+						<measure n="47">
+							<staff n="1">
+								<layer>
+									<note dur="1" pname="a" oct="4" tie="i">
+										<syl wordpos="t">-strum</syl>
+									</note>
+									<note dur="1" pname="a" oct="4" tie="t"/>
+								</layer>
+							</staff>
+							<staff n="2">
+								<layer>
+									<note dur="2" pname="a" oct="3">
+										<syl wordpos="t">-strum</syl>
+									</note>
+									<note dur="2" dots="1" pname="c" oct="4">
+										<syl>ut</syl>
+									</note>
+									<note dur="4" pname="b" oct="3"/>
+									<note dur="1" pname="a" oct="3"/>
+								</layer>
+							</staff>
+							<staff n="3">
+								<layer>
+									<note xml:id="n1l1s3m47" dur="1" pname="e" oct="4">
+										<syl wordpos="i">O</syl>
+									</note>
+									<note xml:id="n2l1s3m47" dur="1" pname="e" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+								</layer>
+							</staff>
+							<staff n="4">
+								<layer>
+									<note dur="1" pname="a" oct="2">
+										<syl wordpos="t">-stum</syl>
+									</note>
+									<note dur="1" pname="a" oct="3">
+										<syl>ut</syl>
+									</note>
+								</layer>
+							</staff>
+							<tie staff="3" startid="n1l1s3m47" endid="n2l1s3m47"/>
+							<tie staff="3" startid="n2l1s3m47" endid="n1l1s3m48"/>
+						</measure>
+						<measure n="48">
 							<staff n="1">
 								<layer>
 								</layer>
