@@ -71,6 +71,7 @@ meiView.Pages.prototype.totalPages = function() {
 meiView.nextPage = function(){
   this.pages.nextPage();
   this.displayCurrentPage();
+  this.UI.dlg && this.UI.dlg.hide();
 }
 
 meiView.prevPage = function(){
@@ -95,7 +96,7 @@ meiView.displayCurrentPage = function() {
 
   var pageXML = meiView.getPageXML(meiView.pages.currentPage());
   /* pageXML is singleVariantScore, therefore can be displayed. */
-  meiView.UI.renderPage(pageXML);
+  meiView.UI.renderPage(pageXML, {vexWidth:meiView.scoreWidth, vexHeight:meiView.scoreHeight});
   meiView.UI.displayDots();
   
   $('#pageNumber').html((meiView.pages.currentPageIndex+1).toString() + '/' + meiView.pages.totalPages());

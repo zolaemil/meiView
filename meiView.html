@@ -42,13 +42,17 @@ background-color: rgb(248,248,240);
 		var variantPathUpdate = {};
 		var default_var = true;
 		var swapPath = function() {
+
+			// meiView.UI.dlg.items[0].toggleSelection();
+			// meiView.UI.fabrCanvas.renderAll();
+
 			if (default_var) {
-				// variantPathUpdate['app.m3.tie'] = 'rdg1.app.m3.tie';
-				variantPathUpdate['app01.m8'] = 'rdg1.n1l1s4m8';
+				variantPathUpdate['app.m3.tie'] = 'rdg1.app.m3.tie';
+				// variantPathUpdate['app01.m8'] = 'rdg1.n1l1s4m8';
 				default_var = false;
 			} else {
-				// variantPathUpdate['app.m3.tie'] = 'lem.app.m3.tie';
-				variantPathUpdate['app01.m8'] = 'lem.app01.m8';
+				variantPathUpdate['app.m3.tie'] = 'lem.app.m3.tie';
+				// variantPathUpdate['app01.m8'] = 'lem.app01.m8';
 				default_var = true;
 			}
 			meiView.currentScore.updateVariantPath(variantPathUpdate);
@@ -77,7 +81,9 @@ background-color: rgb(248,248,240);
 			
 			meiView.UI.fillSideBar($('#accordion'), meiView.Sources, 'meiview-sidebar');
 			$('#accordion').accordion({
-				collapsible: true
+				collapsible: true,
+				heightStyle: "content",
+				active: false
 			});
 			
 			meiView.currentScore = new MeiLib.SingleVariantPathScore(meiView.MEI);
@@ -85,7 +91,8 @@ background-color: rgb(248,248,240);
 			
 			meiView.pages.AddPage(1, 12);
 			meiView.pages.AddPage(13, 24);  
-			meiView.pages.AddPage(25, 30);  
+			meiView.pages.AddPage(25, 36);  
+			meiView.pages.AddPage(37, 48);  
 			meiView.appReplacements = {};
 			// meiView.appReplacements['app.m3.tie'] = new MeiLib.AppReplacement('rdg', 'rdg1.app.m3.tie');
 			// meiView.appReplacements['app.n1l1s1m8'] = new MeiLib.AppReplacement('rdg', 'rdg.app.n1l1s1m8');
@@ -93,9 +100,33 @@ background-color: rgb(248,248,240);
 			// meiView.appReplacements['app.n1l1s2m27'] = new MeiLib.AppReplacement('rdg', 'rdg1.app.n1l1s2m27');
 			meiView.UI.fabrCanvas = meiView.UI.initCanvas('maincanvas');
 			
-			// meiView.nextPage();
-			meiView.jumpTo(2);
+			meiView.nextPage();
+			// meiView.jumpTo(3);
 
+			$('#testBtn').click(function(){
+				swapPath();
+			});
+			
+			// Vex.LogLevel = 5;
+			// var dlg = new meiView.UI.SelectorPanel({left:150, top:180, canvas:meiView.UI.fabrCanvas});
+			// dlg.draw();
+			meiView.UI.dlg = new meiView.UI.SelectorPanel2({left:300, top:180, width:300, canvas:meiView.UI.fabrCanvas});
+			var variantSlice = meiView.MEI.getSlice({start_n:3, end_n:3, staves:[1], noClef:true, noKey:true, noMeter:true});
+			var lem = new MeiLib.SingleVariantPathScore(variantSlice, {
+				'app.m3.tie': new MeiLib.AppReplacement('lem', 'lem.app.m3.tie'),
+			});
+
+			var rdg1 = new MeiLib.SingleVariantPathScore(variantSlice, {
+				'app.m3.tie': new MeiLib.AppReplacement('rdg', 'rdg1.app.m3.tie'),
+			});
+
+			meiView.UI.dlg.addItem('Lemma', lem.score);
+			meiView.UI.dlg.addItem('#BQ18 #FC2439 #Lo31922', rdg1.score);
+			meiView.UI.dlg.draw();
+			
+			// $('#testBtn').click(function(){
+			// 	meiView.UI.VariantSelector(meiView.UI.fabrCanvas, []);
+			// }).html('show variant selector');
 			// 	fabrCanv.add(oImg);
 			// 	// var circle = new fabric.Circle({
 				// 	//   radius: 5, fill: 'green', left: 100, top: 100
@@ -120,7 +151,7 @@ background-color: rgb(248,248,240);
 				<div id="sidebar">
 					<div id="accordion"> 
 					</div>
-					<button id="testBtn" onclick="swapPath()" class="ui-widget-content ui-corner-all">Change Path</button>
+					<button id="testBtn" onclick="" class="ui-widget-content ui-corner-all">Change Path</button>
 				</div>
 			</div>
 
