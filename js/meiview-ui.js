@@ -200,9 +200,12 @@ meiView.UI.initCanvas = function(canvasid) {
         meiView.UI.dots[e.target.meiViewID].info;
       if (dotInfo) {
         meiView.UI.ShowSelectorPanel(dotInfo);
+      } else if (e.target.selectItem>=0) {
+        meiView.UI.dlg && meiView.UI.dlg.select(e.target.selectItem);
       } else {
         meiView.UI.HideSelectorPanel();
       }
+      console.log(e.target);
       console.log(e.target.meiViewID  + ': x:' + e.target.left + ', y:' + e.target.top);
     }
   });
@@ -238,7 +241,8 @@ meiView.UI.ShowSelectorPanel = function(dotInfo) {
     if (source) {
       text = source.replace(/#/g, '').replace(/ /g, ', ');
     }
-    meiView.UI.dlg.addItem(text+':', singleVarScore.score);
+    var selected = (meiView.currentScore.variantPath[appID] === variant);
+    meiView.UI.dlg.addItem(text+':', singleVarScore.score, selected);
   }
   meiView.UI.dlg.draw();
 }
@@ -264,6 +268,7 @@ meiView.UI.SelectorPanel = function (options) {
   this.itemSpacing = options.itemSpacing || 5;
   this.width = this.measureWidth * this.scale;
   this.height = 0;
+  this.selectedIndex = options.currentSelection || -1;
 
   this.left = options.left || this.width/2;
   this.top = options.top || this.height/2;
@@ -286,10 +291,13 @@ meiView.UI.SelectorPanel.prototype.setCanvas = function(fabricCanvas) {
   this.canvas = fabricCanvas;
 }
 
-meiView.UI.SelectorPanel.prototype.addItem = function(text, singleVarSliceXML) {
+meiView.UI.SelectorPanel.prototype.addItem = function(text, singleVarSliceXML, selected) {
   var imgData = meiView.UI.renderMei2Img(singleVarSliceXML, { vexWidth:this.measureWidth, vexHeight:this.measureHeight });
   var newItem = new meiView.UI.SelectorItem({text:text, imgData:imgData});
   this.items.push(newItem);
+  if (selected) {
+    this.select(this.items.length-1);
+  }
 }
 
 meiView.UI.SelectorPanel.prototype.addObjectsForItem = function(item, itemIndex) {
@@ -338,9 +346,8 @@ meiView.UI.SelectorPanel.prototype.addObjectsForItem = function(item, itemIndex)
   
   var smW = this.contentWidth;
   var smH = this.imgH+text.height;
-  var selectorMask =  new fabric.Rect({
+  item.selectorMask =  new fabric.Rect({
     fill: 'green',
-    opacity: 0.2,
     width:smW, 
     height:smH,
     left: this.left,
@@ -353,12 +360,21 @@ meiView.UI.SelectorPanel.prototype.addObjectsForItem = function(item, itemIndex)
     selectable: true,
   });
   
-  // selectorMask.left = this.contentLeft + selectorMask.width/2;
-  selectorMask.top = selectorMask.height/2 + text.top - text.height/2;
+  item.selectorMask.top = item.selectorMask.height/2 + text.top - text.height/2;
 
-  this.objects.push(selectorMask);
+  // some custom members for selectorMask:
+  //  * remember the index to know which item it is attached to,
+  //  * define how to highlight when selected
+  item.selectorMask.selectItem = itemIndex;
+  item.selectorMask.highlight = function(value) {
+    this.opacity = value ? 0.35 : 0;
+  };
+  
+  item.selectorMask.highlight(itemIndex === this.selectedIndex);
+
   this.objects.push(text);
   this.objects.push(img);
+  this.objects.push(item.selectorMask);
 
 }
 
@@ -382,7 +398,6 @@ meiView.UI.SelectorPanel.prototype.draw = function() {
   }
   
   
-  
   this.canvas.add(this.panel);
   var objects = this.objects;
   for (var i=0;i<objects.length;i++) {
@@ -397,4 +412,24 @@ meiView.UI.SelectorPanel.prototype.hide = function() {
     this.canvas.remove(objects[i]);
   }
 }
+
+meiView.UI.SelectorPanel.prototype.select = function(i) {
+  
+  if (0<=i && i<this.items.length) {
+    
+    //switch off highlight on prviously selected item
+    if (this.selectedIndex>=0 && this.items[this.selectedIndex].selectorMask) {
+      this.items[this.selectedIndex].selectorMask.highlight(false);
+    }
+    
+    //switch off highlight on new selection
+    if (this.items[i].selectorMask) {
+      this.items[i].selectorMask.highlight(true);
+    }
+    
+    this.selectedIndex = i;
+    
+  }
+}
+
 
