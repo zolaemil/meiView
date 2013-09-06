@@ -224,9 +224,14 @@ meiView.UI.ShowSelectorPanel = function(dotInfo) {
 
   if (meiView.UI.dlg) {
     meiView.UI.dlg.hide();
-    delete meiView.UI.dlg; 
   }
-  meiView.UI.dlg = new meiView.UI.SelectorPanel({left:dotInfo.measure_left*meiView.UI.scale, top:dotInfo.measure_top*meiView.UI.scale, measureWidth:dotInfo.measure_width, canvas:meiView.UI.fabrCanvas});
+  meiView.UI.dlg = new meiView.UI.SelectorPanel({
+    left:dotInfo.measure_left*meiView.UI.scale, 
+    top:dotInfo.measure_top*meiView.UI.scale, 
+    measureWidth:dotInfo.measure_width*meiView.UI.scale, 
+    canvas:meiView.UI.fabrCanvas,
+    scale:0.7
+  });
 
   for (xmlID in variants) {
     var variant = variants[xmlID];
@@ -250,7 +255,6 @@ meiView.UI.ShowSelectorPanel = function(dotInfo) {
 meiView.UI.HideSelectorPanel = function() {
   if (meiView.UI.dlg) {
     meiView.UI.dlg.hide();
-    delete meiView.UI.dlg;
   }
 }
 
@@ -285,6 +289,8 @@ meiView.UI.SelectorPanel = function (options) {
   
   this.items = [];
   this.objects = [];
+  
+  this.onSelected = function() {};
 }
 
 meiView.UI.SelectorPanel.prototype.setCanvas = function(fabricCanvas) {
@@ -302,20 +308,16 @@ meiView.UI.SelectorPanel.prototype.addItem = function(text, singleVarSliceXML, s
 
 meiView.UI.SelectorPanel.prototype.addObjectsForItem = function(item, itemIndex) {
   var text = new fabric.Text(item.text, {
-    fontSize: 17,
+    fontSize: 17*this.scale,
     selectable: false,
-    width: this.contentWidth,
     left: this.left,
   });
   
   if (text.width > this.contentWidth) {
     this.contentWidth = text.width;
-    this.width = this.width / this.scale;
-//    this.contentWidth = text.width;
+    this.width = this.width/this.scale;
   }
   
-  var imgW = item.imgData.width * this.contentScale;
-  var imgH = item.imgData.height * this.contentScale;
   var img = new fabric.Image(item.imgData, {
     width:this.imgW, 
     height:this.imgH,
@@ -381,24 +383,28 @@ meiView.UI.SelectorPanel.prototype.addObjectsForItem = function(item, itemIndex)
 meiView.UI.SelectorPanel.prototype.draw = function() {
   this.objects = [];
   this.nextItemTop = 0;
+
+
+
+  if (!this.panel) {
+      this.panel = new fabric.Rect({
+        fill: 'grey',
+        selectable: false
+      });
+  }
+  this.objects.push(this.panel);
+
   var items = this.items;
   for (var i=0;i<items.length;i++) {
     this.addObjectsForItem(items[i], i);
   }
 
-  if (!this.panel) {
-      this.panel = new fabric.Rect({
-        width:this.width,
-        height:this.height+this.marginNS,
-        top:this.top+this.marginNS/2,
-        left:this.left, 
-        fill: 'grey',
-        selectable: false
-      });
-  }
+  this.panel.width = this.width + 2*this.marginWE;
+  this.panel.left = this.left; 
+  this.panel.height = this.height+this.marginNS;
+  this.panel.top = this.top+this.marginNS/2;
   
   
-  this.canvas.add(this.panel);
   var objects = this.objects;
   for (var i=0;i<objects.length;i++) {
     this.canvas.add(objects[i]);
@@ -411,6 +417,7 @@ meiView.UI.SelectorPanel.prototype.hide = function() {
   for (var i=0;i<objects.length;i++) {
     this.canvas.remove(objects[i]);
   }
+  delete this;
 }
 
 meiView.UI.SelectorPanel.prototype.select = function(i) {
@@ -430,6 +437,14 @@ meiView.UI.SelectorPanel.prototype.select = function(i) {
     this.selectedIndex = i;
     
   }
+  
+  this.onSelected(i);
 }
 
+meiView.UI.SelectorPanel.prototype.bringToFront = function() {
+  var objects = this.objects;
+  for (var i=0;i<objects.length;i++) {
+    objects[i].bringToFront();
+  }
+}
 
