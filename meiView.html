@@ -107,19 +107,6 @@ background-color: rgb(248,248,240);
 				swapPath();
 			});
 			
-			// Vex.LogLevel = 5;
-			// var dlg = new meiView.UI.SelectorPanel({left:150, top:180, canvas:meiView.UI.fabrCanvas});
-			// dlg.draw();
-			meiView.UI.dlg = new meiView.UI.SelectorPanel({left:300, top:180, measureWidth:250, scale:meiView.UI.scale*0.8, canvas:meiView.UI.fabrCanvas});
-			var variantSlice = meiView.MEI.getSlice({start_n:3, end_n:3, staves:[1], noClef:true, noKey:true, noMeter:true});
-			var lem = new MeiLib.SingleVariantPathScore(variantSlice, {
-				'app.m3.tie': new MeiLib.AppReplacement('lem', 'lem.app.m3.tie'),
-			});
-
-			var rdg1 = new MeiLib.SingleVariantPathScore(variantSlice, {
-				'app.m3.tie': new MeiLib.AppReplacement('rdg', 'rdg1.app.m3.tie'),
-			});
-
 			meiView.UI.dlg.addItem('Lemma', lem.score);
 			meiView.UI.dlg.addItem('#BQ18 #FC2439 #Lo31922', rdg1.score);
 			meiView.UI.dlg.draw();

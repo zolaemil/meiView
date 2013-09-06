@@ -39,9 +39,12 @@ meiView.UI.DisplayMainMEI = function(score, canvas, options) {
 }
 
 meiView.UI.displayDots = function() {
-  for (dot in meiView.UI.dots) {
-    meiView.UI.fabrCanvas.remove(meiView.UI.dots[dot]);
-    delete meiView.UI.dots[dot];
+  for (appID in meiView.UI.dots) {
+    if (meiView.UI.dots[appID])
+    { 
+      meiView.UI.fabrCanvas.remove(meiView.UI.dots[appID].circle);
+      delete meiView.UI.dots[appID];
+    }
   }
   for (appID in meiView.MEI.APPs) {
     meiView.UI.dots[appID] = meiView.UI.displayDotForAPP(appID);
@@ -76,10 +79,20 @@ meiView.UI.displayDotForAPP = function(appID) {
   // properties of MEI2VF.rendered_measures[measure_n][staff_n];
   var vexStaffs = MEI2VF.rendered_measures[measure_n];
   if (vexStaffs) {
-    return meiView.UI.displayDotForMeasure(vexStaffs[staff_n]);
+    var vexStaff = vexStaffs[staff_n];
+    var dotInfo = {
+      appXmlID: appID, 
+      measure_n: Number(measure_n),
+      measure_top: vexStaff.y,
+      measure_left: vexStaff.x,
+      measure_width: vexStaff.width,
+      staff_n: Number(staff_n),
+    }
+    return { circle:meiView.UI.displayDotForMeasure(vexStaff), info:dotInfo };
   }
-
 }
+
+
 meiView.UI.displayDotForMeasure = function(vexStaff) { 
   if (vexStaff) {
     var left = (vexStaff.x + vexStaff.width - 12) * meiView.UI.scale;
@@ -93,7 +106,7 @@ meiView.UI.displayDotForMeasure = function(vexStaff) {
       left:left, 
       top:top, 
       lockMovementX: true,
-      // lockMovementY: true,
+      lockMovementY: true,
       lockScalingX: true,
       lockScalingY: true,
       lockRotation: true,
@@ -181,12 +194,60 @@ meiView.UI.initCanvas = function(canvasid) {
 
   canvas.on('mouse:down', function(e) {
     if (e.target) {
+      var dotInfo = 
+        e.target.meiViewID && 
+        meiView.UI.dots[e.target.meiViewID] && 
+        meiView.UI.dots[e.target.meiViewID].info;
+      if (dotInfo) {
+        meiView.UI.ShowSelectorPanel(dotInfo);
+      } else {
+        meiView.UI.HideSelectorPanel();
+      }
       console.log(e.target.meiViewID  + ': x:' + e.target.left + ', y:' + e.target.top);
     }
   });
   
   return canvas;
   
+}
+
+
+
+meiView.UI.ShowSelectorPanel = function(dotInfo) {
+  var variantSlice = meiView.MEI.getSlice({start_n:dotInfo.measure_n, end_n:dotInfo.measure_n, staves:[dotInfo.staff_n], noClef:true, noKey:true, noMeter:true});
+  var panelItemParamList = [];
+  var appID = dotInfo.appXmlID;
+  var variants = meiView.MEI.APPs[appID].variants 
+
+  if (meiView.UI.dlg) {
+    meiView.UI.dlg.hide();
+    delete meiView.UI.dlg; 
+  }
+  meiView.UI.dlg = new meiView.UI.SelectorPanel({left:dotInfo.measure_left*meiView.UI.scale, top:dotInfo.measure_top*meiView.UI.scale, measureWidth:dotInfo.measure_width, canvas:meiView.UI.fabrCanvas});
+
+  for (xmlID in variants) {
+    var variant = variants[xmlID];
+    var tagname = variant.tagname;
+    var source = variant.source;
+    var replacements = {};
+    replacements[appID] = new MeiLib.AppReplacement(tagname, xmlID);
+    var singleVarScore = new MeiLib.SingleVariantPathScore(variantSlice, replacements);    
+    console.log('variant ' + xmlID + ': ');
+    console.log(singleVarScore.score);
+    var text = 'Lemma';
+    if (source) {
+      text = source.replace(/#/g, '').replace(/ /g, ', ');
+    }
+    meiView.UI.dlg.addItem(text+':', singleVarScore.score);
+  }
+  meiView.UI.dlg.draw();
+}
+
+meiView.UI.HideSelectorPanel = function() {
+  if (meiView.UI.dlg) {
+    meiView.UI.dlg.hide();
+    delete meiView.UI.dlg;
+  }
 }
 
 meiView.UI.SelectorItem = function(options) {
@@ -198,9 +259,9 @@ meiView.UI.SelectorPanel = function (options) {
   this.measureWidth = options.measureWidth || 300;
   this.measureHeight = options.measureHeight || 125;
   this.scale = options.scale || 0.8;
-  this.marginWE = options.marginWE || 15;
+  this.marginWE = options.marginWE || 5;
   this.marginNS = options.marginNS || this.marginWE;
-  this.itemSpacing = options.itemSpacing || 10;
+  this.itemSpacing = options.itemSpacing || 5;
   this.width = this.measureWidth * this.scale;
   this.height = 0;
 
