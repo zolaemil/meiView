@@ -214,7 +214,47 @@ meiView.UI.initCanvas = function(canvasid) {
   
 }
 
+meiView.UI.onSelectorDraw = function(args) {
+  meiView.selectingState.enter(args.appID);
+  meiView.UI.updateSidebar();
+}
 
+meiView.UI.onSelectorSelect = function(args) {
+
+  if (meiView.selectingState.on) {
+    meiView.selectiongState.select(args.xmlID);
+
+    /* update variant path according to new selection */
+    var variantPathUpdate = {};
+    variantPathUpdate[meiView.selectingState.appID] = args.xmlID;
+    meiView.currentScore.updateVariantPath(variantPathUpdate);
+
+    /* re-draw current page [TODO: only re-draw if the change happened on the current page] */
+
+    meiView.displayCurrentPage();
+    if (meiView.UI.dlg) { 
+      meiView.UI.dlg.bringToFront();
+    }
+    
+    //TODO: call UI function to highlight/disable side-bar items.
+  }
+}
+
+meiView.UI.onSelectorHide = function() {
+  meiView.selectingState.exit();
+  meiView.UI.updateSidebar();
+}
+
+
+
+meiView.UI.updateSidebar = function() {
+  if (meiView.selectingState.on) {
+    // 1. Highlight selected sources (the sources of which variant are currently displayed)
+    // 2. Disable sources without variants at the currently selected <app>
+  } else {
+    // 1. Highlight selected sources (any source that have a variant selected in the current variant path)
+  }
+}
 
 meiView.UI.ShowSelectorPanel = function(dotInfo) {
   var variantSlice = meiView.MEI.getSlice({start_n:dotInfo.measure_n, end_n:dotInfo.measure_n, staves:[dotInfo.staff_n], noClef:true, noKey:true, noMeter:true});
@@ -290,7 +330,9 @@ meiView.UI.SelectorPanel = function (options) {
   this.items = [];
   this.objects = [];
   
-  this.onSelected = function() {};
+  this.onDraw = function(args) {};
+  this.onSelect = function(args) {};
+  this.onHide = function(args) {};
 }
 
 meiView.UI.SelectorPanel.prototype.setCanvas = function(fabricCanvas) {
@@ -384,8 +426,6 @@ meiView.UI.SelectorPanel.prototype.draw = function() {
   this.objects = [];
   this.nextItemTop = 0;
 
-
-
   if (!this.panel) {
       this.panel = new fabric.Rect({
         fill: 'grey',
@@ -409,9 +449,11 @@ meiView.UI.SelectorPanel.prototype.draw = function() {
   for (var i=0;i<objects.length;i++) {
     this.canvas.add(objects[i]);
   }
+  this.onDraw();
 }
 
 meiView.UI.SelectorPanel.prototype.hide = function() {
+  this.onHide();
   this.canvas.remove(this.panel);
   var objects = this.objects;
   for (var i=0;i<objects.length;i++) {
@@ -438,7 +480,7 @@ meiView.UI.SelectorPanel.prototype.select = function(i) {
     
   }
   
-  this.onSelected(i);
+  this.onSelect({i:i});
 }
 
 meiView.UI.SelectorPanel.prototype.bringToFront = function() {

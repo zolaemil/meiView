@@ -1,5 +1,21 @@
 var meiView = {};
 
+meiView.selectingState = { 
+  
+  enter: function(appID) {
+    this.on = true;
+    this.appID = appID;
+  },
+  
+  select: function(xmlID) {
+    this.selectedVarXmlID = xmlID;
+  },
+  
+  exit: function() {
+    this.on = false;
+  },
+};
+
 meiView.createSourceList = function(Apps) {
   var result = {}
   for(appID in Apps) {
