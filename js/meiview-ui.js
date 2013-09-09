@@ -222,11 +222,11 @@ meiView.UI.onSelectorDraw = function(args) {
 meiView.UI.onSelectorSelect = function(args) {
 
   if (meiView.selectingState.on) {
-    meiView.selectiongState.select(args.xmlID);
+    meiView.selectingState.select(args.varXmlID);
 
     /* update variant path according to new selection */
     var variantPathUpdate = {};
-    variantPathUpdate[meiView.selectingState.appID] = args.xmlID;
+    variantPathUpdate[meiView.selectingState.appID] = args.varXmlID;
     meiView.currentScore.updateVariantPath(variantPathUpdate);
 
     /* re-draw current page [TODO: only re-draw if the change happened on the current page] */
@@ -236,7 +236,7 @@ meiView.UI.onSelectorSelect = function(args) {
       meiView.UI.dlg.bringToFront();
     }
     
-    //TODO: call UI function to highlight/disable side-bar items.
+    meiView.UI.updateSidebar();
   }
 }
 
@@ -266,12 +266,17 @@ meiView.UI.ShowSelectorPanel = function(dotInfo) {
     meiView.UI.dlg.hide();
   }
   meiView.UI.dlg = new meiView.UI.SelectorPanel({
-    left:dotInfo.measure_left*meiView.UI.scale, 
-    top:dotInfo.measure_top*meiView.UI.scale, 
-    measureWidth:dotInfo.measure_width*meiView.UI.scale, 
-    canvas:meiView.UI.fabrCanvas,
-    scale:0.7
+    left: dotInfo.measure_left*meiView.UI.scale, 
+    top: dotInfo.measure_top*meiView.UI.scale, 
+    measureWidth: dotInfo.measure_width*meiView.UI.scale, 
+    canvas: meiView.UI.fabrCanvas,
+    scale: 0.7,
+    appID: appID
   });
+  
+  meiView.UI.dlg.onDraw = meiView.UI.onSelectorDraw;
+  meiView.UI.dlg.onSelect = meiView.UI.onSelectorSelect;
+  meiView.UI.dlg.onHide = meiView.UI.onSelectorHide;
 
   for (xmlID in variants) {
     var variant = variants[xmlID];
@@ -287,7 +292,7 @@ meiView.UI.ShowSelectorPanel = function(dotInfo) {
       text = source.replace(/#/g, '').replace(/ /g, ', ');
     }
     var selected = (meiView.currentScore.variantPath[appID] === variant);
-    meiView.UI.dlg.addItem(text+':', singleVarScore.score, selected);
+    meiView.UI.dlg.addItem(text+':', singleVarScore.score, selected, xmlID);
   }
   meiView.UI.dlg.draw();
 }
@@ -301,6 +306,7 @@ meiView.UI.HideSelectorPanel = function() {
 meiView.UI.SelectorItem = function(options) {
   this.text = options.text;
   this.imgData = options.imgData;
+  this.xmlID = xmlID;
 }
 
 meiView.UI.SelectorPanel = function (options) {
@@ -329,7 +335,9 @@ meiView.UI.SelectorPanel = function (options) {
   
   this.items = [];
   this.objects = [];
-  
+  if (!options.appID) throw "appID isn't defined for SelectorPanel.";
+  this.appID = options.appID;
+
   this.onDraw = function(args) {};
   this.onSelect = function(args) {};
   this.onHide = function(args) {};
@@ -339,9 +347,9 @@ meiView.UI.SelectorPanel.prototype.setCanvas = function(fabricCanvas) {
   this.canvas = fabricCanvas;
 }
 
-meiView.UI.SelectorPanel.prototype.addItem = function(text, singleVarSliceXML, selected) {
+meiView.UI.SelectorPanel.prototype.addItem = function(text, singleVarSliceXML, selected, xmlID) {
   var imgData = meiView.UI.renderMei2Img(singleVarSliceXML, { vexWidth:this.measureWidth, vexHeight:this.measureHeight });
-  var newItem = new meiView.UI.SelectorItem({text:text, imgData:imgData});
+  var newItem = new meiView.UI.SelectorItem({text:text, imgData:imgData, xmlID:xmlID});
   this.items.push(newItem);
   if (selected) {
     this.select(this.items.length-1);
@@ -449,7 +457,7 @@ meiView.UI.SelectorPanel.prototype.draw = function() {
   for (var i=0;i<objects.length;i++) {
     this.canvas.add(objects[i]);
   }
-  this.onDraw();
+  this.onDraw({appID:this.appID});
 }
 
 meiView.UI.SelectorPanel.prototype.hide = function() {
@@ -477,10 +485,11 @@ meiView.UI.SelectorPanel.prototype.select = function(i) {
     }
     
     this.selectedIndex = i;
+
+    this.onSelect({ varXmlID: this.items[i].xmlID});
     
   }
   
-  this.onSelect({i:i});
 }
 
 meiView.UI.SelectorPanel.prototype.bringToFront = function() {
