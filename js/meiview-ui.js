@@ -214,7 +214,47 @@ meiView.UI.initCanvas = function(canvasid) {
   
 }
 
+meiView.UI.onSelectorDraw = function(args) {
+  meiView.selectingState.enter(args.appID);
+  meiView.UI.updateSidebar();
+}
 
+meiView.UI.onSelectorSelect = function(args) {
+
+  if (meiView.selectingState.on) {
+    meiView.selectingState.select(args.varXmlID);
+
+    /* update variant path according to new selection */
+    var variantPathUpdate = {};
+    variantPathUpdate[meiView.selectingState.appID] = args.varXmlID;
+    meiView.currentScore.updateVariantPath(variantPathUpdate);
+
+    /* re-draw current page [TODO: only re-draw if the change happened on the current page] */
+
+    meiView.displayCurrentPage();
+    if (meiView.UI.dlg) { 
+      meiView.UI.dlg.bringToFront();
+    }
+    
+    meiView.UI.updateSidebar();
+  }
+}
+
+meiView.UI.onSelectorHide = function() {
+  meiView.selectingState.exit();
+  meiView.UI.updateSidebar();
+}
+
+
+
+meiView.UI.updateSidebar = function() {
+  if (meiView.selectingState.on) {
+    // 1. Highlight selected sources (the sources of which variant are currently displayed)
+    // 2. Disable sources without variants at the currently selected <app>
+  } else {
+    // 1. Highlight selected sources (any source that have a variant selected in the current variant path)
+  }
+}
 
 meiView.UI.ShowSelectorPanel = function(dotInfo) {
   var variantSlice = meiView.MEI.getSlice({start_n:dotInfo.measure_n, end_n:dotInfo.measure_n, staves:[dotInfo.staff_n], noClef:true, noKey:true, noMeter:true});
@@ -226,12 +266,17 @@ meiView.UI.ShowSelectorPanel = function(dotInfo) {
     meiView.UI.dlg.hide();
   }
   meiView.UI.dlg = new meiView.UI.SelectorPanel({
-    left:dotInfo.measure_left*meiView.UI.scale, 
-    top:dotInfo.measure_top*meiView.UI.scale, 
-    measureWidth:dotInfo.measure_width*meiView.UI.scale, 
-    canvas:meiView.UI.fabrCanvas,
-    scale:0.7
+    left: dotInfo.measure_left*meiView.UI.scale, 
+    top: dotInfo.measure_top*meiView.UI.scale, 
+    measureWidth: dotInfo.measure_width*meiView.UI.scale, 
+    canvas: meiView.UI.fabrCanvas,
+    scale: 0.7,
+    appID: appID
   });
+  
+  meiView.UI.dlg.onDraw = meiView.UI.onSelectorDraw;
+  meiView.UI.dlg.onSelect = meiView.UI.onSelectorSelect;
+  meiView.UI.dlg.onHide = meiView.UI.onSelectorHide;
 
   for (xmlID in variants) {
     var variant = variants[xmlID];
@@ -247,7 +292,7 @@ meiView.UI.ShowSelectorPanel = function(dotInfo) {
       text = source.replace(/#/g, '').replace(/ /g, ', ');
     }
     var selected = (meiView.currentScore.variantPath[appID] === variant);
-    meiView.UI.dlg.addItem(text+':', singleVarScore.score, selected);
+    meiView.UI.dlg.addItem(text+':', singleVarScore.score, selected, xmlID);
   }
   meiView.UI.dlg.draw();
 }
@@ -261,6 +306,7 @@ meiView.UI.HideSelectorPanel = function() {
 meiView.UI.SelectorItem = function(options) {
   this.text = options.text;
   this.imgData = options.imgData;
+  this.xmlID = xmlID;
 }
 
 meiView.UI.SelectorPanel = function (options) {
@@ -289,17 +335,21 @@ meiView.UI.SelectorPanel = function (options) {
   
   this.items = [];
   this.objects = [];
-  
-  this.onSelected = function() {};
+  if (!options.appID) throw "appID isn't defined for SelectorPanel.";
+  this.appID = options.appID;
+
+  this.onDraw = function(args) {};
+  this.onSelect = function(args) {};
+  this.onHide = function(args) {};
 }
 
 meiView.UI.SelectorPanel.prototype.setCanvas = function(fabricCanvas) {
   this.canvas = fabricCanvas;
 }
 
-meiView.UI.SelectorPanel.prototype.addItem = function(text, singleVarSliceXML, selected) {
+meiView.UI.SelectorPanel.prototype.addItem = function(text, singleVarSliceXML, selected, xmlID) {
   var imgData = meiView.UI.renderMei2Img(singleVarSliceXML, { vexWidth:this.measureWidth, vexHeight:this.measureHeight });
-  var newItem = new meiView.UI.SelectorItem({text:text, imgData:imgData});
+  var newItem = new meiView.UI.SelectorItem({text:text, imgData:imgData, xmlID:xmlID});
   this.items.push(newItem);
   if (selected) {
     this.select(this.items.length-1);
@@ -384,8 +434,6 @@ meiView.UI.SelectorPanel.prototype.draw = function() {
   this.objects = [];
   this.nextItemTop = 0;
 
-
-
   if (!this.panel) {
       this.panel = new fabric.Rect({
         fill: 'grey',
@@ -409,9 +457,11 @@ meiView.UI.SelectorPanel.prototype.draw = function() {
   for (var i=0;i<objects.length;i++) {
     this.canvas.add(objects[i]);
   }
+  this.onDraw({appID:this.appID});
 }
 
 meiView.UI.SelectorPanel.prototype.hide = function() {
+  this.onHide();
   this.canvas.remove(this.panel);
   var objects = this.objects;
   for (var i=0;i<objects.length;i++) {
@@ -435,10 +485,11 @@ meiView.UI.SelectorPanel.prototype.select = function(i) {
     }
     
     this.selectedIndex = i;
+
+    this.onSelect({ varXmlID: this.items[i].xmlID});
     
   }
   
-  this.onSelected(i);
 }
 
 meiView.UI.SelectorPanel.prototype.bringToFront = function() {
