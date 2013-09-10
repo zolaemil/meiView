@@ -1,5 +1,21 @@
 var meiView = {};
 
+meiView.selectingState = { 
+  
+  enter: function(appID) {
+    this.on = true;
+    this.appID = appID;
+  },
+  
+  select: function(xmlID) {
+    this.selectedVarXmlID = xmlID;
+  },
+  
+  exit: function() {
+    this.on = false;
+  },
+};
+
 meiView.createSourceList = function(Apps) {
   var result = {}
   for(appID in Apps) {
@@ -71,6 +87,7 @@ meiView.Pages.prototype.totalPages = function() {
 meiView.nextPage = function(){
   this.pages.nextPage();
   this.displayCurrentPage();
+  this.UI.dlg && this.UI.dlg.hide();
 }
 
 meiView.prevPage = function(){
@@ -95,7 +112,7 @@ meiView.displayCurrentPage = function() {
 
   var pageXML = meiView.getPageXML(meiView.pages.currentPage());
   /* pageXML is singleVariantScore, therefore can be displayed. */
-  meiView.UI.renderPage(pageXML);
+  meiView.UI.renderPage(pageXML, {vexWidth:meiView.scoreWidth, vexHeight:meiView.scoreHeight});
   meiView.UI.displayDots();
   
   $('#pageNumber').html((meiView.pages.currentPageIndex+1).toString() + '/' + meiView.pages.totalPages());

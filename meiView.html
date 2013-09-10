@@ -42,13 +42,17 @@ background-color: rgb(248,248,240);
 		var variantPathUpdate = {};
 		var default_var = true;
 		var swapPath = function() {
+
+			// meiView.UI.dlg.items[0].toggleSelection();
+			// meiView.UI.fabrCanvas.renderAll();
+
 			if (default_var) {
-				// variantPathUpdate['app.m3.tie'] = 'rdg1.app.m3.tie';
-				variantPathUpdate['app01.m8'] = 'rdg1.n1l1s4m8';
+				variantPathUpdate['app.m3.tie'] = 'rdg1.app.m3.tie';
+				// variantPathUpdate['app01.m8'] = 'rdg1.n1l1s4m8';
 				default_var = false;
 			} else {
-				// variantPathUpdate['app.m3.tie'] = 'lem.app.m3.tie';
-				variantPathUpdate['app01.m8'] = 'lem.app01.m8';
+				variantPathUpdate['app.m3.tie'] = 'lem.app.m3.tie';
+				// variantPathUpdate['app01.m8'] = 'lem.app01.m8';
 				default_var = true;
 			}
 			meiView.currentScore.updateVariantPath(variantPathUpdate);
@@ -77,16 +81,18 @@ background-color: rgb(248,248,240);
 			
 			meiView.UI.fillSideBar($('#accordion'), meiView.Sources, 'meiview-sidebar');
 			$('#accordion').accordion({
-				collapsible: true
+				collapsible: true,
+				heightStyle: "content",
+				active: false
 			});
 			
 			meiView.currentScore = new MeiLib.SingleVariantPathScore(meiView.MEI);
 			console.log(JSON.stringify(meiView.currentScore.variantPath))
 			
 			meiView.pages.AddPage(1, 12);
-			meiView.pages.AddPage(13, 24);
-			meiView.pages.AddPage(25, 36);
-			meiView.pages.AddPage(37, 38);
+			meiView.pages.AddPage(13, 24);  
+			meiView.pages.AddPage(25, 36);  
+			meiView.pages.AddPage(37, 48);  
 			meiView.appReplacements = {};
 			// meiView.appReplacements['app.m3.tie'] = new MeiLib.AppReplacement('rdg', 'rdg1.app.m3.tie');
 			// meiView.appReplacements['app.n1l1s1m8'] = new MeiLib.AppReplacement('rdg', 'rdg.app.n1l1s1m8');
@@ -96,7 +102,15 @@ background-color: rgb(248,248,240);
 			
 			meiView.nextPage();
 			// meiView.jumpTo(2);
+			// meiView.jumpTo(3);
 
+			$('#testBtn').click(function(){
+				swapPath();
+			});
+						
+			// $('#testBtn').click(function(){
+			// 	meiView.UI.VariantSelector(meiView.UI.fabrCanvas, []);
+			// }).html('show variant selector');
 			// 	fabrCanv.add(oImg);
 			// 	// var circle = new fabric.Circle({
 				// 	//   radius: 5, fill: 'green', left: 100, top: 100
@@ -121,7 +135,7 @@ background-color: rgb(248,248,240);
 				<div id="sidebar">
 					<div id="accordion"> 
 					</div>
-					<button id="testBtn" onclick="swapPath()" class="ui-widget-content ui-corner-all">Change Path</button>
+					<button id="testBtn" onclick="" class="ui-widget-content ui-corner-all">Change Path</button>
 				</div>
 			</div>
 
