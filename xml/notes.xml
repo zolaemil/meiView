@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mei meiversion="2013" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.music-encoding.org/ns/mei" xmlns:mei="http://www.music-encoding.org/ns/mei">
+	<meiHead>
+		<fileDesc>
+			<titleStmt>
+				<title/>
+			</titleStmt>
+			<pubStmt/>
+			<sourceDesc>
+				<source xml:id="A"></source>
+				<source xml:id="BQ18"></source>
+				<source xml:id="FC2439"></source>
+				<source xml:id="Lo31922"></source>
+				<source xml:id="SG461"></source>
+				<source xml:id="CF59"></source>
+				<source xml:id="HK17"></source>
+			</sourceDesc>
+		</fileDesc>
+	</meiHead>
+	<music>
+		<body>
+			<mdiv>
+				<score>
+					<section>
+						<measure n="1">
+							<staff n="1">
+								<layer>
+									<rest dur="1"/>
+									<rest dur="2"/>
+
+									<note dur="1" pname="g" oct="3"/>
+									<note dur="1" pname="b" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="1" dots="1" pname="b" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="2" pname="c" oct="4"/>
+									<note dur="2" pname="b" oct="4">
+										<syl wordpos="i"></syl>
+									</note>
+									<note dur="2" pname="b" oct="4">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="2" dots="1" pname="b" oct="4">
+										<syl wordpos="i"></syl>
+									</note>
+									<note dur="4" pname="b" oct="4"/>
+									<note dur="4" pname="c" oct="5">
+										<syl wordpos="m"></syl>
+									</note>
+									<note dur="8" pname="e" oct="5">
+										<syl wordpos="m"></syl>
+									</note>
+									
+									<app xml:id="app.n1l1s1m20">
+										<lem></lem>
+										<rdg xml:id="rdg1.app." source="">
+										</rdg>
+									</app>
+								</layer>
+							</staff>
+						</measure>
+					</section>
+				</score>
+			</mdiv>
+		</body>
+	</music>
+</mei>

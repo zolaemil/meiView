@@ -2,9 +2,10 @@ var meiView = {};
 
 meiView.selectingState = { 
   
-  enter: function(appID) {
-    this.on = true;
+  enter: function(appID, selectedvarXmlID) {
+    this.ON = true;
     this.appID = appID;
+    this.selectedVarXmlID = selectedvarXmlID;
   },
   
   select: function(xmlID) {
@@ -12,8 +13,10 @@ meiView.selectingState = {
   },
   
   exit: function() {
-    this.on = false;
+    this.ON = false;
   },
+  
+  
 };
 
 meiView.createSourceList = function(Apps) {
@@ -116,6 +119,16 @@ meiView.displayCurrentPage = function() {
   meiView.UI.displayDots();
   
   $('#pageNumber').html((meiView.pages.currentPageIndex+1).toString() + '/' + meiView.pages.totalPages());
+}
+
+meiView.selectVariant = function(varXmlID) {
+  /* assuming meiView.selectingState.on === true */
+  meiView.selectingState.select(varXmlID);
+
+  /* update variant path according to new selection */
+  var variantPathUpdate = {};
+  variantPathUpdate[meiView.selectingState.appID] = varXmlID;
+  meiView.currentScore.updateVariantPath(variantPathUpdate);
 }
 
 /**
