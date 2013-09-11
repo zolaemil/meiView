@@ -1,13 +1,23 @@
 meiView.UI = {};
 meiView.UI.dots = {};
 
+meiView.UI.toCSSId = function(identifierString) {
+  return identifierString.replace(/#/g, '').replace(/\./g, '_');
+}
+
+meiView.UI.liID = function(sourceID, appID) {
+  return meiView.UI.toCSSId(sourceID) + '-' + meiView.UI.toCSSId(appID);
+}
+
 meiView.UI.fillSideBar = function(sidebardiv, sources, sidebar_class) {
   for(src in sources){
     var source = sources[src];
     sidebardiv.append('<h3 class="' + sidebar_class + '">'+src+'</h3><div class="' + sidebar_class + '"><ul id="' + src + '"></ul></div>');
     var listElem = sidebardiv.find('ul[id="'+src+'"]');
     for (var i=0; i<source.length; i++) {
-      listElem.append('<li>' + source[i].appID + '</li>')
+      var appID = source[i].appID;
+      
+      listElem.append('<li id="' + meiView.UI.liID(src, appID) + '" class="' +  meiView.UI.toCSSId(appID) + '">' + appID + '</li>')
     }
   }
 }
@@ -215,19 +225,16 @@ meiView.UI.initCanvas = function(canvasid) {
 }
 
 meiView.UI.onSelectorDraw = function(args) {
-  meiView.selectingState.enter(args.appID);
+  meiView.selectingState.enter(args.appID, meiView.currentScore.variantPath[args.appID].xmlID);
   meiView.UI.updateSidebar();
 }
 
 meiView.UI.onSelectorSelect = function(args) {
 
-  if (meiView.selectingState.on) {
-    meiView.selectingState.select(args.varXmlID);
+  if (meiView.selectingState.ON) {
 
-    /* update variant path according to new selection */
-    var variantPathUpdate = {};
-    variantPathUpdate[meiView.selectingState.appID] = args.varXmlID;
-    meiView.currentScore.updateVariantPath(variantPathUpdate);
+    var oldVarID = meiView.selectingState.selectedVarXmlID;
+    meiView.selectVariant(args.varXmlID);
 
     /* re-draw current page [TODO: only re-draw if the change happened on the current page] */
 
@@ -236,7 +243,7 @@ meiView.UI.onSelectorSelect = function(args) {
       meiView.UI.dlg.bringToFront();
     }
     
-    meiView.UI.updateSidebar();
+    meiView.UI.updateSidebar(meiView.selectingState.appID, oldVarID);
   }
 }
 
@@ -245,14 +252,48 @@ meiView.UI.onSelectorHide = function() {
   meiView.UI.updateSidebar();
 }
 
+meiView.UI.addHightlightClasses = function(appID) {
+  var source = meiView.currentScore.variantPath[appID].source;
+  var sources = source ? source.split(' ') : ['lem'];
+  for (var i=0;i<sources.length; i++) {
+    var liID = meiView.UI.liID(sources[i], appID);
+    $('#' + liID)
+      .addClass('meiview-variant-on')
+      .closest('div.meiview-sidebar').prev().addClass('meiview-source-has-variant-on');
+  }
+}
 
+meiView.UI.initSidebarHighlight = function() {
+  if (!meiView.currentScore) return;
+  for (appID in meiView.MEI.APPs) {
+    meiView.UI.addHightlightClasses(appID);
+  } 
+}
 
-meiView.UI.updateSidebar = function() {
-  if (meiView.selectingState.on) {
-    // 1. Highlight selected sources (the sources of which variant are currently displayed)
-    // 2. Disable sources without variants at the currently selected <app>
+meiView.UI.updateSidebarHighlight = function(appID, oldVarID) {
+  meiView.UI.addHightlightClasses(appID);
+  if (oldVarID) {
+    source = meiView.MEI.APPs[appID].variants[oldVarID].source;
+    var sources = source ? source.split(' ') : ['lem'];
+    for (var i=0;i<sources.length; i++) {
+      var liID = meiView.UI.liID(sources[i], appID);
+      $('#' + liID)
+        .removeClass('meiview-variant-on');
+    }
+    $('div.meiview-sidebar').not(':has(li.meiview-variant-on)').prev('.meiview-source-has-variant-on').removeClass('meiview-source-has-variant-on');
+  }
+}
+
+meiView.UI.updateSidebar = function(appID, oldVarID) {
+  if (appID) {
+    meiView.UI.updateSidebarHighlight(appID, oldVarID);
+  }
+  if (meiView.selectingState.ON) {
+    /* Disable sources without variants at the currently selected <app> */
+    $('div.meiview-sidebar').not(':has(li.' + meiView.UI.toCSSId(meiView.selectingState.appID) + ')').prev().addClass('meiview-source-disabled');
   } else {
-    // 1. Highlight selected sources (any source that have a variant selected in the current variant path)
+    // remove meiview-source-disabled from all .meiview-source-disabled
+    $('h3.meiview-source-disabled').removeClass('meiview-source-disabled');
   }
 }
 
@@ -461,12 +502,12 @@ meiView.UI.SelectorPanel.prototype.draw = function() {
 }
 
 meiView.UI.SelectorPanel.prototype.hide = function() {
-  this.onHide();
   this.canvas.remove(this.panel);
   var objects = this.objects;
   for (var i=0;i<objects.length;i++) {
     this.canvas.remove(objects[i]);
   }
+  this.onHide();
   delete this;
 }
 

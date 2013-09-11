@@ -33,6 +33,15 @@
 			background-color: rgb(248,248,240);
 			color: rgb(100,100,100);
 		}
+		.meiview-variant-on {
+			color: rgb(185,0,0);
+		}
+		.meiview-source-has-variant-on {
+			color: rgb(190,0,0);
+		}
+		.meiview-source-disabled {
+			color: rgb(180,180,180);
+		}
 	</style>
 <!--
 background-color: rgb(248,248,240);
@@ -101,6 +110,7 @@ background-color: rgb(248,248,240);
 			meiView.UI.fabrCanvas = meiView.UI.initCanvas('maincanvas');
 			
 			meiView.nextPage();
+		  meiView.UI.initSidebarHighlight();
 			// meiView.jumpTo(2);
 			// meiView.jumpTo(3);
 
