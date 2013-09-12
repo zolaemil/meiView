@@ -291,9 +291,19 @@ meiView.UI.updateSidebar = function(appID, oldVarID) {
   if (meiView.selectingState.ON) {
     /* Disable sources without variants at the currently selected <app> */
     $('div.meiview-sidebar').not(':has(li.' + meiView.UI.toCSSId(meiView.selectingState.appID) + ')').prev().addClass('meiview-source-disabled');
+    /* Close up variant list the source is disbaled */
+    if ($('.meiview-source-disabled.ui-accordion-header-active').length>0) { 
+      $( "#accordion" ).accordion( "option", "active", false);
+    }
+    /* Disable clicking on sources */
+    $('#accordion').on('accordionbeforeactivate', function(event, ui) {
+      event.preventDefault();
+    });
   } else {
-    // remove meiview-source-disabled from all .meiview-source-disabled
+    /* Enable all sources */
     $('h3.meiview-source-disabled').removeClass('meiview-source-disabled');
+    /* Enable clicking on sources */
+    $('#accordion').off();
   }
 }
 

@@ -117,8 +117,12 @@ meiView.displayCurrentPage = function() {
   /* pageXML is singleVariantScore, therefore can be displayed. */
   meiView.UI.renderPage(pageXML, {vexWidth:meiView.scoreWidth, vexHeight:meiView.scoreHeight});
   meiView.UI.displayDots();
-  
-  $('#pageNumber').html((meiView.pages.currentPageIndex+1).toString() + '/' + meiView.pages.totalPages());
+  if (meiView.pages.currentPageIndex === 0) {
+    $('#title').show();
+  } else {
+    $('#title').hide();
+  }
+  $('#pageNumber-top, #pageNumber-bottom').html((meiView.pages.currentPageIndex+1).toString() + '/' + meiView.pages.totalPages());
 }
 
 meiView.selectVariant = function(varXmlID) {

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>meiView Skeleton</title>
+	<title>meiView - Rogamus te...</title>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="support/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
@@ -113,20 +113,6 @@ background-color: rgb(248,248,240);
 		  meiView.UI.initSidebarHighlight();
 			// meiView.jumpTo(2);
 			// meiView.jumpTo(3);
-
-			$('#testBtn').click(function(){
-				swapPath();
-			});
-						
-			// $('#testBtn').click(function(){
-			// 	meiView.UI.VariantSelector(meiView.UI.fabrCanvas, []);
-			// }).html('show variant selector');
-			// 	fabrCanv.add(oImg);
-			// 	// var circle = new fabric.Circle({
-				// 	//   radius: 5, fill: 'green', left: 100, top: 100
-				// 	// });
-				// 	// fabrCanv.add(circle);
-				// 	
 			})
 			</script>
 		</head>
@@ -137,15 +123,17 @@ background-color: rgb(248,248,240);
 			<div id="maindiv" style="margin: 10px 20px auto">
 				<div id="scorediv" align="center" class="ui-widget-content">
 					<button class="ui-widget-content ui-corner-all"onclick="meiView.prevPage()"><span class="ui-icon ui-icon-triangle-1-w"/></button>
-					<span id="pageNumber" width="10">1/2</span>
+					<span id="pageNumber-top" width="10">0/0</span>
 					<button class="ui-widget-content ui-corner-all" onclick="meiView.nextPage()"><span class="ui-icon ui-icon-triangle-1-e"/></button>
 					<h4><span id='title' class='title' property='dc:title'>Title Comes Here</span></h4>
 					<canvas class="canvas" id="maincanvas" width="780" height="700"></canvas>
+					<button class="ui-widget-content ui-corner-all"onclick="meiView.prevPage()"><span class="ui-icon ui-icon-triangle-1-w"/></button>
+					<span id="pageNumber-bottom" width="10">0/0</span>
+					<button class="ui-widget-content ui-corner-all" onclick="meiView.nextPage()"><span class="ui-icon ui-icon-triangle-1-e"/></button>
 				</div>
 				<div id="sidebar">
 					<div id="accordion"> 
 					</div>
-					<button id="testBtn" onclick="" class="ui-widget-content ui-corner-all">Change Path</button>
 				</div>
 			</div>
 
