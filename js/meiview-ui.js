@@ -298,7 +298,7 @@ meiView.UI.updateSidebar = function(appID, oldVarID) {
 }
 
 meiView.UI.ShowSelectorPanel = function(dotInfo) {
-  var variantSlice = meiView.MEI.getSlice({start_n:dotInfo.measure_n, end_n:dotInfo.measure_n, staves:[dotInfo.staff_n], noClef:true, noKey:true, noMeter:true});
+  var variantSlice = meiView.MEI.getSlice({start_n:dotInfo.measure_n, end_n:dotInfo.measure_n, staves:[dotInfo.staff_n], noClef:true, noKey:true, noMeter:true, noConnectors:true});
   var panelItemParamList = [];
   var appID = dotInfo.appXmlID;
   var variants = meiView.MEI.APPs[appID].variants 
