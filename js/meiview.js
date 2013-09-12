@@ -118,7 +118,7 @@ meiView.displayCurrentPage = function() {
   meiView.UI.renderPage(pageXML, {vexWidth:meiView.scoreWidth, vexHeight:meiView.scoreHeight});
   meiView.UI.displayDots();
   
-  $('#pageNumber').html((meiView.pages.currentPageIndex+1).toString() + '/' + meiView.pages.totalPages());
+  $('#pageNumber-top, #pageNumber-bottom').html((meiView.pages.currentPageIndex+1).toString() + '/' + meiView.pages.totalPages());
 }
 
 meiView.selectVariant = function(varXmlID) {
