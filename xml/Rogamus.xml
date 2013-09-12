@@ -1363,19 +1363,19 @@
 												<syl wordpos="t">-lem</syl>
 											</note>
 											<rest dur="2"/>
-											<note xml:id="lem.n2l1s2m27" dur="2" pname="c" oct="4">
+											<note dur="2" pname="c" oct="4" tie="i">
 												<syl wordpos="i">fa</syl>
 											</note>
 										</lem>
 										<rdg xml:id="rdg1.app.n1l1s2m27" source="#SG461">
 											<note dur="2" dots="1" pname="e" oct="4">
-												<syl wordpos="t">-lem</syl>
+												<syl wordpos="m"></syl>
 											</note>
 											<note dur="4" pname="c" oct="4">
 												<syl wordpos="m"></syl>
 											</note>
 											<note dur="1" pname="c" oct="4">
-												<syl wordpos="m"></syl>
+												<syl wordpos="t">-lem</syl>
 											</note>
 										</rdg>
 									</app>
@@ -1403,7 +1403,6 @@
 									</note>
 								</layer>
 							</staff>
-							<tie staff="2" startid="lem.n2l1s2m27" endid="n1l1s2m28"/>
 							<tie staff="3" startid="n1l1s3m27" endid="n2l1s3m27"/>
 							<tie staff="3" startid="n2l1s3m27" endid="n1l1s3m28"/>
 						</measure>
@@ -1421,12 +1420,19 @@
 							</staff>
 							<staff n="2">
 								<layer>
-									<note xml:id="n1l1s2m28" dur="2" pname="c" oct="4">
-										<syl wordpos="m"></syl>
-									</note>
-									<note dur="2" pname="c" oct="4">
-										<syl wordpos="m"></syl>
-									</note>
+									<app xml:id="app.n1l1s2m28">
+										<lem>
+											<note dur="1" pname="c" oct="4" tie="t">
+												<syl wordpos="m"></syl>
+											</note>
+										</lem>
+										<rdg xml:id="rdg1.app.n1l1s2m28" source="#SG461">
+											<rest dur="2"/>
+											<note dur="2" pname="c" oct="4">
+												<syl wordpos="i">fa</syl>
+											</note>
+										</rdg>
+									</app>
 									<note dur="2" pname="b" oct="3">
 										<syl wordpos="m"></syl>
 									</note>
@@ -1738,7 +1744,7 @@
 												<syl wordpos="m"></syl>
 											</note>
 										</lem>
-										<rdg xml:id="rdg.app.n3l1s4m33" source="Lo31922">
+										<rdg xml:id="rdg.app.n3l1s4m33" source="#Lo31922">
 											<note dur="4" pname="f" oct="3">
 												<syl wordpos="m"></syl>
 											</note>
