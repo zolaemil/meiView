@@ -416,7 +416,7 @@ meiView.UI.SelectorPanel.prototype.addObjectsForItem = function(item, itemIndex)
   
   if (text.width > this.contentWidth) {
     this.contentWidth = text.width;
-    this.width = this.width/this.scale;
+    this.width = this.contentWidth + 2*(this.marginWE);
   }
   
   var img = new fabric.Image(item.imgData, {
@@ -498,8 +498,8 @@ meiView.UI.SelectorPanel.prototype.draw = function() {
     this.addObjectsForItem(items[i], i);
   }
 
-  this.panel.width = this.width + 2*this.marginWE;
   this.panel.left = this.left; 
+  this.panel.width = this.width;
   this.panel.height = this.height+this.marginNS;
   this.panel.top = this.top+this.marginNS/2;
   
