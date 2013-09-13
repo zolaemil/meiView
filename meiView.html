@@ -12,6 +12,7 @@
   <!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> -->
 	<script src="jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
 <!-- <script type="text/JavaScript" src="support/jquery-1.7.1.min.js"></script> -->
+	<script type="text/JavaScript" src="support/jquery.ba-bbq.min.js"></script>
 	<script type="text/JavaScript" src="support/vexflow-min.js"></script>
 	<script type="text/JavaScript" src="support/meitovexflow-min.js"></script>
 	<script type="text/JavaScript" src="js/loadxmldoc.js"></script>
@@ -109,7 +110,11 @@ background-color: rgb(248,248,240);
 			// meiView.appReplacements['app.n1l1s2m27'] = new MeiLib.AppReplacement('rdg', 'rdg1.app.n1l1s2m27');
 			meiView.UI.fabrCanvas = meiView.UI.initCanvas('maincanvas');
 			
-			meiView.nextPage();
+			frag_pg = $.bbq.getState('pg');
+			if (frag_pg != undefined) {
+				meiView.jumpTo(frag_pg-1);
+			}
+			else meiView.nextPage();
 		  meiView.UI.initSidebarHighlight();
 			// meiView.jumpTo(2);
 			// meiView.jumpTo(3);

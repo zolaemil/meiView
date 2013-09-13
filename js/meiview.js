@@ -87,16 +87,24 @@ meiView.Pages.prototype.totalPages = function() {
   return this.pages.length;
 }
 
+meiView.updateHistory = function(){
+  $.bbq.pushState({
+    pg : meiView.pages.currentPageIndex + 1
+  });
+}
+
 meiView.nextPage = function(){
   this.pages.nextPage();
   this.displayCurrentPage();
   this.UI.dlg && this.UI.dlg.hide();
+  this.updateHistory();
 }
 
 meiView.prevPage = function(){
   this.pages.prevPage();
   this.displayCurrentPage();
   this.UI.dlg && this.UI.dlg.hide();
+  this.updateHistory();
 }
 
 meiView.jumpTo = function(i) {
