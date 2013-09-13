@@ -332,13 +332,6 @@
 									<note xml:id="n2l1s2m7" pname="a" oct="3" dur="1">
 										<syl wordpos="i">hu</syl>
 									</note>
-									<app xml:id="app.m7.tie">
-										<lem>
-										</lem>
-										<rdg source="#Lo31922">
-											<tie staff="1" startid="n1l1s2m7" endid="n2l1s2m7"/>
-										</rdg>
-									</app>
 								</layer>
 							</staff>
 							<staff n="3">
@@ -357,6 +350,13 @@
 									<rest dur="1"/>
 								</layer>
 							</staff>
+							<app xml:id="app.m7.tie">
+								<lem>
+								</lem>
+								<rdg xml:id="rdg1.app.m7.tie" source="#Lo31922">
+									<tie staff="2" startid="n1l1s2m7" endid="n2l1s2m7"/>
+								</rdg>
+							</app>
 							<tie staff="3" startid="n1l1s3m7" endid="n2l1s3m7"/>
 							<tie staff="3" startid="n2l1s3m7" endid="n1l1s3m8"/>
 						</measure>
