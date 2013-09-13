@@ -96,6 +96,7 @@ meiView.nextPage = function(){
 meiView.prevPage = function(){
   this.pages.prevPage();
   this.displayCurrentPage();
+  this.UI.dlg && this.UI.dlg.hide();
 }
 
 meiView.jumpTo = function(i) {
