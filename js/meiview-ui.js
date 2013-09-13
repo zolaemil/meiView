@@ -442,6 +442,7 @@ meiView.UI.SelectorPanel.prototype.addObjectsForItem = function(item, itemIndex)
   // img.left = this.contentLeft + img.width/2;
 
   var vertIncr = text.height + img.height;
+  item.height =  vertIncr;
   this.nextItemTop += vertIncr + this.itemSpacing;
   var heightIncr = itemIndex===0 ? vertIncr + this.marginNS : vertIncr + this.itemSpacing;
   this.height += heightIncr;
@@ -478,10 +479,44 @@ meiView.UI.SelectorPanel.prototype.addObjectsForItem = function(item, itemIndex)
   this.objects.push(text);
   this.objects.push(img);
   this.objects.push(item.selectorMask);
-
+ 
 }
 
-meiView.UI.SelectorPanel.prototype.draw = function() {
+/**
+ * Calculate delta_x and delta_y to shift the panel so it fits inside the specified box;
+ */
+meiView.UI.SelectorPanel.prototype.shiftXY = function(box) {
+  var pHeight = 0;
+  var items = this.items;
+  for (var i=0;i<items.length;i++) {
+    pHeight += items[i].height + (i === 0 ? this.marginNS : this.itemSpacing);
+  }
+  if (items.length>0) pHeight += this.marginNS;
+  var pWidth = this.width;
+  var Wc = box.width;
+  var Hc = box.height;
+  var Xc = box.x;
+  var Yc = box.y;
+  
+  var curr_x = this.panel.left;
+  var curr_y = this.panel.top;
+  
+  var min_x = Xc - Wc/2 + pWidth/2;
+  var max_x = Xc + Wc/2 - pWidth/2;
+  var delta_x = 0;
+  if (curr_x > max_x ) delta_x = max_x - curr_x;
+  if (curr_x < min_x) delta_x = min_x - curr_x;
+ 
+  var min_y = Yc  - Hc/2 + pHeight/2;
+  var max_y = Yc  + Hc/2 - pHeight/2;
+  var delta_y = 0;
+  if (curr_y > max_y) delta_y = max_y - curr_y;
+  if (curr_y < min_y) delta_y = min_y - curr_y;
+
+  return {x:delta_x, y:delta_y};
+}
+
+meiView.UI.SelectorPanel.prototype.draw = function(box) {
   this.objects = [];
   this.nextItemTop = 0;
 
@@ -498,15 +533,25 @@ meiView.UI.SelectorPanel.prototype.draw = function() {
     this.addObjectsForItem(items[i], i);
   }
 
-  this.panel.left = this.left; 
   this.panel.width = this.width;
   this.panel.height = this.height+this.marginNS;
+
+  this.panel.left = this.left;
   this.panel.top = this.top+this.marginNS/2;
   
-  
+  var delta = this.shiftXY({
+    x: this.canvas.width/2, 
+    y: this.canvas.height/2, 
+    width: this.canvas.width,
+    height: this.canvas.height
+  });
+
   var objects = this.objects;
   for (var i=0;i<objects.length;i++) {
-    this.canvas.add(objects[i]);
+    var obj = objects[i];
+    obj.left += delta.x;
+    obj.top += delta.y;
+    this.canvas.add(obj);
   }
   this.onDraw({appID:this.appID});
 }
