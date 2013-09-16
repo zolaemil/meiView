@@ -369,7 +369,7 @@
 							</staff>
 							<staff n="2">
 								<layer>
-									<app xml:id="app.n1l1s1m8">
+									<app xml:id="app.n1l1s2m8">
 										<lem>
 											<note dur="1" pname="c" oct="4">
 												<syl wordpos="m">-mi</syl>
@@ -378,7 +378,7 @@
 												<syl wordpos="m">-li</syl>
 											</note>
 										</lem>
-										<rdg xml:id="rdg.app.n1l1s1m8" source="#Lo31922">
+										<rdg xml:id="rdg.app.n1l1s2m8" source="#Lo31922">
 											<note dur="1" dots="1" pname="c" oct="4">
 												<syl wordpos="m">-mi-li</syl>
 											</note>
@@ -404,8 +404,8 @@
 									</note>
 								</layer>
 							</staff>
-							<app xml:id="app01.m8">
-								<lem xml:id="lem.app01.m8"></lem>
+							<app xml:id="app01.s4m8">
+								<lem xml:id="lem.app01.s4m8"></lem>
 								<rdg xml:id="rdg1.n1l1s4m8" source="#BQ18 #FC2439 #Lo31922 #SG461">
 									<tie staff="4" startid="n1l1s4m8" endid="n2l1s4m8"/>
 								</rdg>
@@ -621,11 +621,11 @@
 						<measure n="14">
 							<staff n="1">
 								<layer>
-									<app xml:id="app.n1l1st1m14">
+									<app xml:id="app.n1l1s1m14">
 										<lem>
 											<note dur="2" pname="b" oct="4" tie="t"></note>
 										</lem>
-										<rdg xml:id="rdg1.app.n1l1st1m14" source="#FC2439">
+										<rdg xml:id="rdg1.app.n1l1s1m14" source="#FC2439">
 											<note dur="4" pname="b" oct="4" tie="t"></note>
 											<note dur="4" pname="a" oct="4"></note>
 										</rdg>
