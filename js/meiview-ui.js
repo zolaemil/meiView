@@ -30,15 +30,56 @@ meiView.UI.liID = function(sourceID, appID) {
   return meiView.UI.toCSSId(sourceID) + '-' + meiView.UI.toCSSId(appID);
 }
 
+meiView.UI.srcID2srcLabel = function(src) {
+  if (src === 'lem') {
+    return 'Base text'
+  } else {
+    return 'Source ' + src.replace(/^#/, '');
+  }
+}
+
+meiView.UI.appID2appLabel = function(appID) {
+  var str = appID.replace(/^app[0-9]*\./, '');
+  var locationPart = str.match(/(((n[1-9])?l[1-9])?s[1-9])?m[1-9][0-9]*/);
+  var label = '';
+  if (locationPart) {
+    label = locationPart[0].match(/m[1-9][0-9]*/)[0].replace('m', 'measure ');
+    var voice = locationPart[0].match(/s[1-4]/);
+    if (voice) { 
+      switch (voice[0].match(/[1-4]/)[0]) {
+        case '1': label += ' Supremus'; break;
+        case '2': label += ' Altus'; break;
+        case '3': label += ' Tenor'; break;
+        case '4': label += ' Bassus'; break;
+      } 
+    }
+    str = str.replace(locationPart[0], '');
+  }
+  if (str.length > 0) {
+    if (label.length > 0) label += ' ';
+    extraInfo = str.replace(/^\./, '').split('.');
+    for (var i=0; i<extraInfo.length; i++) {
+      if (i === 0) {
+        label += '(';
+      } else if (extraInfo[i].length>0) {
+        label += ', ';
+      } 
+      label += extraInfo[i];
+      if (i === extraInfo.length-1) label += ')';
+    }
+  }
+  return label;
+}
+
 meiView.UI.fillSideBar = function(sidebardiv, sources, sidebar_class) {
   for(src in sources){
     var source = sources[src];
-    sidebardiv.append('<h3 class="' + sidebar_class + '">'+src+'</h3><div class="' + sidebar_class + '"><ul id="' + src + '"></ul></div>');
+    sidebardiv.append('<h3 class="' + sidebar_class + '">' + meiView.UI.srcID2srcLabel(src) + '</h3><div class="' + sidebar_class + '"><ul id="' + src + '"></ul></div>');
     var listElem = sidebardiv.find('ul[id="'+src+'"]');
     for (var i=0; i<source.length; i++) {
       var appID = source[i].appID;
       
-      listElem.append('<li id="' + meiView.UI.liID(src, appID) + '" class="' +  meiView.UI.toCSSId(appID) + '">' + appID + '</li>')
+      listElem.append('<li id="' + meiView.UI.liID(src, appID) + '" class="' +  meiView.UI.toCSSId(appID) + '">' + meiView.UI.appID2appLabel(appID) + '</li>')
     }
   }
 }
