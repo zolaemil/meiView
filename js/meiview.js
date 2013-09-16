@@ -139,10 +139,6 @@ meiView.scoreWidth = 1000;
 meiView.scoreHeight = 1000;
 
 meiView.displayCurrentPage = function() {
-
-  // var variant_page_xmlDoc = loadXMLDoc('xml/Rogamus.xml');
-  // var single_path_score = MeiLib.createSingleVariantPathScore(meiView.appReplacements, variant_page_xmlDoc);  
-
   var pageXML = meiView.getPageXML(meiView.pages.currentPage());
   /* pageXML is singleVariantScore, therefore can be displayed. */
   meiView.UI.renderPage(pageXML, {vexWidth:meiView.scoreWidth, vexHeight:meiView.scoreHeight});
@@ -166,11 +162,8 @@ meiView.selectVariant = function(varXmlID) {
 }
 
 /**
- * Call web service to get xml containing measures from
- * page.startMeasure to page.endMeasure
- * 
  * @param page {mewView.Page} to specify measure numbers.
- * @return xml string
+ * @return XML {XML DOM object}
  */
 meiView.getPageXML = function(page) {
   var noMeter = (page.startMeasureN !== 1);
@@ -191,9 +184,3 @@ meiView.loadXMLString = function(txt) {
   }
   return xmlDoc;
 }
-
-
-meiView.displayVariantInstances = function(appID) {
-  
-}
-

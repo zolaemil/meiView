@@ -169,8 +169,6 @@ meiView.UI.displayDotForMeasure = function(vexStaff) {
   if (vexStaff) {
     var left = (vexStaff.x + vexStaff.width - 12) * meiView.UI.scale;
     var top = (vexStaff.y + 30) * meiView.UI.scale;
-    // var left = vexStaff.x;
-    // var top = 0; 
 
     var circle = new fabric.Circle({
       radius: 5, 
