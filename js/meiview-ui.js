@@ -381,7 +381,7 @@ meiView.UI.ShowSelectorPanel = function(dotInfo) {
   meiView.UI.dlg = new meiView.UI.SelectorPanel({
     left: dotInfo.measure_left*meiView.UI.scale, 
     top: dotInfo.measure_top*meiView.UI.scale, 
-    measureWidth: dotInfo.measure_width*meiView.UI.scale, 
+    measureWidth: 300*meiView.UI.scale, 
     canvas: meiView.UI.fabrCanvas,
     scale: 0.7,
     appID: appID
