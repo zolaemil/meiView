@@ -39,6 +39,7 @@ meiView.UI.srcID2srcLabel = function(src) {
 }
 
 meiView.UI.appID2appLabel = function(appID) {
+  /* Very encoding specific calculation. Maybe a better solution later?*/
   var str = appID.replace(/^app[0-9]*\./, '');
   var locationPart = str.match(/(((n[1-9])?l[1-9])?s[1-9])?m[1-9][0-9]*/);
   var label = '';
@@ -46,6 +47,7 @@ meiView.UI.appID2appLabel = function(appID) {
     label = locationPart[0].match(/m[1-9][0-9]*/)[0].replace('m', 'measure ');
     var voice = locationPart[0].match(/s[1-4]/);
     if (voice) { 
+      /* Should this come from the scoreDef labels? */
       switch (voice[0].match(/[1-4]/)[0]) {
         case '1': label += ' Supremus'; break;
         case '2': label += ' Altus'; break;
