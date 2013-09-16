@@ -140,15 +140,10 @@ meiView.scoreHeight = 1000;
 
 meiView.displayCurrentPage = function() {
   var pageXML = meiView.getPageXML(meiView.pages.currentPage());
-  /* pageXML is singleVariantScore, therefore can be displayed. */
-  meiView.UI.renderPage(pageXML, {vexWidth:meiView.scoreWidth, vexHeight:meiView.scoreHeight});
-  meiView.UI.displayDots();
-  if (meiView.pages.currentPageIndex === 0) {
-    $('#title').show();
-  } else {
-    $('#title').hide();
-  }
-  $('#pageNumber-top, #pageNumber-bottom').html((meiView.pages.currentPageIndex+1).toString() + '/' + meiView.pages.totalPages());
+  this.UI.renderPage(pageXML, {vexWidth:meiView.scoreWidth, vexHeight:meiView.scoreHeight});
+  this.UI.displayDots();
+  meiView.UI.showTitle(meiView.pages.currentPageIndex === 0);
+  meiView.UI.updatePageLabels(meiView.pages.currentPageIndex+1, meiView.pages.totalPages())
 }
 
 meiView.selectVariant = function(varXmlID) {

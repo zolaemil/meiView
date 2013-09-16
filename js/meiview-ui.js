@@ -71,6 +71,18 @@ meiView.UI.appID2appLabel = function(appID) {
   return label;
 }
 
+meiView.UI.showTitle = function(show) {
+  if (show) {
+    $('#title').show();
+  } else {
+    $('#title').hide();
+  }  
+}
+
+meiView.UI.updatePageLabels = function(current, total) {
+  $('#pageNumber-top, #pageNumber-bottom').html((current).toString() + '/' + total);
+}
+
 meiView.UI.fillSideBar = function(sidebardiv, sources, sidebar_class) {
   for(src in sources){
     var source = sources[src];
