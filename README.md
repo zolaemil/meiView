@@ -1,8 +1,9 @@
-meiView
+meiView - 
 =======
 
-Application displaying music encoded in MEI format. The Music Encoding Initiative (MEI) 
-is a community-driven effort to create a commonly-accepted, digital, symbolic representation 
+Application displaying music encoded in MEI format. 
+
+The Music Encoding Initiative (MEI) is a community-driven effort to create a commonly-accepted, digital, symbolic representation 
 of music notation documents.
 
 The purpose of this application is to demonstrate how to display variant readings of a piece of music
