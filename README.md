@@ -7,8 +7,8 @@ commonly-accepted, digital, symbolic representation of music notation
 documents.
 
 The purpose of this application is to demonstrate how to display variant 
-readings of a musical piece encoded in MEI. This application uses MEI2VexFlow 
-in order to render MEI segments onto the screen.
+readings of a musical piece encoded in MEI using MEI2VexFlow. meiView uses 
+MEI2VexFlow in order to render MEI segments onto the screen.
 
 Usage
 -----
