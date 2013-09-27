@@ -70,26 +70,6 @@ background-color: rgb(248,248,240);
   -->
 	<script type="application/javascript" language="javascript">
 		
-		var variantPathUpdate = {};
-		var default_var = true;
-		var swapPath = function() {
-
-			// meiView.UI.dlg.items[0].toggleSelection();
-			// meiView.UI.fabrCanvas.renderAll();
-
-			if (default_var) {
-				variantPathUpdate['app.m3.tie'] = 'rdg1.app.m3.tie';
-				// variantPathUpdate['app01.m8'] = 'rdg1.n1l1s4m8';
-				default_var = false;
-			} else {
-				variantPathUpdate['app.m3.tie'] = 'lem.app.m3.tie';
-				// variantPathUpdate['app01.m8'] = 'lem.app01.m8';
-				default_var = true;
-			}
-			meiView.currentScore.updateVariantPath(variantPathUpdate);
-			meiView.displayCurrentPage();
-		}
-		
 		$(document).ready( function(){
 			
 			
