@@ -119,6 +119,7 @@ meiView.nextPage = function(){
   this.displayCurrentPage();
   this.UI.dlg && this.UI.dlg.hide();
   this.updateHistory();
+  setTimeout(function(){meiView.UI.fabrCanvas.renderAll()}, 0);
 }
 
 meiView.prevPage = function(){
@@ -126,13 +127,13 @@ meiView.prevPage = function(){
   this.displayCurrentPage();
   this.UI.dlg && this.UI.dlg.hide();
   this.updateHistory();
+  setTimeout(function(){meiView.UI.fabrCanvas.renderAll()}, 0);
 }
 
 meiView.jumpTo = function(i) {
   this.pages.jumpTo(i);
   this.displayCurrentPage();
 }
-
 
 meiView.pages = new meiView.Pages();
 meiView.scoreWidth = 1000;
