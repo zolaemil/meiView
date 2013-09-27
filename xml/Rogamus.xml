@@ -443,12 +443,12 @@
 											<note xml:id="n1l1s4m9" dur="1" pname="e" oct="3">
 												<syl wordpos="m">-li</syl>
 											</note>
-											<note xml:id="n2l1s4m9" dur="1" pname="e" oct="3">
+											<note dur="1" pname="e" oct="3">
 												<syl wordpos="t">-ter</syl>
 											</note>
 										</lem>
 										<rdg xml:id="rdg.app.n1l1s4m9" source="#BQ18 #FC2439 #Lo31922 #SG461">
-											<note xml:id="n2l1s4m9" dur="breve" pname="e" oct="3">
+											<note dur="breve" pname="e" oct="3">
 												<syl wordpos="t">-li - ter</syl>
 											</note>
 										</rdg>
@@ -791,7 +791,7 @@
 							</staff>
 							<staff n="3">
 								<layer>
-									<note xml:id="n1l1s3 m17" dur="breve" pname="e" oct="4">
+									<note xml:id="n1l1s3m17" dur="breve" pname="e" oct="4">
 										<syl wordpos="m"></syl>
 									</note>
 								</layer>

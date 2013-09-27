@@ -235,12 +235,17 @@ meiView.UI.renderPage = function(pageXML, options) {
     selectable: false,
   });
   meiView.UI.fabrCanvas.add(meiView.UI.scoreImg);
+  meiView.UI.fabrCanvas.renderAll();
 }
 
 meiView.UI.initCanvas = function(canvasid) {
 
   var canvas = new fabric.Canvas(canvasid);
   canvas.hoverCursor = 'pointer';
+
+  canvas.renderAll_Timed = function() {
+    setTimeout(function(){this.renderAll()}, 0); 
+  }
 
   canvas.findTarget = (function(originalFn) {
     return function() {
@@ -627,6 +632,8 @@ meiView.UI.SelectorPanel.prototype.draw = function(box) {
     obj.top += delta.y;
     this.canvas.add(obj);
   }
+  setTimeout(function(){this.canvas.renderAll()}, 10);
+  // this.canvas.renderAll();
   this.onDraw({appID:this.appID});
 }
 
