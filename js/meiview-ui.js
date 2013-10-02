@@ -299,6 +299,8 @@ meiView.UI.initCanvas = function(canvasid) {
     }
   });
   
+  canvas.allowTouchScrolling = true;
+  
   return canvas;
   
 }
