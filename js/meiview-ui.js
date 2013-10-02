@@ -110,7 +110,7 @@ meiView.UI.renderMei2Canvas = function(score, options) {
   var score_height = options.vexHeight;
   Vex.LogInfo('Rendering MEI... ');
   console.log(score);
-  MEI2VF.render_notation(score, tempCanvas, score_width, score_height);
+  MEI2VF.render_notation(score, tempCanvas.getElement(), score_width, score_height);
   Vex.LogInfo('Done rendering MEI');
   return tempCanvas;  
 }
@@ -235,7 +235,7 @@ meiView.UI.renderPage = function(pageXML, options) {
     selectable: false,
   });
   meiView.UI.fabrCanvas.add(meiView.UI.scoreImg);
-  meiView.UI.fabrCanvas.renderAll();
+  meiView.UI.fabrCanvas.renderAll_Hack();
 }
 
 meiView.UI.initCanvas = function(canvasid) {
@@ -243,8 +243,8 @@ meiView.UI.initCanvas = function(canvasid) {
   var canvas = new fabric.Canvas(canvasid);
   canvas.hoverCursor = 'pointer';
 
-  canvas.renderAll_Timed = function() {
-    setTimeout(function(){this.renderAll()}, 0); 
+  canvas.renderAll_Hack = function() {
+    setTimeout(function(){canvas.renderAll()}, 1000);
   }
 
   canvas.findTarget = (function(originalFn) {
@@ -632,8 +632,7 @@ meiView.UI.SelectorPanel.prototype.draw = function(box) {
     obj.top += delta.y;
     this.canvas.add(obj);
   }
-  setTimeout(function(){this.canvas.renderAll()}, 10);
-  // this.canvas.renderAll();
+  this.canvas.renderAll_Hack();
   this.onDraw({appID:this.appID});
 }
 
