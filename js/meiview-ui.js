@@ -74,10 +74,13 @@ meiView.UI.appID2appLabel = function(appID) {
 }
 
 meiView.UI.showTitle = function(show) {
+  if (!meiView.UI.titleDiv) {
+    meiView.UI.titleDiv = $('#title');
+  }
   if (show) {
-    $('#title').show();
+    $('#titlediv h4').append(meiView.UI.titleDiv);
   } else {
-    $('#title').hide();
+    meiView.UI.titleDiv.remove();//$('#title').hide();
   }  
 }
 
