@@ -144,6 +144,7 @@ meiView.displayCurrentPage = function() {
   this.UI.renderPage(pageXML, {vexWidth:meiView.scoreWidth, vexHeight:meiView.scoreHeight});
   this.UI.displayDots();
   meiView.UI.showTitle(meiView.pages.currentPageIndex === 0);
+  meiView.UI.fabrCanvas.calcOffset();
   meiView.UI.updatePageLabels(meiView.pages.currentPageIndex+1, meiView.pages.totalPages())
 }
 
