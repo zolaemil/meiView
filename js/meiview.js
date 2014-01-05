@@ -54,7 +54,9 @@ meiView.createSourceList = function(Apps) {
           if (!result[srcID]) {
             result[srcID] = [];
           }
-          result[srcID].push( { appID:app.xmlID } );
+          var measure_n = $($(meiView.MEI.score[0]).find('app[xml\\:id="'+app.xmlID+'"]').closest('measure')[0]).attr('n');
+          console.log('meiView.createSourceList() measure_n:' + measure_n);
+          result[srcID].push( { appID:app.xmlID, measureNo:measure_n } );
         } 
       } else {
         if (!result['lem']) {
@@ -88,16 +90,31 @@ meiView.Pages.prototype.nextPage = function() {
   }
 }
 
-meiView.Pages.prototype.jumpTo = function(pageno) {
-  if (0<=pageno && pageno<this.pages.length) {
-    this.currentPageIndex = pageno;
+meiView.Pages.prototype.jumpTo = function(pageNo) {
+  if (0<=pageNo && pageNo<this.pages.length) {
+    this.currentPageIndex = pageNo;
   }
 }
+
+meiView.Pages.prototype.jumpToMeasure = function(measureNo) {
+  this.jumpTo(this.whichPage(measureNo));
+}
+
 
 meiView.Pages.prototype.prevPage = function() {
   if (this.currentPageIndex>0) {
     this.currentPageIndex--;
   }
+}
+
+meiView.Pages.prototype.whichPage = function(measureNo) {
+  var result = -1;
+  $.each(this.pages, function(i, page) {
+    if (page.startMeasureN <= measureNo && measureNo <= page.endMeasureN) {
+      result = i;
+    }
+  });
+  return result;
 }
 
 meiView.Pages.prototype.currentPage = function() {
@@ -132,6 +149,12 @@ meiView.prevPage = function(){
 
 meiView.jumpTo = function(i) {
   this.pages.jumpTo(i);
+  this.displayCurrentPage();
+}
+
+meiView.jumpToMeasure = function(i) {
+  console.log('jump to measure:' + i);
+  this.pages.jumpToMeasure(i);
   this.displayCurrentPage();
 }
 

@@ -95,10 +95,15 @@ meiView.UI.fillSideBar = function(sidebardiv, sources, sidebar_class) {
     var listElem = sidebardiv.find('ul[id="'+src+'"]');
     for (var i=0; i<source.length; i++) {
       var appID = source[i].appID;
-      
-      listElem.append('<li id="' + meiView.UI.liID(src, appID) + '" class="' +  meiView.UI.toCSSId(appID) + '">' + meiView.UI.appID2appLabel(appID) + '</li>')
+      var measure_n = source[i].measureNo;
+      listElem.append('<li id="' + meiView.UI.liID(src, appID) + '" class="' +  meiView.UI.toCSSId(appID) + ' meiview-sidebar-item" onclick="meiView.UI.onSideBarClick(' + measure_n + ', \'' +  appID + '\')">' + meiView.UI.appID2appLabel(appID) + '</li>')
     }
   }
+}
+
+meiView.UI.onSideBarClick = function(measure_n, appID) {
+  meiView.jumpToMeasure(measure_n);
+  meiView.UI.ShowSelectorPanel(meiView.UI.dots[appID].info);  
 }
 
 meiView.UI.renderMei2Canvas = function(score, options) {
