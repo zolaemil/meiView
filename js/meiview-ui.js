@@ -117,7 +117,6 @@ meiView.UI.renderMei2Canvas = function(score, options) {
   var score_width = options.vexWidth;
   var score_height = options.vexHeight;
   Vex.LogInfo('Rendering MEI... ');
-  console.log(score);
   MEI2VF.render_notation(score, tempCanvas.getElement(), score_width, score_height);
   Vex.LogInfo('Done rendering MEI');
   return tempCanvas;  
@@ -140,7 +139,7 @@ meiView.UI.displayDots = function() {
       delete meiView.UI.dots[appID];
     }
   }
-  for (appID in meiView.MEI.APPs) {
+  for (appID in meiView.meiDoc.ALTs) {
     meiView.UI.dots[appID] = meiView.UI.displayDotForAPP(appID);
   }
 }
@@ -155,7 +154,7 @@ meiView.UI.displayDotForAPP = function(appID) {
   // staff number:
 
   // get the meausure number first, 
-  var app = $(meiView.MEI.score).find('app[xml\\:id="' + appID + '"]')[0];
+  var app = $(meiView.meiDoc.rich_score).find('app[xml\\:id="' + appID + '"]')[0];
   var parent_measure = $(app).parents('measure');
   var measure_n = parent_measure.attr('n');
 
@@ -302,8 +301,8 @@ meiView.UI.initCanvas = function(canvasid) {
       } else {
         meiView.UI.HideSelectorPanel();
       }
-      console.log(e.target);
-      console.log(e.target.meiViewID  + ': x:' + e.target.left + ', y:' + e.target.top);
+      Vex.LogInfo(e.target);
+      Vex.LogInfo(e.target.meiViewID  + ': x:' + e.target.left + ', y:' + e.target.top);
     }
   });
   
@@ -314,7 +313,7 @@ meiView.UI.initCanvas = function(canvasid) {
 }
 
 meiView.UI.onSelectorDraw = function(args) {
-  meiView.selectingState.enter(args.appID, meiView.currentScore.variantPath[args.appID].xmlID);
+  meiView.selectingState.enter(args.appID, meiView.meiDoc.sectionplane[args.appID].xmlID);
   meiView.UI.updateSidebar();
 }
 
@@ -342,7 +341,7 @@ meiView.UI.onSelectorHide = function() {
 }
 
 meiView.UI.addHightlightClasses = function(appID) {
-  var source = meiView.currentScore.variantPath[appID].source;
+  var source = meiView.meiDoc.sectionplane[appID].source;
   var sources = source ? source.split(' ') : ['lem'];
   for (var i=0;i<sources.length; i++) {
     var liID = meiView.UI.liID(sources[i], appID);
@@ -353,8 +352,8 @@ meiView.UI.addHightlightClasses = function(appID) {
 }
 
 meiView.UI.initSidebarHighlight = function() {
-  if (!meiView.currentScore) return;
-  for (appID in meiView.MEI.APPs) {
+  if (!meiView.meiDoc.sectionview_socre) return;
+  for (appID in meiView.meiDoc.ALTs) {
     meiView.UI.addHightlightClasses(appID);
   } 
 }
@@ -362,7 +361,7 @@ meiView.UI.initSidebarHighlight = function() {
 meiView.UI.updateSidebarHighlight = function(appID, oldVarID) {
   meiView.UI.addHightlightClasses(appID);
   if (oldVarID) {
-    source = meiView.MEI.APPs[appID].variants[oldVarID].source;
+    source = meiView.meiDoc.ALTs[appID].altitems[oldVarID].source;
     var sources = source ? source.split(' ') : ['lem'];
     for (var i=0;i<sources.length; i++) {
       var liID = meiView.UI.liID(sources[i], appID);
@@ -397,10 +396,10 @@ meiView.UI.updateSidebar = function(appID, oldVarID) {
 }
 
 meiView.UI.ShowSelectorPanel = function(dotInfo) {
-  var variantSlice = meiView.MEI.getSlice({start_n:dotInfo.measure_n, end_n:dotInfo.measure_n, staves:[dotInfo.staff_n], noClef:true, noKey:true, noMeter:true, noConnectors:true});
+  var variantSlice = meiView.meiDoc.getRichSlice({start_n:dotInfo.measure_n, end_n:dotInfo.measure_n, staves:[dotInfo.staff_n], noClef:true, noKey:true, noMeter:true, noConnectors:true});
   var panelItemParamList = [];
   var appID = dotInfo.appXmlID;
-  var variants = meiView.MEI.APPs[appID].variants 
+  var altitems = meiView.meiDoc.ALTs[appID].altitems;
 
   if (meiView.UI.dlg) {
     meiView.UI.dlg.hide();
@@ -418,21 +417,20 @@ meiView.UI.ShowSelectorPanel = function(dotInfo) {
   meiView.UI.dlg.onSelect = meiView.UI.onSelectorSelect;
   meiView.UI.dlg.onHide = meiView.UI.onSelectorHide;
 
-  for (xmlID in variants) {
-    var variant = variants[xmlID];
-    var tagname = variant.tagname;
-    var source = variant.source;
+  variantSlice.initSectionView();
+  for (xmlID in altitems) {
+    var altitem = altitems[xmlID];
+    var tagname = altitem.tagname;
+    var source = altitem.source;
     var replacements = {};
-    replacements[appID] = new MeiLib.AppReplacement(tagname, xmlID);
-    var singleVarScore = new MeiLib.SingleVariantPathScore(variantSlice, replacements);    
-    console.log('variant ' + xmlID + ': ');
-    console.log(singleVarScore.score);
+    replacements[appID] = xmlID;
+    variantSlice.updateSectionView(replacements);
     var text = 'Lemma';
     if (source) {
       text = source.replace(/#/g, '').replace(/ /g, ', ');
     }
-    var selected = (meiView.currentScore.variantPath[appID] === variant);
-    meiView.UI.dlg.addItem(text+':', singleVarScore.score, selected, xmlID);
+    var selected = (meiView.meiDoc.sectionplane[appID] === altitem);
+    meiView.UI.dlg.addItem(text+':', variantSlice.sectionview_score, selected, xmlID);
   }
   meiView.UI.dlg.draw();
 }

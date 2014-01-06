@@ -76,7 +76,6 @@ background-color: rgb(248,248,240);
 		
 		$(document).ready( function(){
 			
-			
 			$('#sidebar').position({
 				my: 'left top',
 				at: 'right+10 top',
@@ -86,14 +85,10 @@ background-color: rgb(248,248,240);
 			var titleElem = $('span.title')[0];
 			$(titleElem).html('Henricus Isaac: Rogamus te piissima virgo Maria');
 
-			// var wholePieceXML = meiView.getPageXML(new meiView.Page(1,24));
-			// var variant_mei = meiView.loadXMLString(wholePieceXML);
 			var xmlDoc = loadXMLDoc('xml/Rogamus.xml');
 			
-			meiView.MEI = new MeiLib.VariantMei(xmlDoc);
-			console.log(meiView.MEI.APPs);
-			meiView.Sources = meiView.createSourceList(meiView.MEI.APPs);
-			
+      meiView.meiDoc = new MeiLib.MeiDoc(xmlDoc);
+      meiView.Sources = meiView.createSourceList(meiView.meiDoc.ALTs);
 			meiView.UI.fillSideBar($('#accordion'), meiView.Sources, 'meiview-sidebar');
 			$('#accordion').accordion({
 				collapsible: true,
@@ -101,18 +96,13 @@ background-color: rgb(248,248,240);
 				active: false
 			});
 			
-			meiView.currentScore = new MeiLib.SingleVariantPathScore(meiView.MEI);
-			console.log(JSON.stringify(meiView.currentScore.variantPath))
+      meiView.meiDoc.initSectionView();
 			
 			meiView.pages.AddPage(1, 12);
 			meiView.pages.AddPage(13, 24);  
 			meiView.pages.AddPage(25, 36);  
 			meiView.pages.AddPage(37, 48);  
 			meiView.appReplacements = {};
-			// meiView.appReplacements['app.m3.tie'] = new MeiLib.AppReplacement('rdg', 'rdg1.app.m3.tie');
-			// meiView.appReplacements['app.n1l1s1m8'] = new MeiLib.AppReplacement('rdg', 'rdg.app.n1l1s1m8');
-			// meiView.appReplacements['app01.m8'] = new MeiLib.AppReplacement('rdg', 'rdg1.n1l1s4m8');
-			// meiView.appReplacements['app.n1l1s2m27'] = new MeiLib.AppReplacement('rdg', 'rdg1.app.n1l1s2m27');
 			meiView.UI.fabrCanvas = meiView.UI.initCanvas('maincanvas');
 			
 			frag_pg = $.bbq.getState('pg');
@@ -121,9 +111,7 @@ background-color: rgb(248,248,240);
 			}
 			else meiView.nextPage();
 		  meiView.UI.initSidebarHighlight();
-			// meiView.jumpTo(2);
-			// meiView.jumpTo(3);
-			})
+    })
 			</script>
 		</head>
 
