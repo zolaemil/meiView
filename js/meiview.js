@@ -44,18 +44,17 @@ meiView.createSourceList = function(Apps) {
   var result = {}
   for(appID in Apps) {
     var app = Apps[appID];
-    for(varXMLID in app.variants) {
-      var variantItem = app.variants[varXMLID];
-      if (variantItem.tagname === 'rdg') {
-        if (!variantItem.source) throw "meiView Error: no source specified for rdg: '" + variantItem.xmlID +"'";
-        var srcIDs = variantItem.source.split(' ');
+    for(varXMLID in app.altitems) {
+      var altitem = app.altitems[varXMLID];
+      if (altitem.tagname === 'rdg') {
+        if (!altitem.source) throw "meiView Error: no source specified for rdg: '" + altitem.xmlID +"'";
+        var srcIDs = altitem.source.split(' ');
         for (var k=0; k<srcIDs.length; k++) {
           var srcID = srcIDs[k];
           if (!result[srcID]) {
             result[srcID] = [];
           }
-          var measure_n = $($(meiView.MEI.score[0]).find('app[xml\\:id="'+app.xmlID+'"]').closest('measure')[0]).attr('n');
-          console.log('meiView.createSourceList() measure_n:' + measure_n);
+          var measure_n = $($(meiView.meiDoc.rich_score).find('app[xml\\:id="'+app.xmlID+'"]').closest('measure')[0]).attr('n');
           result[srcID].push( { appID:app.xmlID, measureNo:measure_n } );
         } 
       } else {
@@ -153,7 +152,6 @@ meiView.jumpTo = function(i) {
 }
 
 meiView.jumpToMeasure = function(i) {
-  console.log('jump to measure:' + i);
   this.pages.jumpToMeasure(i);
   this.displayCurrentPage();
 }
@@ -176,9 +174,9 @@ meiView.selectVariant = function(varXmlID) {
   meiView.selectingState.select(varXmlID);
 
   /* update variant path according to new selection */
-  var variantPathUpdate = {};
-  variantPathUpdate[meiView.selectingState.appID] = varXmlID;
-  meiView.currentScore.updateVariantPath(variantPathUpdate);
+  var sectionplaneUpdate = {};
+  sectionplaneUpdate[meiView.selectingState.appID] = varXmlID;
+  meiView.meiDoc.updateSectionView(sectionplaneUpdate);
 }
 
 /**
@@ -187,7 +185,7 @@ meiView.selectVariant = function(varXmlID) {
  */
 meiView.getPageXML = function(page) {
   var noMeter = (page.startMeasureN !== 1);
-  return meiView.currentScore.getSlice({start_n:page.startMeasureN, end_n:page.endMeasureN, noMeter:noMeter});
+  return meiView.meiDoc.getSectionViewSlice({start_n:page.startMeasureN, end_n:page.endMeasureN, noMeter:noMeter});
 }
 
 meiView.loadXMLString = function(txt) {
