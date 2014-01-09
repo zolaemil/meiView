@@ -14,7 +14,7 @@ meiView.Viewer = function(options) {
  * @options.rich {Boolean} whether to display rich features (grren dots, selectable staevs, etc.) or display 
  *       the lemma flat, without any interactive controls
  */
-mieView.Viewer.prototype.init = function(options){
+meiView.Viewer.prototype.init = function(options){
 
   var randomID = function() {
     return ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).substr(-8)
@@ -22,15 +22,26 @@ mieView.Viewer.prototype.init = function(options){
 
   this.id = options.id || randomID();
   this.MEI = options.MEI;
-  if (pages) {
+  this.MEI.initSectionView();
+  if (options.pages) {
     this.pages = options.pages;
   } else {
     this.pages = new meiView.Pages();
-    this.parsePages(this.MEI);
+    if (this.parsePages) {
+      this.parsePages(this.MEI);
+    }
   }
+  console.log('pages:')
+  console.log(this.pages);
   this.scoreWidth = options.width || 1000;
   this.scoreHeight = options.height || 1000;
   this.Sources = this.createSourceList(this.MEI.ALTs);
+  this_viewer = this;
+  this.UI = new meiView.UI({
+    viewer: this_viewer,
+    maindiv: options.maindiv,
+    title: options.title
+  });  
 }
 
 meiView.Viewer.prototype.createSourceList = function(Apps) {
@@ -98,6 +109,7 @@ meiView.Pages.prototype.nextPage = function() {
   if (this.currentPageIndex<this.pages.length-1) {
     this.currentPageIndex++;
   }
+  console.log('meiView.Pages.prototype.nextPage: ' + this.currentPageIndex);
 }
 
 meiView.Pages.prototype.jumpTo = function(pageNo) {
@@ -127,5 +139,80 @@ meiView.Pages.prototype.whichPage = function(measureNo) {
   return result;
 }
 
+meiView.Pages.prototype.currentPage = function() {
+  return this.pages[this.currentPageIndex];
+}
 
+meiView.Pages.prototype.totalPages = function() {
+  return this.pages.length;
+}
 
+meiView.Viewer.prototype.nextPage = function(){
+  this.pages.nextPage();
+  this.displayCurrentPage();
+  this.UI.dlg && this.UI.dlg.hide();
+  this.updateHistory();
+  setTimeout(function(){this.UI.fabrCanvas.renderAll()}, 0);
+}
+
+meiView.Viewer.prototype.prevPage = function(){
+  this.pages.prevPage();
+  this.displayCurrentPage();
+  this.UI.dlg && this.UI.dlg.hide();
+  this.updateHistory();
+  setTimeout(function(){this.UI.fabrCanvas.renderAll()}, 0);
+}
+
+meiView.Viewer.prototype.jumpTo = function(i) {
+  this.pages.jumpTo(i);
+  this.displayCurrentPage();
+}
+
+meiView.Viewer.prototype.jumpToMeasure = function(i) {
+  this.pages.jumpToMeasure(i);
+  this.displayCurrentPage();
+}
+
+meiView.Viewer.prototype.displayCurrentPage = function() {
+  var pageXML = this.getPageXML(this.pages.currentPage());
+  this.UI.renderPage(pageXML, {vexWidth:meiView.scoreWidth, vexHeight:meiView.scoreHeight});
+  this.UI.displayDots();
+  this.UI.showTitle(meiView.pages.currentPageIndex === 0);
+  this.UI.fabrCanvas.calcOffset();
+  this.UI.updatePageLabels(this.pages.currentPageIndex+1, this.pages.totalPages())
+}
+
+meiView.Viewer.prototype.selectVariant = function(varXmlID) {
+  /* assuming meiView.selectingState.on === true */
+  this.selectingState.select(varXmlID);
+
+  /* update variant path according to new selection */
+  var sectionplaneUpdate = {};
+  sectionplaneUpdate[this.selectingState.appID] = varXmlID;
+  this.MEI.updateSectionView(sectionplaneUpdate);
+}
+
+/**
+ * @param page {mewView.Page} to specify measure numbers.
+ * @return XML {XML DOM object}
+ */
+meiView.Viewer.prototype.getPageXML = function(page) {
+  var noMeter = (page.startMeasureN !== 1);
+  return this.MEI.getSectionViewSlice({start_n:page.startMeasureN, end_n:page.endMeasureN, noMeter:noMeter});
+}
+
+meiView.Viewer.prototype.loadXMLString = function(txt) {
+  var xmlDoc;
+  if (window.DOMParser)
+  {
+    parser=new DOMParser();
+    xmlDoc=parser.parseFromString(txt,"text/xml");
+  }
+  else // Internet Explorer
+  {
+    xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+    xmlDoc.async=false;
+    xmlDoc.loadXML(txt); 
+  }
+  return xmlDoc;
+}

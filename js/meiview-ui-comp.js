@@ -3,14 +3,73 @@ meiView.UI = function(options) {
 };
 
 meiView.UI.prototype.init = function(options) {
-  this.viewer = option.viewer;
-  this.maindiv = option.maindiv;
+  this.viewer = options.viewer;
+  this.maindiv = options.maindiv;
   $(this.maindiv).attr('id', this.viewer.id);
-  $(this.maindiv).append('<div id="meiview-ui-main style="margin: 10px 20px auto"/>');
-  //TODO: add other UI elems...
+  this.canvas_id = 'meiview-canvas-' + this.viewer.id;
+  this.score_id = 'meiview-score-' + this.viewer.id;
+  console.log('meiView.UI.prototype.init(): {1}');
+  this.base_html = '<div class="meiview-main" style="margin: 10px 20px auto">\
+    <div id="' + this.score_id + '" align="center" class="ui-widget-content">\
+    	<button class="ui-widget-content ui-corner-all"onclick="meiView.prevPage()"><span class="ui-icon ui-icon-triangle-1-w"/></button>\
+    	<span id="pageNumber-top" width="10">0/0</span>\
+    	<button class="ui-widget-content ui-corner-all" onclick="meiView.nextPage()"><span class="ui-icon ui-icon-triangle-1-e"/></button>\
+    	<div id="titlediv"><h4><span id="title" class="title" property="dc:title"></span></h4></div>\
+    	<canvas class="canvas" id="' + this.canvas_id + '" width="780" height="700"></canvas>\
+    	<button class="ui-widget-content ui-corner-all"onclick="meiView.prevPage()"><span class="ui-icon ui-icon-triangle-1-w"/></button>\
+    	<span id="pageNumber-bottom" width="10">0/0</span>\
+    	<button class="ui-widget-content ui-corner-all" onclick="meiView.nextPage()"><span class="ui-icon ui-icon-triangle-1-e"/></button>\
+    </div>\
+    <div id="sidebar">\
+    	<div id="accordion"> \
+    	</div>\
+    	<div id="legend" >\
+    		<p>\
+    			<ul>\
+    				<li><h5>Click on the green dots to view the differences between the sources!</h5></li>\
+    				<li class=".meiview-source-has-variant-on">\
+    					When a  <text style="color: rgb(190,0,0)">Source is highlighted</text> it means some of its \
+    					variants are currently displayed in the score.\
+    				</li>\
+    				<li>\
+    					When a <text style="color: rgb(185,0,0);">Variant is highlighted</text> it means that variant is currently \
+    					displayed in the score.\
+    				</li>\
+    			</ul>\
+    		</p>\
+    	</div>\
+    </div> \
+  </div>';
+  console.log(this.maindiv);
+  $(this.maindiv).append(this.base_html);
+  $(this.maindiv).append('<div class="meiview-test"/>');
   this.titleDiv = $(this.maindiv).find('.titlediv');
   this.dots = {};
   meiView.UI.addUI(this.viewer.id, this);
+  console.log('meiView.UI.prototype.init(): {2}');
+  console.log($(this.maindiv).find('#' + this.score_id))
+	$(this.maindiv).find('#sidebar').position({
+		my: 'left top',
+		at: 'right+10 top',
+		of: $(this.maindiv).find('#' + this.score_id)
+	})
+  console.log('meiView.UI.prototype.init(): {2.1}');
+  
+  var titleElem = $(this.maindiv).find('span.title')[0];
+	$(titleElem).html(options.title);
+
+	this.fillSideBar($(this.maindiv).find('#accordion'), this.viewer.Sources, 'meiview-sidebar');
+	$(this.maindiv).find('#accordion').accordion({
+		collapsible: true,
+		heightStyle: "content",
+		active: false
+	});
+  console.log('meiView.UI.prototype.init(): {2.2}');
+				
+	this.fabrCanvas = this.initCanvas(this.canvas_id);
+  this.initSidebarHighlight();
+  console.log('meiView.UI.prototype.init(): {3}');
+  
 }
 
 meiView.UI.prototype.toCSSId = function(identifierString) {
@@ -86,7 +145,7 @@ meiView.UI.prototype.fillSideBar = function(sidebardiv, sources, sidebar_class) 
     for (var i=0; i<source.length; i++) {
       var appID = source[i].appID;
       var measure_n = source[i].measureNo;
-      listElem.append('<li id="' + this.liID(src, appID) + '" class="' +  this.toCSSId(appID) + ' meiview-sidebar-item" onclick="meiView.UI.onSideBarClick(' this.viewer.id + ', ' + measure_n + ', \'' +  appID + '\')">' + this.appID2appLabel(appID) + '</li>')
+      listElem.append('<li id="' + this.liID(src, appID) + '" class="' +  this.toCSSId(appID) + ' meiview-sidebar-item" onclick="meiView.UI.onSideBarClick(' + this.viewer.id + ', ' + measure_n + ', \'' +  appID + '\')">' + this.appID2appLabel(appID) + '</li>')
     }
   }
 }
@@ -370,20 +429,20 @@ meiView.UI.prototype.updateSidebar = function(appID, oldVarID) {
   }
   if (this.viewer.selectingState.ON) {
     /* Disable sources without variants at the currently selected <app> */
-    $(this.maindiv).('div.meiview-sidebar').not(':has(li.' + this.toCSSId(this.viewer.selectingState.appID) + ')').prev().addClass('meiview-source-disabled');
+    $(this.maindiv).find('div.meiview-sidebar').not(':has(li.' + this.toCSSId(this.viewer.selectingState.appID) + ')').prev().addClass('meiview-source-disabled');
     /* Close up variant list the source is disbaled */
-    if ($(this.maindiv).('.meiview-source-disabled.ui-accordion-header-active').length>0) { 
-      $(this.maindiv).("#accordion").accordion( "option", "active", false);
+    if ($(this.maindiv).find('.meiview-source-disabled.ui-accordion-header-active').length>0) { 
+      $(this.maindiv).find("#accordion").accordion( "option", "active", false);
     }
     /* Disable clicking on sources */
-    $(this.maindiv).('#accordion').on('accordionbeforeactivate', function(event, ui) {
+    $(this.maindiv).find('#accordion').on('accordionbeforeactivate', function(event, ui) {
       event.preventDefault();
     });
   } else {
     /* Enable all sources */
-    $(this.maindiv).('h3.meiview-source-disabled').removeClass('meiview-source-disabled');
+    $(this.maindiv).find('h3.meiview-source-disabled').removeClass('meiview-source-disabled');
     /* Enable clicking on sources */
-    $(this.maindiv).('#accordion').off();
+    $(this.maindiv).find('#accordion').off();
   }
 }
 
