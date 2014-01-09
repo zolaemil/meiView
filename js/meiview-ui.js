@@ -122,15 +122,6 @@ meiView.UI.renderMei2Canvas = function(score, options) {
   return tempCanvas;  
 }
 
-meiView.UI.DisplayMainMEI = function(score, canvas, options) {
-  var score_width = $(canvas).attr('width') - 20
-  var score_height = $(canvas).attr('height') - 20;
-  Vex.LogInfo('Rendering main MEI... ');
-  MEI2VF.render_notation(score, canvas, score_width, score_height);
-  Vex.LogInfo('Done rendering main MEI');
-  return canvas;  
-}
-
 meiView.UI.displayDots = function() {
   for (appID in meiView.UI.dots) {
     if (meiView.UI.dots[appID])
