@@ -5,11 +5,11 @@ meiView.UI = function(options) {
 meiView.UI.prototype.init = function(options) {
   this.viewer = options.viewer;
   this.maindiv = options.maindiv;
-  $(this.maindiv).attr('id', this.viewer.id);
+  this.main_id = 'meiview-main-' + this.viewer.id;
   this.canvas_id = 'meiview-canvas-' + this.viewer.id;
   this.score_id = 'meiview-score-' + this.viewer.id;
-  this.base_html = '<div class="meiview-main" style="margin: 10px 20px auto">\
-    <div id="' + this.score_id + '" align="center" class="ui-widget-content">\
+  this.base_html = '<div class="meiview-main" id="' + this.main_id + '" style="margin: 10px 20px auto">\
+    <div id="' + this.score_id + '" align="center" class="ui-widget-content meiview-scorediv">\
     	<button class="ui-widget-content ui-corner-all"onclick="meiView.UI.callback(\'' + this.viewer.id + '\', \'prevPage\')"><span class="ui-icon ui-icon-triangle-1-w"/></button>\
     	<span id="pageNumber-top" width="10">0/0</span>\
     	<button class="ui-widget-content ui-corner-all" onclick="meiView.UI.callback(\'' + this.viewer.id + '\', \'nextPage\')"><span class="ui-icon ui-icon-triangle-1-e"/></button>\
@@ -40,17 +40,25 @@ meiView.UI.prototype.init = function(options) {
     </div> \
   </div>';
   $(this.maindiv).append(this.base_html);
-  $(this.maindiv).append('<div class="meiview-test"/>');
   this.titleDiv = $(this.maindiv).find('.titlediv');
   this.dots = {};
   meiView.UI.addObject(this.viewer.id, this.viewer);
   meiView.UI.addObject(this.viewer.id + '-ui', this);
   // console.log($(this.maindiv).find('#' + this.score_id))
+
+  // attach the sidebar to the score div
+  // NOTE: aligning the 'top' property is buggy in jquery-ui, so it has to be done manually
+  //       TODO: padding is hard-coded
 	$(this.maindiv).find('#sidebar').position({
-		my: 'left top',
-		at: 'right+10 top',
-		of: $(this.maindiv).find('#' + this.score_id)
-	})
+		my: 'left',
+		at: 'right+10',
+		of: $('#' + this.score_id)
+	});
+	var sH = $('#' + this.score_id).height();
+	var H = Number(sH)
+	$(this.maindiv).find('#sidebar').css('top', -1*H-20);
+  $(this.maindiv).css('height', this.maxHeight() + 20);
+  $('#' + this.main_id).css('height', this.maxHeight() + 20);
   
   var titleElem = $(this.maindiv).find('span.title')[0];
 	$(titleElem).html(options.title);
@@ -65,6 +73,20 @@ meiView.UI.prototype.init = function(options) {
 	this.fabrCanvas = this.initCanvas(this.canvas_id);
   this.initSidebarHighlight();
   
+}
+
+meiView.UI.prototype.maxHeight = function() {
+  //TODO: calculate max height of accordion/sidebar
+	var str_scoreH = $('#' + this.score_id).height();
+	var scoreH = Number(str_scoreH);
+	var sideH = 0;
+  var side = $(this.maindiv).find('#sidebar')[0];
+  if (side) {
+    str_sideH = $(side).height();
+  	sideH = Number(str_sideH);
+  }
+  
+  return Math.max(scoreH, sideH);
 }
 
 meiView.UI.prototype.toCSSId = function(identifierString) {
