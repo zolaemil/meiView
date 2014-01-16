@@ -90,6 +90,18 @@ background-color: rgb(248,248,240);
         pages: pagination,
         title: 'Henricus Isaac: Rogamus te piissima virgo Maria',
       });
+
+      var pagination2 = new meiView.Pages();
+			pagination2.AddPage(1, 12);
+			pagination2.AddPage(13, 24);  
+			pagination2.AddPage(25, 36);  
+			pagination2.AddPage(37, 48);  
+      var viewer2 = new meiView.Viewer({
+        maindiv: $('#meiview-container-2'),
+        MEI: meiDoc,
+        pages: pagination2,
+        title: 'Henricus Isaac: Rogamus te piissima virgo Maria',
+      });
       			
       // frag_pg = $.bbq.getState('pg');
       // if (frag_pg != undefined) {
@@ -105,6 +117,8 @@ background-color: rgb(248,248,240);
 			<script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
 			
 			<div id="meiview-container">
+			</div>
+			<div id="meiview-container-2">
 			</div>
 
 		</body>

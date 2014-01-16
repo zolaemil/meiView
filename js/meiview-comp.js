@@ -40,7 +40,7 @@ meiView.Viewer.prototype.init = function(options){
   this.UI = new meiView.UI({
     viewer: this_viewer,
     maindiv: options.maindiv,
-    title: options.title
+    title: options.title,
   });  
 }
 
@@ -151,16 +151,17 @@ meiView.Viewer.prototype.nextPage = function(){
   this.pages.nextPage();
   this.displayCurrentPage();
   this.UI.dlg && this.UI.dlg.hide();
-  this.updateHistory();
-  setTimeout(function(){this.UI.fabrCanvas.renderAll()}, 0);
+  // this.updateHistory();
+  // console.log(this.UI.fabrCanvas);
+  // setTimeout(function(){this.UI.fabrCanvas.renderAll()}, 0);
 }
 
 meiView.Viewer.prototype.prevPage = function(){
   this.pages.prevPage();
   this.displayCurrentPage();
   this.UI.dlg && this.UI.dlg.hide();
-  this.updateHistory();
-  setTimeout(function(){this.UI.fabrCanvas.renderAll()}, 0);
+  // this.updateHistory();
+  // setTimeout(function(){this.UI.fabrCanvas.renderAll()}, 0);
 }
 
 meiView.Viewer.prototype.jumpTo = function(i) {
@@ -175,9 +176,9 @@ meiView.Viewer.prototype.jumpToMeasure = function(i) {
 
 meiView.Viewer.prototype.displayCurrentPage = function() {
   var pageXML = this.getPageXML(this.pages.currentPage());
-  this.UI.renderPage(pageXML, {vexWidth:meiView.scoreWidth, vexHeight:meiView.scoreHeight});
+  this.UI.renderPage(pageXML, {vexWidth:this.scoreWidth, vexHeight:this.scoreHeight});
   this.UI.displayDots();
-  this.UI.showTitle(meiView.pages.currentPageIndex === 0);
+  this.UI.showTitle(this.pages.currentPageIndex === 0);
   this.UI.fabrCanvas.calcOffset();
   this.UI.updatePageLabels(this.pages.currentPageIndex+1, this.pages.totalPages())
 }

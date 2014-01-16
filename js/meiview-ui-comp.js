@@ -10,14 +10,14 @@ meiView.UI.prototype.init = function(options) {
   this.score_id = 'meiview-score-' + this.viewer.id;
   this.base_html = '<div class="meiview-main" style="margin: 10px 20px auto">\
     <div id="' + this.score_id + '" align="center" class="ui-widget-content">\
-    	<button class="ui-widget-content ui-corner-all"onclick="meiView.prevPage()"><span class="ui-icon ui-icon-triangle-1-w"/></button>\
+    	<button class="ui-widget-content ui-corner-all"onclick="meiView.UI.callback(\'' + this.viewer.id + '\', \'prevPage\')"><span class="ui-icon ui-icon-triangle-1-w"/></button>\
     	<span id="pageNumber-top" width="10">0/0</span>\
-    	<button class="ui-widget-content ui-corner-all" onclick="meiView.nextPage()"><span class="ui-icon ui-icon-triangle-1-e"/></button>\
+    	<button class="ui-widget-content ui-corner-all" onclick="meiView.UI.callback(\'' + this.viewer.id + '\', \'nextPage\')"><span class="ui-icon ui-icon-triangle-1-e"/></button>\
     	<div id="titlediv"><h4><span id="title" class="title" property="dc:title"></span></h4></div>\
     	<canvas class="canvas" id="' + this.canvas_id + '" width="780" height="700"></canvas>\
-    	<button class="ui-widget-content ui-corner-all"onclick="meiView.prevPage()"><span class="ui-icon ui-icon-triangle-1-w"/></button>\
+    	<button class="ui-widget-content ui-corner-all"onclick="meiView.UI.callback(\'' + this.viewer.id + '\', \'prevPage\')"><span class="ui-icon ui-icon-triangle-1-w"/></button>\
     	<span id="pageNumber-bottom" width="10">0/0</span>\
-    	<button class="ui-widget-content ui-corner-all" onclick="meiView.nextPage()"><span class="ui-icon ui-icon-triangle-1-e"/></button>\
+    	<button class="ui-widget-content ui-corner-all" onclick="meiView.UI.callback(\'' + this.viewer.id + '\', \'nextPage\')"><span class="ui-icon ui-icon-triangle-1-e"/></button>\
     </div>\
     <div id="sidebar">\
     	<div id="accordion"> \
@@ -43,7 +43,9 @@ meiView.UI.prototype.init = function(options) {
   $(this.maindiv).append('<div class="meiview-test"/>');
   this.titleDiv = $(this.maindiv).find('.titlediv');
   this.dots = {};
-  meiView.UI.addUI(this.viewer.id, this);
+  meiView.UI.addObject(this.viewer.id, this.viewer);
+  meiView.UI.addObject(this.viewer.id + '-ui', this);
+  // console.log($(this.maindiv).find('#' + this.score_id))
 	$(this.maindiv).find('#sidebar').position({
 		my: 'left top',
 		at: 'right+10 top',
@@ -138,9 +140,13 @@ meiView.UI.prototype.fillSideBar = function(sidebardiv, sources, sidebar_class) 
     for (var i=0; i<source.length; i++) {
       var appID = source[i].appID;
       var measure_n = source[i].measureNo;
-      listElem.append('<li id="' + this.liID(src, appID) + '" class="' +  this.toCSSId(appID) + ' meiview-sidebar-item" onclick="meiView.UI.onSideBarClick(' + this.viewer.id + ', ' + measure_n + ', \'' +  appID + '\')">' + this.appID2appLabel(appID) + '</li>')
+      listElem.append('<li id="' + this.liID(src, appID) + '" class="' +  this.toCSSId(appID) + ' meiview-sidebar-item" onclick="meiView.UI.callback(\'' + this.viewer.id + '-ui\', \'onSideBarClick\', {measure_n: ' + measure_n + ', appID: \'' +  appID + '\'})">' + this.appID2appLabel(appID) + '</li>')
     }
   }
+}
+
+meiView.UI.callback = function(id, fname, params) {
+  meiView.UI.objects[id][fname](params);
 }
 
 meiView.UI.onSideBarClick = function(id, measure_n, appID) {
@@ -148,13 +154,13 @@ meiView.UI.onSideBarClick = function(id, measure_n, appID) {
 }
 
 meiView.UI.objects = {};
-meiView.UI.addUI = function(id, obj) {
-  meiView.UI[id] = obj;
+meiView.UI.addObject = function(id, obj) {
+  meiView.UI.objects[id] = obj;
 };
 
-meiView.UI.prototype.onSideBarClick = function(measure_n, appID) {
-  this.viewer.jumpToMeasure(measure_n);
-  this.ShowSelectorPanel(this.dots[appID].info);  
+meiView.UI.prototype.onSideBarClick = function(params) {
+  this.viewer.jumpToMeasure(params.measure_n);
+  this.ShowSelectorPanel(this.dots[params.appID].info);  
 }
 
 meiView.UI.prototype.renderMei2Canvas = function(score, options) {
@@ -440,6 +446,8 @@ meiView.UI.prototype.updateSidebar = function(appID, oldVarID) {
 }
 
 meiView.UI.prototype.ShowSelectorPanel = function(dotInfo) {
+  console.log('meiView.UI.prototype.ShowSelectorPanel() this:');
+  console.log(this);
   var variantSlice = this.viewer.MEI.getRichSlice({start_n:dotInfo.measure_n, end_n:dotInfo.measure_n, staves:[dotInfo.staff_n], noClef:true, noKey:true, noMeter:true, noConnectors:true});
   var panelItemParamList = [];
   var appID = dotInfo.appXmlID;
@@ -458,9 +466,10 @@ meiView.UI.prototype.ShowSelectorPanel = function(dotInfo) {
     UI: this,
   });
   
-  this.dlg.onDraw = this.onSelectorDraw;
-  this.dlg.onSelect = this.onSelectorSelect;
-  this.dlg.onHide = this.onSelectorHide;
+  self = this;
+  this.dlg.onDraw = function(args) { self.onSelectorDraw(args) };
+  this.dlg.onSelect = function (args) { self.onSelectorSelect(args) };
+  this.dlg.onHide = function () { self.onSelectorHide() };
 
   variantSlice.initSectionView();
   for (xmlID in altitems) {
@@ -533,7 +542,7 @@ meiView.SelectorPanel.prototype.setCanvas = function(fabricCanvas) {
 
 meiView.SelectorPanel.prototype.addItem = function(text, singleVarSliceXML, selected, xmlID) {
   var imgData = this.UI.renderMei2Img(singleVarSliceXML, { vexWidth:this.measureWidth, vexHeight:this.measureHeight });
-  var newItem = new this.UI.SelectorItem({text:text, imgData:imgData, xmlID:xmlID});
+  var newItem = new meiView.SelectorItem({text:text, imgData:imgData, xmlID:xmlID});
   this.items.push(newItem);
   if (selected) {
     this.select(this.items.length-1);
@@ -701,7 +710,7 @@ meiView.SelectorPanel.prototype.hide = function() {
 }
 
 meiView.SelectorPanel.prototype.select = function(i) {
-  
+
   if (0<=i && i<this.items.length) {
     
     //switch off highlight on prviously selected item
