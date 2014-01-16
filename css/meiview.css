@@ -1,0 +1,28 @@
+#sidebar {
+	width: 250px;
+	height: auto;
+}
+.meiview-scorediv {
+	width: 780px;
+	height: 800px;
+	border: 1px solid rgb(148,148,130);
+	padding: 10px;
+}
+	
+.pagination ul>li>a {
+	background-color: rgb(248,248,240);
+	color: rgb(100,100,100);
+}
+.meiview-sidebar-item:hover {
+  cursor: pointer;
+  background-color: grey;
+}
+.meiview-variant-on {
+	color: rgb(185,0,0);
+}
+.meiview-source-has-variant-on {
+	color: rgb(190,0,0);
+}
+.meiview-source-disabled {
+	color: rgb(180,180,180);
+}
