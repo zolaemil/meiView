@@ -8,7 +8,6 @@ meiView.UI.prototype.init = function(options) {
   $(this.maindiv).attr('id', this.viewer.id);
   this.canvas_id = 'meiview-canvas-' + this.viewer.id;
   this.score_id = 'meiview-score-' + this.viewer.id;
-  console.log('meiView.UI.prototype.init(): {1}');
   this.base_html = '<div class="meiview-main" style="margin: 10px 20px auto">\
     <div id="' + this.score_id + '" align="center" class="ui-widget-content">\
     	<button class="ui-widget-content ui-corner-all"onclick="meiView.prevPage()"><span class="ui-icon ui-icon-triangle-1-w"/></button>\
@@ -40,20 +39,16 @@ meiView.UI.prototype.init = function(options) {
     	</div>\
     </div> \
   </div>';
-  console.log(this.maindiv);
   $(this.maindiv).append(this.base_html);
   $(this.maindiv).append('<div class="meiview-test"/>');
   this.titleDiv = $(this.maindiv).find('.titlediv');
   this.dots = {};
   meiView.UI.addUI(this.viewer.id, this);
-  console.log('meiView.UI.prototype.init(): {2}');
-  console.log($(this.maindiv).find('#' + this.score_id))
 	$(this.maindiv).find('#sidebar').position({
 		my: 'left top',
 		at: 'right+10 top',
 		of: $(this.maindiv).find('#' + this.score_id)
 	})
-  console.log('meiView.UI.prototype.init(): {2.1}');
   
   var titleElem = $(this.maindiv).find('span.title')[0];
 	$(titleElem).html(options.title);
@@ -64,11 +59,9 @@ meiView.UI.prototype.init = function(options) {
 		heightStyle: "content",
 		active: false
 	});
-  console.log('meiView.UI.prototype.init(): {2.2}');
 				
 	this.fabrCanvas = this.initCanvas(this.canvas_id);
   this.initSidebarHighlight();
-  console.log('meiView.UI.prototype.init(): {3}');
   
 }
 
