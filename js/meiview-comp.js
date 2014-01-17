@@ -31,8 +31,6 @@ meiView.Viewer.prototype.init = function(options){
       this.parsePages(this.MEI);
     }
   }
-  console.log('pages:')
-  console.log(this.pages);
   this.scoreWidth = options.width || 1000;
   this.scoreHeight = options.height || 1000;
   this.Sources = this.createSourceList(this.MEI.ALTs);
@@ -109,7 +107,6 @@ meiView.Pages.prototype.nextPage = function() {
   if (this.currentPageIndex<this.pages.length-1) {
     this.currentPageIndex++;
   }
-  console.log('meiView.Pages.prototype.nextPage: ' + this.currentPageIndex);
 }
 
 meiView.Pages.prototype.jumpTo = function(pageNo) {
