@@ -149,7 +149,6 @@ meiView.Viewer.prototype.nextPage = function(){
   this.pages.nextPage();
   this.displayCurrentPage();
   this.UI.dlg && this.UI.dlg.hide();
-  // this.updateHistory();
   // setTimeout(function(){this.UI.fabrCanvas.renderAll()}, 0);
 }
 
@@ -157,7 +156,6 @@ meiView.Viewer.prototype.prevPage = function(){
   this.pages.prevPage();
   this.displayCurrentPage();
   this.UI.dlg && this.UI.dlg.hide();
-  // this.updateHistory();
   // setTimeout(function(){this.UI.fabrCanvas.renderAll()}, 0);
 }
 
