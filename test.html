@@ -72,16 +72,25 @@ permissions and limitations under the License.
         title: 'Henricus Isaac: Rogamus te piissima virgo Maria',
       });
 
-      var pagination2 = new meiView.Pages();
-			pagination2.AddPage(1, 12);
-			pagination2.AddPage(13, 24);  
-			pagination2.AddPage(25, 36);  
-			pagination2.AddPage(37, 48);  
-      var viewer2 = new meiView.Viewer({
-        maindiv: $('#meiview-container-2'),
-        MEI: meiDoc,
-        pages: pagination2,
-        title: 'Henricus Isaac: Rogamus te piissima virgo Maria',
+
+      var loadedXMLs = {};
+      var meiDocs = {};
+      var paginations = {};
+      var viewers = {};
+      
+      TCID = 'CanonicalMEI02';
+      TCTitle = 'Canonical MEI - 02';
+      $('#tests').append('<div id="meiview-container-' + TCID + '"/>');
+		  loadedXMLs[TCID] = loadXMLDoc('xml/TC.CanonicalMEI.02.xml');
+      meiDocs[TCID] = new MeiLib.MeiDoc(loadedXMLs[TCID]);
+      paginations[TCID] = new meiView.Pages();
+      paginations[TCID].AddPage(1, 2);
+
+      viewers[TCID] = new meiView.Viewer({
+        maindiv: $('#meiview-container-' + TCID),
+        MEI: meiDocs[TCID],
+        pages: paginations[TCID],
+        title: TCTitle,
       });
       			
       // frag_pg = $.bbq.getState('pg');
@@ -90,18 +99,19 @@ permissions and limitations under the License.
       // }
       // else meiView.nextPage();
       viewer.nextPage();
-      viewer2.nextPage();
+      // viewers[TCID].nextPage();
     })
 			</script>
 		</head>
 
 		<body>
 			<script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
-			
-			<div id="meiview-container">
-			</div>
-			<div id="meiview-container-2">
-			</div>
+			<div id="tests">
+  			<div id="meiview-container">
+  			</div>
+  			<div id="meiview-container-2">
+  			</div>
+      </div>
 
 		</body>
 		</html>
