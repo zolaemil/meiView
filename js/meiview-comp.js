@@ -49,17 +49,18 @@ meiView.Viewer.prototype.createSourceList = function(Apps) {
     for(varXMLID in app.altitems) {
       var altitem = app.altitems[varXMLID];
       if (altitem.tagname === 'rdg') {
-        if (!altitem.source) throw "meiView Error: no source specified for rdg: '" + altitem.xmlID +"'";
-        var srcIDs = altitem.source.split(' ');
-        for (var k=0; k<srcIDs.length; k++) {
-          var srcID = srcIDs[k];
-          if (!result[srcID]) {
-            result[srcID] = [];
-          }
-          var measure_n = $($(this.MEI.rich_score).find('app[xml\\:id="'+app.xmlID+'"]').closest('measure')[0]).attr('n');
-          result[srcID].push( { appID:app.xmlID, measureNo:measure_n } );
-        } 
-      } else {
+        if (altitem.source) {
+          var srcIDs = altitem.source.split(' ');
+          for (var k=0; k<srcIDs.length; k++) {
+            var srcID = srcIDs[k];
+            if (!result[srcID]) {
+              result[srcID] = [];
+            }
+            var measure_n = $($(this.MEI.rich_score).find('app[xml\\:id="'+app.xmlID+'"]').closest('measure')[0]).attr('n');
+            result[srcID].push( { appID:app.xmlID, measureNo:measure_n } );
+          } 
+        }
+      } else if (altitem.tagname === 'lem') {
         if (!result['lem']) {
           result['lem'] = [];
         }
@@ -149,7 +150,6 @@ meiView.Viewer.prototype.nextPage = function(){
   this.displayCurrentPage();
   this.UI.dlg && this.UI.dlg.hide();
   // this.updateHistory();
-  // console.log(this.UI.fabrCanvas);
   // setTimeout(function(){this.UI.fabrCanvas.renderAll()}, 0);
 }
 
@@ -172,6 +172,7 @@ meiView.Viewer.prototype.jumpToMeasure = function(i) {
 }
 
 meiView.Viewer.prototype.displayCurrentPage = function() {
+  //TODO: remove non-displayed staves -- Here or in meilib.js when creating the section view?
   var pageXML = this.getPageXML(this.pages.currentPage());
   this.UI.renderPage(pageXML, {vexWidth:this.scoreWidth, vexHeight:this.scoreHeight});
   this.UI.displayDots();
