@@ -36,28 +36,17 @@ permissions and limitations under the License.
 	<script type="text/JavaScript" src="support/jquery.ba-bbq.min.js"></script>
 	<script type="text/JavaScript" src="support/vexflow-min.js"></script>
 
-  <!-- MEITOVEXFLOW SOURCES FOR DEBUGGING  -->
-	<script type="text/JavaScript" src="../MEItoVexFlow/meilib.js"></script>
-	<script type="text/JavaScript" src="../MEItoVexFlow/tables.js"></script>
-	<script type="text/JavaScript" src="../MEItoVexFlow/meitovexflow.js"></script>
-	<script type="text/JavaScript" src="../MEItoVexFlow/EventLink.js"></script>
-	<script type="text/JavaScript" src="../MEItoVexFlow/EventReference.js"></script>
-	<script type="text/JavaScript" src="../MEItoVexFlow/StaffInfo.js"></script>
-	<script type="text/JavaScript" src="../MEItoVexFlow/StaveConnector.js"></script>
-	<script type="text/JavaScript" src="../MEItoVexFlow/StaveVoices.js"></script>
-
-  <!-- MEITOVEXFLOW COMPILED -->
-  <!-- <script type="text/JavaScript" src="support/meitovexflow-min.js"></script> -->
+  <script type="text/JavaScript" src="support/meitovexflow-min.js"></script>
 
 	<script type="text/JavaScript" src="support/loadxmldoc.js"></script>
-	<script type="text/JavaScript" src="js/meiview-comp.js"></script>
-	<script type="text/JavaScript" src="js/meiview-ui-comp.js"></script>
-	<link href="css/meiview.css" rel="stylesheet">
+	<script type="text/JavaScript" src="../js/meiview-comp.js"></script>
+	<script type="text/JavaScript" src="../js/meiview-ui-comp.js"></script>
+	<link href="../css/meiview.css" rel="stylesheet">
 	<script type="application/javascript" language="javascript">
 		
 		$(document).ready( function(){
 			
-			var xmlDoc = loadXMLDoc('xml/Rogamus.xml');      
+			var xmlDoc = loadXMLDoc('Isaac.xml');      
       var meiDoc = new MeiLib.MeiDoc(xmlDoc);
       var pagination = new meiView.Pages();
 			pagination.AddPage(1, 12);
@@ -78,28 +67,21 @@ permissions and limitations under the License.
       var paginations = {};
       var viewers = {};
       
-      TCID = 'CanonicalMEI02';
-      TCTitle = 'Canonical MEI - 02';
+      TCID = 'isaac-again';
       $('#tests').append('<div id="meiview-container-' + TCID + '"/>');
-		  loadedXMLs[TCID] = loadXMLDoc('xml/TC.CanonicalMEI.02.xml');
-      meiDocs[TCID] = new MeiLib.MeiDoc(loadedXMLs[TCID]);
-      paginations[TCID] = new meiView.Pages();
-      paginations[TCID].AddPage(1, 2);
 
-      viewers[TCID] = new meiView.Viewer({
+      var pagination2 = new meiView.Pages();
+			pagination2.AddPage(1, 6);
+			pagination2.AddPage(7, 12);  
+      viewer2 = new meiView.Viewer({
         maindiv: $('#meiview-container-' + TCID),
-        MEI: meiDocs[TCID],
-        pages: paginations[TCID],
-        title: TCTitle,
+        MEI: new MeiLib.MeiDoc(xmlDoc),
+        pages: pagination2,
+        title: '"Rogamus te piissima virgo Maria..." (Henricus Isaac)',
       });
       			
-      // frag_pg = $.bbq.getState('pg');
-      // if (frag_pg != undefined) {
-      //   meiView.jumpTo(frag_pg-1);
-      // }
-      // else meiView.nextPage();
       viewer.nextPage();
-      // viewers[TCID].nextPage();
+      viewer2.nextPage();
     })
 			</script>
 		</head>
