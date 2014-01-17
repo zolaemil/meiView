@@ -19,18 +19,106 @@
 * permissions and limitations under the License.
 ***/
 
-meiView.UI = {};
-meiView.UI.dots = {};
+meiView.UI = function(options) {
+  this.init(options);
+};
 
-meiView.UI.toCSSId = function(identifierString) {
+meiView.UI.prototype.init = function(options) {
+  this.viewer = options.viewer;
+  this.maindiv = options.maindiv;
+  this.main_id = 'meiview-main-' + this.viewer.id;
+  this.canvas_id = 'meiview-canvas-' + this.viewer.id;
+  this.score_id = 'meiview-score-' + this.viewer.id;
+  this.base_html = '<div class="meiview-main" id="' + this.main_id + '" style="margin: 10px 20px auto">\
+    <div id="' + this.score_id + '" align="center" class="ui-widget-content meiview-scorediv">\
+    	<button class="ui-widget-content ui-corner-all"onclick="meiView.UI.callback(\'' + this.viewer.id + '\', \'prevPage\')"><span class="ui-icon ui-icon-triangle-1-w"/></button>\
+    	<span id="pageNumber-top" width="10">0/0</span>\
+    	<button class="ui-widget-content ui-corner-all" onclick="meiView.UI.callback(\'' + this.viewer.id + '\', \'nextPage\')"><span class="ui-icon ui-icon-triangle-1-e"/></button>\
+    	<div id="titlediv"><h4><span id="title" class="title" property="dc:title"></span></h4></div>\
+    	<canvas class="canvas" id="' + this.canvas_id + '" width="780" height="700"></canvas>\
+    	<button class="ui-widget-content ui-corner-all"onclick="meiView.UI.callback(\'' + this.viewer.id + '\', \'prevPage\')"><span class="ui-icon ui-icon-triangle-1-w"/></button>\
+    	<span id="pageNumber-bottom" width="10">0/0</span>\
+    	<button class="ui-widget-content ui-corner-all" onclick="meiView.UI.callback(\'' + this.viewer.id + '\', \'nextPage\')"><span class="ui-icon ui-icon-triangle-1-e"/></button>\
+    </div>\
+    <div id="sidebar">\
+    	<div id="accordion"> \
+    	</div>\
+    	<div id="legend" >\
+    		<p>\
+    			<ul>\
+    				<li><h5>Click on the green dots to view the differences between the sources!</h5></li>\
+    				<li class=".meiview-source-has-variant-on">\
+    					When a  <text style="color: rgb(190,0,0)">Source is highlighted</text> it means some of its \
+    					variants are currently displayed in the score.\
+    				</li>\
+    				<li>\
+    					When a <text style="color: rgb(185,0,0);">Variant is highlighted</text> it means that variant is currently \
+    					displayed in the score.\
+    				</li>\
+    			</ul>\
+    		</p>\
+    	</div>\
+    </div> \
+  </div>';
+  $(this.maindiv).append(this.base_html);
+  this.titleDiv = $(this.maindiv).find('.titlediv');
+  this.dots = {};
+  meiView.UI.addObject(this.viewer.id, this.viewer);
+  meiView.UI.addObject(this.viewer.id + '-ui', this);
+  // console.log($(this.maindiv).find('#' + this.score_id))
+
+  // attach the sidebar to the score div
+  // NOTE: aligning the 'top' property is buggy in jquery-ui, so it has to be done manually
+  //       TODO: padding is hard-coded
+	$(this.maindiv).find('#sidebar').position({
+		my: 'left',
+		at: 'right+10',
+		of: $('#' + this.score_id)
+	});
+	var sH = $('#' + this.score_id).height();
+	var H = Number(sH)
+	$(this.maindiv).find('#sidebar').css('top', -1*H-20);
+  $(this.maindiv).css('height', this.maxHeight() + 20);
+  $('#' + this.main_id).css('height', this.maxHeight() + 20);
+  
+  var titleElem = $(this.maindiv).find('span.title')[0];
+	$(titleElem).html(options.title);
+
+	this.fillSideBar($(this.maindiv).find('#accordion'), this.viewer.Sources, 'meiview-sidebar');
+	$(this.maindiv).find('#accordion').accordion({
+		collapsible: true,
+		heightStyle: "content",
+		active: false
+	});
+				
+	this.fabrCanvas = this.initCanvas(this.canvas_id);
+  this.initSidebarHighlight();
+  
+}
+
+meiView.UI.prototype.maxHeight = function() {
+  //TODO: calculate max height of accordion/sidebar
+	var str_scoreH = $('#' + this.score_id).height();
+	var scoreH = Number(str_scoreH);
+	var sideH = 0;
+  var side = $(this.maindiv).find('#sidebar')[0];
+  if (side) {
+    str_sideH = $(side).height();
+  	sideH = Number(str_sideH);
+  }
+  
+  return Math.max(scoreH, sideH);
+}
+
+meiView.UI.prototype.toCSSId = function(identifierString) {
   return identifierString.replace(/#/g, '').replace(/\./g, '_');
 }
 
-meiView.UI.liID = function(sourceID, appID) {
-  return meiView.UI.toCSSId(sourceID) + '-' + meiView.UI.toCSSId(appID);
+meiView.UI.prototype.liID = function(sourceID, appID) {
+  return this.toCSSId(sourceID) + '-' + this.toCSSId(appID);
 }
 
-meiView.UI.srcID2srcLabel = function(src) {
+meiView.UI.prototype.srcID2srcLabel = function(src) {
   if (src === 'lem') {
     return 'Base text'
   } else {
@@ -38,7 +126,7 @@ meiView.UI.srcID2srcLabel = function(src) {
   }
 }
 
-meiView.UI.appID2appLabel = function(appID) {
+meiView.UI.prototype.appID2appLabel = function(appID) {
   /* Very encoding specific calculation. Maybe a better solution later?*/
   var str = appID.replace(/^app[0-9]*\./, '');
   var locationPart = str.match(/(((n[1-9])?l[1-9])?s[1-9])?m[1-9][0-9]*/);
@@ -73,40 +161,52 @@ meiView.UI.appID2appLabel = function(appID) {
   return label;
 }
 
-meiView.UI.showTitle = function(show) {
-  if (!meiView.UI.titleDiv) {
-    meiView.UI.titleDiv = $('#title');
+meiView.UI.prototype.showTitle = function(show) {
+  if (this.titleDiv && this.titleElem) {
+    if (show) {
+      $(this.titleDiv).append(this.titleElem);
+    } else {
+      $(this.titleElem).remove();
+    }  
   }
-  if (show) {
-    $('#titlediv h4').append(meiView.UI.titleDiv);
-  } else {
-    meiView.UI.titleDiv.remove();//$('#title').hide();
-  }  
 }
 
-meiView.UI.updatePageLabels = function(current, total) {
-  $('#pageNumber-top, #pageNumber-bottom').html((current).toString() + '/' + total);
+meiView.UI.prototype.updatePageLabels = function(current, total) {
+  $(this.maindiv).find('#pageNumber-top, #pageNumber-bottom').html((current).toString() + '/' + total);
 }
 
-meiView.UI.fillSideBar = function(sidebardiv, sources, sidebar_class) {
+meiView.UI.prototype.fillSideBar = function(sidebardiv, sources, sidebar_class) {
   for(src in sources){
     var source = sources[src];
-    sidebardiv.append('<h3 class="' + sidebar_class + '">' + meiView.UI.srcID2srcLabel(src) + '</h3><div class="' + sidebar_class + '"><ul id="' + src + '"></ul></div>');
+    sidebardiv.append('<h3 class="' + sidebar_class + '">' + this.srcID2srcLabel(src) + '</h3><div class="' + sidebar_class + '"><ul id="' + src + '"></ul></div>');
     var listElem = sidebardiv.find('ul[id="'+src+'"]');
     for (var i=0; i<source.length; i++) {
       var appID = source[i].appID;
       var measure_n = source[i].measureNo;
-      listElem.append('<li id="' + meiView.UI.liID(src, appID) + '" class="' +  meiView.UI.toCSSId(appID) + ' meiview-sidebar-item" onclick="meiView.UI.onSideBarClick(' + measure_n + ', \'' +  appID + '\')">' + meiView.UI.appID2appLabel(appID) + '</li>')
+      listElem.append('<li id="' + this.liID(src, appID) + '" class="' +  this.toCSSId(appID) + ' meiview-sidebar-item" onclick="meiView.UI.callback(\'' + this.viewer.id + '-ui\', \'onSideBarClick\', {measure_n: ' + measure_n + ', appID: \'' +  appID + '\'})">' + this.appID2appLabel(appID) + '</li>')
     }
   }
 }
 
-meiView.UI.onSideBarClick = function(measure_n, appID) {
-  meiView.jumpToMeasure(measure_n);
-  meiView.UI.ShowSelectorPanel(meiView.UI.dots[appID].info);  
+meiView.UI.callback = function(id, fname, params) {
+  meiView.UI.objects[id][fname](params);
 }
 
-meiView.UI.renderMei2Canvas = function(score, options) {
+meiView.UI.onSideBarClick = function(id, measure_n, appID) {
+  meiView.UI.objects[id].onSideBarClick(measure_n, appID);
+}
+
+meiView.UI.objects = {};
+meiView.UI.addObject = function(id, obj) {
+  meiView.UI.objects[id] = obj;
+};
+
+meiView.UI.prototype.onSideBarClick = function(params) {
+  this.viewer.jumpToMeasure(params.measure_n);
+  this.ShowSelectorPanel(this.dots[params.appID].info);  
+}
+
+meiView.UI.prototype.renderMei2Canvas = function(score, options) {
   options = options || {};
   var paddingX = options.paddingX || 0;
   var paddingY = options.paddingY || 0;
@@ -122,29 +222,20 @@ meiView.UI.renderMei2Canvas = function(score, options) {
   return tempCanvas;  
 }
 
-meiView.UI.DisplayMainMEI = function(score, canvas, options) {
-  var score_width = $(canvas).attr('width') - 20
-  var score_height = $(canvas).attr('height') - 20;
-  Vex.LogInfo('Rendering main MEI... ');
-  MEI2VF.render_notation(score, canvas, score_width, score_height);
-  Vex.LogInfo('Done rendering main MEI');
-  return canvas;  
-}
-
-meiView.UI.displayDots = function() {
-  for (appID in meiView.UI.dots) {
-    if (meiView.UI.dots[appID])
+meiView.UI.prototype.displayDots = function() {
+  for (appID in this.dots) {
+    if (this.dots[appID])
     { 
-      meiView.UI.fabrCanvas.remove(meiView.UI.dots[appID].circle);
-      delete meiView.UI.dots[appID];
+      this.fabrCanvas.remove(this.dots[appID].circle);
+      delete this.dots[appID];
     }
   }
-  for (appID in meiView.meiDoc.ALTs) {
-    meiView.UI.dots[appID] = meiView.UI.displayDotForAPP(appID);
+  for (appID in this.viewer.MEI.ALTs) {
+    this.dots[appID] = this.displayDotForAPP(appID);
   }
 }
 
-meiView.UI.displayDotForAPP = function(appID) {
+meiView.UI.prototype.displayDotForAPP = function(appID) {
 
   // In order to know what coordiantes to display the dot at, we have to
   // get the coordinates of the VexFlow staff object. VexFlow staff objects are 
@@ -154,7 +245,7 @@ meiView.UI.displayDotForAPP = function(appID) {
   // staff number:
 
   // get the meausure number first, 
-  var app = $(meiView.meiDoc.rich_score).find('app[xml\\:id="' + appID + '"]')[0];
+  var app = $(this.viewer.MEI.rich_score).find('app[xml\\:id="' + appID + '"]')[0];
   var parent_measure = $(app).parents('measure');
   var measure_n = parent_measure.attr('n');
 
@@ -181,15 +272,15 @@ meiView.UI.displayDotForAPP = function(appID) {
       measure_width: vexStaff.width,
       staff_n: Number(staff_n),
     }
-    return { circle:meiView.UI.displayDotForMeasure(vexStaff), info:dotInfo };
+    return { circle:this.displayDotForMeasure(vexStaff), info:dotInfo };
   }
 }
 
 
-meiView.UI.displayDotForMeasure = function(vexStaff) { 
+meiView.UI.prototype.displayDotForMeasure = function(vexStaff) { 
   if (vexStaff) {
-    var left = (vexStaff.x + vexStaff.width - 12) * meiView.UI.scale;
-    var top = (vexStaff.y + 30) * meiView.UI.scale;
+    var left = (vexStaff.x + vexStaff.width - 12) * this.scale;
+    var top = (vexStaff.y + 30) * this.scale;
 
     var circle = new fabric.Circle({
       radius: 5, 
@@ -205,32 +296,32 @@ meiView.UI.displayDotForMeasure = function(vexStaff) {
       hasBorders: false,
     });
     circle.meiViewID = appID;
-    meiView.UI.fabrCanvas.add(circle);
+    this.fabrCanvas.add(circle);
     return circle;
   }
 }
 
-meiView.UI.renderMei2Img = function(meixml, options) {
-  var tempCanvas = meiView.UI.renderMei2Canvas(meixml, options);
+meiView.UI.prototype.renderMei2Img = function(meixml, options) {
+  var tempCanvas = this.renderMei2Canvas(meixml, options);
   var img = new Image;
   img.src = tempCanvas.toDataURL();
   return img;
 }
 
-meiView.UI.renderPage = function(pageXML, options) { 
+meiView.UI.prototype.renderPage = function(pageXML, options) { 
   options = options || {};
   options.paddingX = 20;
   options.paddingY = 20;
-  options.vexWidth = options.vexWidth || $(meiView.UI.fabrCanvas.getElement()).attr('width');
-  options.vexHeight = options.vexHeight || $(meiView.UI.fabrCanvas.getElement()).attr('height');
-  var img = meiView.UI.renderMei2Img(pageXML, options);
-  if (meiView.UI.scoreImg) {
-     meiView.UI.fabrCanvas.remove(meiView.UI.scoreImg);    
+  options.vexWidth = options.vexWidth || $(this.fabrCanvas.getElement()).attr('width');
+  options.vexHeight = options.vexHeight || $(this.fabrCanvas.getElement()).attr('height');
+  var img = this.renderMei2Img(pageXML, options);
+  if (this.scoreImg) {
+     this.fabrCanvas.remove(this.scoreImg);    
   }
-  meiView.UI.scale = meiView.UI.fabrCanvas.width/options.vexWidth;
-  var W = meiView.UI.fabrCanvas.width;
-  var H = options.vexHeight * meiView.UI.scale;
-  meiView.UI.scoreImg = new fabric.Image(img, {
+  this.scale = this.fabrCanvas.width/options.vexWidth;
+  var W = this.fabrCanvas.width;
+  var H = options.vexHeight * this.scale;
+  this.scoreImg = new fabric.Image(img, {
     width:W,height:H, left:W/2, top:H/2,
     lockMovementX: true,
     lockMovementY: true,
@@ -241,14 +332,15 @@ meiView.UI.renderPage = function(pageXML, options) {
     hasBorders: false,
     selectable: false,
   });
-  meiView.UI.fabrCanvas.add(meiView.UI.scoreImg);
-  meiView.UI.fabrCanvas.renderAll_Hack();
+  this.fabrCanvas.add(this.scoreImg);
+  this.fabrCanvas.renderAll_Hack();
 }
 
-meiView.UI.initCanvas = function(canvasid) {
+meiView.UI.prototype.initCanvas = function(canvasid) {
 
   var canvas = new fabric.Canvas(canvasid);
   canvas.hoverCursor = 'pointer';
+  var this_ui = this;
 
   canvas.renderAll_Hack = function() {
     setTimeout(function(){canvas.renderAll()}, 1000);
@@ -289,17 +381,18 @@ meiView.UI.initCanvas = function(canvasid) {
   });
 
   canvas.on('mouse:down', function(e) {
+    
     if (e.target) {
       var dotInfo = 
         e.target.meiViewID && 
-        meiView.UI.dots[e.target.meiViewID] && 
-        meiView.UI.dots[e.target.meiViewID].info;
+        this_ui.dots[e.target.meiViewID] && 
+        this_ui.dots[e.target.meiViewID].info;
       if (dotInfo) {
-        meiView.UI.ShowSelectorPanel(dotInfo);
+        this_ui.ShowSelectorPanel(dotInfo);
       } else if (e.target.selectItem>=0) {
-        meiView.UI.dlg && meiView.UI.dlg.select(e.target.selectItem);
+        this_ui.dlg && this_ui.dlg.select(e.target.selectItem);
       } else {
-        meiView.UI.HideSelectorPanel();
+        this_ui.HideSelectorPanel();
       }
       Vex.LogInfo(e.target);
       Vex.LogInfo(e.target.meiViewID  + ': x:' + e.target.left + ', y:' + e.target.top);
@@ -312,110 +405,112 @@ meiView.UI.initCanvas = function(canvasid) {
   
 }
 
-meiView.UI.onSelectorDraw = function(args) {
-  meiView.selectingState.enter(args.appID, meiView.meiDoc.sectionplane[args.appID].xmlID);
-  meiView.UI.updateSidebar();
+meiView.UI.prototype.onSelectorDraw = function(args) {
+  this.viewer.selectingState.enter(args.appID, this.viewer.MEI.sectionplane[args.appID].xmlID);
+  this.updateSidebar();
 }
 
-meiView.UI.onSelectorSelect = function(args) {
+meiView.UI.prototype.onSelectorSelect = function(args) {
 
-  if (meiView.selectingState.ON) {
+  if (this.viewer.selectingState.ON) {
 
-    var oldVarID = meiView.selectingState.selectedVarXmlID;
-    meiView.selectVariant(args.varXmlID);
+    var oldVarID = this.viewer.selectingState.selectedVarXmlID;
+    this.viewer.selectVariant(args.varXmlID);
 
     /* re-draw current page [TODO: only re-draw if the change happened on the current page] */
 
-    meiView.displayCurrentPage();
-    if (meiView.UI.dlg) { 
-      meiView.UI.dlg.bringToFront();
+    this.viewer.displayCurrentPage();
+    if (this.dlg) { 
+      this.dlg.bringToFront();
     }
     
-    meiView.UI.updateSidebar(meiView.selectingState.appID, oldVarID);
+    this.updateSidebar(this.viewer.selectingState.appID, oldVarID);
   }
 }
 
-meiView.UI.onSelectorHide = function() {
-  meiView.selectingState.exit();
-  meiView.UI.updateSidebar();
+meiView.UI.prototype.onSelectorHide = function() {
+  this.viewer.selectingState.exit();
+  this.updateSidebar();
 }
 
-meiView.UI.addHightlightClasses = function(appID) {
-  var source = meiView.meiDoc.sectionplane[appID].source;
+meiView.UI.prototype.addHightlightClasses = function(appID) {
+  var source = this.viewer.MEI.sectionplane[appID].source;
   var sources = source ? source.split(' ') : ['lem'];
   for (var i=0;i<sources.length; i++) {
-    var liID = meiView.UI.liID(sources[i], appID);
-    $('#' + liID)
+    var liID = this.liID(sources[i], appID);
+    $(this.maindiv).find('#' + liID)
       .addClass('meiview-variant-on')
       .closest('div.meiview-sidebar').prev().addClass('meiview-source-has-variant-on');
   }
 }
 
-meiView.UI.initSidebarHighlight = function() {
-  if (!meiView.meiDoc.sectionview_socre) return;
-  for (appID in meiView.meiDoc.ALTs) {
-    meiView.UI.addHightlightClasses(appID);
+meiView.UI.prototype.initSidebarHighlight = function() {
+  if (!this.viewer.MEI.sectionview_socre) return;
+  for (appID in this.viewer.MEI.ALTs) {
+    this.addHightlightClasses(appID);
   } 
 }
 
-meiView.UI.updateSidebarHighlight = function(appID, oldVarID) {
-  meiView.UI.addHightlightClasses(appID);
+meiView.UI.prototype.updateSidebarHighlight = function(appID, oldVarID) {
+  this.addHightlightClasses(appID);
   if (oldVarID) {
-    source = meiView.meiDoc.ALTs[appID].altitems[oldVarID].source;
+    source = this.viewer.MEI.ALTs[appID].altitems[oldVarID].source;
     var sources = source ? source.split(' ') : ['lem'];
     for (var i=0;i<sources.length; i++) {
-      var liID = meiView.UI.liID(sources[i], appID);
-      $('#' + liID)
+      var liID = this.liID(sources[i], appID);
+      $(this.maindiv).find('#' + liID)
         .removeClass('meiview-variant-on');
     }
-    $('div.meiview-sidebar').not(':has(li.meiview-variant-on)').prev('.meiview-source-has-variant-on').removeClass('meiview-source-has-variant-on');
+    $(this.maindiv).find('div.meiview-sidebar').not(':has(li.meiview-variant-on)').prev('.meiview-source-has-variant-on').removeClass('meiview-source-has-variant-on');
   }
 }
 
-meiView.UI.updateSidebar = function(appID, oldVarID) {
+meiView.UI.prototype.updateSidebar = function(appID, oldVarID) {
   if (appID) {
-    meiView.UI.updateSidebarHighlight(appID, oldVarID);
+    this.updateSidebarHighlight(appID, oldVarID);
   }
-  if (meiView.selectingState.ON) {
+  if (this.viewer.selectingState.ON) {
     /* Disable sources without variants at the currently selected <app> */
-    $('div.meiview-sidebar').not(':has(li.' + meiView.UI.toCSSId(meiView.selectingState.appID) + ')').prev().addClass('meiview-source-disabled');
+    $(this.maindiv).find('div.meiview-sidebar').not(':has(li.' + this.toCSSId(this.viewer.selectingState.appID) + ')').prev().addClass('meiview-source-disabled');
     /* Close up variant list the source is disbaled */
-    if ($('.meiview-source-disabled.ui-accordion-header-active').length>0) { 
-      $( "#accordion" ).accordion( "option", "active", false);
+    if ($(this.maindiv).find('.meiview-source-disabled.ui-accordion-header-active').length>0) { 
+      $(this.maindiv).find("#accordion").accordion( "option", "active", false);
     }
     /* Disable clicking on sources */
-    $('#accordion').on('accordionbeforeactivate', function(event, ui) {
+    $(this.maindiv).find('#accordion').on('accordionbeforeactivate', function(event, ui) {
       event.preventDefault();
     });
   } else {
     /* Enable all sources */
-    $('h3.meiview-source-disabled').removeClass('meiview-source-disabled');
+    $(this.maindiv).find('h3.meiview-source-disabled').removeClass('meiview-source-disabled');
     /* Enable clicking on sources */
-    $('#accordion').off();
+    $(this.maindiv).find('#accordion').off();
   }
 }
 
-meiView.UI.ShowSelectorPanel = function(dotInfo) {
-  var variantSlice = meiView.meiDoc.getRichSlice({start_n:dotInfo.measure_n, end_n:dotInfo.measure_n, staves:[dotInfo.staff_n], noClef:true, noKey:true, noMeter:true, noConnectors:true});
+meiView.UI.prototype.ShowSelectorPanel = function(dotInfo) {
+  var variantSlice = this.viewer.MEI.getRichSlice({start_n:dotInfo.measure_n, end_n:dotInfo.measure_n, staves:[dotInfo.staff_n], noClef:true, noKey:true, noMeter:true, noConnectors:true});
   var panelItemParamList = [];
   var appID = dotInfo.appXmlID;
-  var altitems = meiView.meiDoc.ALTs[appID].altitems;
+  var altitems = this.viewer.MEI.ALTs[appID].altitems;
 
-  if (meiView.UI.dlg) {
-    meiView.UI.dlg.hide();
+  if (this.dlg) {
+    this.dlg.hide();
   }
-  meiView.UI.dlg = new meiView.UI.SelectorPanel({
-    left: dotInfo.measure_left*meiView.UI.scale, 
-    top: dotInfo.measure_top*meiView.UI.scale, 
-    measureWidth: 300*meiView.UI.scale, 
-    canvas: meiView.UI.fabrCanvas,
+  this.dlg = new meiView.SelectorPanel({
+    left: dotInfo.measure_left*this.scale, 
+    top: dotInfo.measure_top*this.scale, 
+    measureWidth: 300*this.scale, 
+    canvas: this.fabrCanvas,
     scale: 0.7,
-    appID: appID
+    appID: appID,
+    UI: this,
   });
   
-  meiView.UI.dlg.onDraw = meiView.UI.onSelectorDraw;
-  meiView.UI.dlg.onSelect = meiView.UI.onSelectorSelect;
-  meiView.UI.dlg.onHide = meiView.UI.onSelectorHide;
+  self = this;
+  this.dlg.onDraw = function(args) { self.onSelectorDraw(args) };
+  this.dlg.onSelect = function (args) { self.onSelectorSelect(args) };
+  this.dlg.onHide = function () { self.onSelectorHide() };
 
   variantSlice.initSectionView();
   for (xmlID in altitems) {
@@ -429,25 +524,25 @@ meiView.UI.ShowSelectorPanel = function(dotInfo) {
     if (source) {
       text = source.replace(/#/g, '').replace(/ /g, ', ');
     }
-    var selected = (meiView.meiDoc.sectionplane[appID] === altitem);
-    meiView.UI.dlg.addItem(text+':', variantSlice.sectionview_score, selected, xmlID);
+    var selected = (this.viewer.MEI.sectionplane[appID] === altitem);
+    this.dlg.addItem(text+':', variantSlice.sectionview_score, selected, xmlID);
   }
-  meiView.UI.dlg.draw();
+  this.dlg.draw();
 }
 
-meiView.UI.HideSelectorPanel = function() {
-  if (meiView.UI.dlg) {
-    meiView.UI.dlg.hide();
+meiView.UI.prototype.HideSelectorPanel = function() {
+  if (this.dlg) {
+    this.dlg.hide();
   }
 }
 
-meiView.UI.SelectorItem = function(options) {
+meiView.SelectorItem = function(options) {
   this.text = options.text;
   this.imgData = options.imgData;
   this.xmlID = xmlID;
 }
 
-meiView.UI.SelectorPanel = function (options) {
+meiView.SelectorPanel = function (options) {
   this.measureWidth = options.measureWidth || 300;
   this.measureHeight = options.measureHeight || 125;
   this.scale = options.scale || 0.8;
@@ -462,6 +557,7 @@ meiView.UI.SelectorPanel = function (options) {
   this.top = options.top || this.height/2;
 
   this.canvas = options.canvas;
+  this.UI = options.UI;
   
   this.contentWidth = this.width - 2*(this.marginWE);
   this.imgW = this.contentWidth;
@@ -481,20 +577,20 @@ meiView.UI.SelectorPanel = function (options) {
   this.onHide = function(args) {};
 }
 
-meiView.UI.SelectorPanel.prototype.setCanvas = function(fabricCanvas) {
+meiView.SelectorPanel.prototype.setCanvas = function(fabricCanvas) {
   this.canvas = fabricCanvas;
 }
 
-meiView.UI.SelectorPanel.prototype.addItem = function(text, singleVarSliceXML, selected, xmlID) {
-  var imgData = meiView.UI.renderMei2Img(singleVarSliceXML, { vexWidth:this.measureWidth, vexHeight:this.measureHeight });
-  var newItem = new meiView.UI.SelectorItem({text:text, imgData:imgData, xmlID:xmlID});
+meiView.SelectorPanel.prototype.addItem = function(text, singleVarSliceXML, selected, xmlID) {
+  var imgData = this.UI.renderMei2Img(singleVarSliceXML, { vexWidth:this.measureWidth, vexHeight:this.measureHeight });
+  var newItem = new meiView.SelectorItem({text:text, imgData:imgData, xmlID:xmlID});
   this.items.push(newItem);
   if (selected) {
     this.select(this.items.length-1);
   }
 }
 
-meiView.UI.SelectorPanel.prototype.addObjectsForItem = function(item, itemIndex) {
+meiView.SelectorPanel.prototype.addObjectsForItem = function(item, itemIndex) {
   var text = new fabric.Text(item.text, {
     fontSize: 17*this.scale,
     selectable: false,
@@ -572,7 +668,7 @@ meiView.UI.SelectorPanel.prototype.addObjectsForItem = function(item, itemIndex)
 /**
  * Calculate delta_x and delta_y to shift the panel so it fits inside the specified box;
  */
-meiView.UI.SelectorPanel.prototype.shiftXY = function(box) {
+meiView.SelectorPanel.prototype.shiftXY = function(box) {
   var pHeight = 0;
   var items = this.items;
   for (var i=0;i<items.length;i++) {
@@ -603,7 +699,7 @@ meiView.UI.SelectorPanel.prototype.shiftXY = function(box) {
   return {x:delta_x, y:delta_y};
 }
 
-meiView.UI.SelectorPanel.prototype.draw = function(box) {
+meiView.SelectorPanel.prototype.draw = function(box) {
   this.objects = [];
   this.nextItemTop = 0;
 
@@ -644,7 +740,7 @@ meiView.UI.SelectorPanel.prototype.draw = function(box) {
   this.onDraw({appID:this.appID});
 }
 
-meiView.UI.SelectorPanel.prototype.hide = function() {
+meiView.SelectorPanel.prototype.hide = function() {
   this.canvas.remove(this.panel);
   var objects = this.objects;
   for (var i=0;i<objects.length;i++) {
@@ -654,8 +750,8 @@ meiView.UI.SelectorPanel.prototype.hide = function() {
   delete this;
 }
 
-meiView.UI.SelectorPanel.prototype.select = function(i) {
-  
+meiView.SelectorPanel.prototype.select = function(i) {
+
   if (0<=i && i<this.items.length) {
     
     //switch off highlight on prviously selected item
@@ -676,7 +772,7 @@ meiView.UI.SelectorPanel.prototype.select = function(i) {
   
 }
 
-meiView.UI.SelectorPanel.prototype.bringToFront = function() {
+meiView.SelectorPanel.prototype.bringToFront = function() {
   var objects = this.objects;
   for (var i=0;i<objects.length;i++) {
     objects[i].bringToFront();
