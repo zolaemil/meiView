@@ -25,6 +25,17 @@ meiView.Viewer = function(options) {
   this.init(options);
 }
 
+meiView.DISPLAY_MEASURE_NUMBERS = {
+  NONE: 0,
+  ALL: 1,
+/*TODO:  
+  EVERY_5: 5,
+  EVERY_10: 5,
+  SYSTEM: 'SYSTEM',
+*/
+}
+
+
 /**
  * Constructor of the MEI Viewer.
  * 
@@ -44,6 +55,7 @@ meiView.Viewer.prototype.init = function(options){
   this.id = options.id || randomID();
   this.MEI = options.MEI;
   this.MEI.initSectionView();
+  this.display_measure_numbers = options.display_measure_numbers;
   if (options.pages) {
     this.pages = options.pages;
   } else {
