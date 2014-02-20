@@ -14,7 +14,7 @@ Usage
 -----
 
 The application is available at 
-[http://zolaemil.github.io/meiView/meiView.html](http://zolaemil.github.io/meiView/meiView.html).
+[http://zolaemil.github.io/meiView](http://zolaemil.github.io/meiView).
 
 
 Within the score there're green dots above each measure that contains an <app>
