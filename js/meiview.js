@@ -211,6 +211,24 @@ meiView.Viewer.prototype.displayCurrentPage = function() {
   this.UI.updatePageLabels(this.pages.currentPageIndex+1, this.pages.totalPages())
 }
 
+meiView.Viewer.prototype.selectReconstruction = function(editor) {
+  var sectionplaneUpdate = {};
+  var apps = $(this.MEI.rich_score).find('app[type="reconstruction"]');
+  var i;
+  for (i=0; i<apps.length; i++) {
+    var app = apps[i];
+    var app_xml_id=$(app).attr('xml:id');
+    var rdgs = $(app).find('rdg[resp="#'+editor+'"]');
+    var j;
+    for (j=0; j<rdgs.length; j++) {
+      var rdg_xml_id = $(rdgs[j]).attr('xml:id');
+      sectionplaneUpdate[app_xml_id] = rdg_xml_id;
+    }
+  }
+  this.MEI.updateSectionView(sectionplaneUpdate);
+  this.displayCurrentPage();
+}
+
 meiView.Viewer.prototype.stavesToDisplay = function(plain_mei) {
   var result = [];
   staffNs = {};

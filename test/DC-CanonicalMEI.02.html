@@ -58,22 +58,7 @@ permissions and limitations under the License.
 
   
     var selectReconstruction = function(editor) {
-      var sectionplaneUpdate = {};
-      var apps = $(viewer.MEI.rich_score).find('app[type="reconstruction"]');
-      var i;
-      for (i=0; i<apps.length; i++) {
-        var app = apps[i];
-        var app_xml_id=$(app).attr('xml:id');
-        var rdgs = $(app).find('rdg[resp="#'+editor+'"]');
-        var j;
-        for (j=0; j<rdgs.length; j++) {
-          var rdg_xml_id = $(rdgs[j]).attr('xml:id');
-          sectionplaneUpdate[app_xml_id] = rdg_xml_id;
-        }
-      }
-      
-      viewer.MEI.updateSectionView(sectionplaneUpdate);
-      viewer.displayCurrentPage();
+      viewer.selectReconstruction(editor)
     }
     
     var switchReconstrs = function() {
