@@ -203,13 +203,30 @@ meiView.Viewer.prototype.jumpToMeasure = function(i) {
 }
 
 meiView.Viewer.prototype.displayCurrentPage = function() {
-  //TODO: remove non-displayed staves -- Here or in meilib.js when creating the section view?
   var pageXML = this.getPageXML(this.pages.currentPage());
   this.UI.renderPage(pageXML, {vexWidth:this.scoreWidth, vexHeight:this.scoreHeight});
   this.UI.displayDots();
   this.UI.showTitle(this.pages.currentPageIndex === 0);
   this.UI.fabrCanvas.calcOffset();
   this.UI.updatePageLabels(this.pages.currentPageIndex+1, this.pages.totalPages())
+}
+
+meiView.Viewer.prototype.stavesToDisplay = function(plain_mei) {
+  var result = [];
+  staffNs = {};
+  staffDefs = $(plain_mei).find('staffDef');
+  var i;
+  for (i=0; i<staffDefs.length; i++) {
+    sd = staffDefs[i];
+    N = $(sd).attr('n') || '1';
+    if ($(plain_mei).find('staff[n="' + N + '"]').length > 0) {
+      is_N = function(item) { return item === N };
+      if (!result.any(is_N)) {
+        result.push(Number(N));
+      }
+    }
+  }  
+  return result;
 }
 
 meiView.Viewer.prototype.selectVariant = function(varXmlID) {
@@ -228,7 +245,8 @@ meiView.Viewer.prototype.selectVariant = function(varXmlID) {
  */
 meiView.Viewer.prototype.getPageXML = function(page) {
   var noMeter = (page.startMeasureN !== 1);
-  return this.MEI.getSectionViewSlice({start_n:page.startMeasureN, end_n:page.endMeasureN, noMeter:noMeter});
+  staves = this.stavesToDisplay(this.MEI.sectionview_score);
+  return this.MEI.getSectionViewSlice({start_n:page.startMeasureN, end_n:page.endMeasureN, noMeter:noMeter, staves:staves});
 }
 
 meiView.Viewer.prototype.loadXMLString = function(txt) {
