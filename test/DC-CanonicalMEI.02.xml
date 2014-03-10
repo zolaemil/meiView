@@ -130,7 +130,6 @@
 								<note xml:id="p1cgd4n768v1b2s4" dur="4" dur.ges="256p" oct="4" pname="g"/>
 								<note xml:id="p1ced4n1024v1b2s4" dur="4" dur.ges="256p" oct="4" pname="e"/>
 								<note xml:id="p1cgd4n1280v1b2s4" dur="4" dur.ges="256p" oct="4" pname="g"/>
-								<note xml:id="p1ced4n1536v1b2s4" dur="4" dur.ges="256p" oct="4" pname="e"/>
 								<note xml:id="p1cgd4n1792v1b2s4" oct="4" pname="g" dur="breve" dur.ges="4096p"/>
 							</layer>
 						</staff>
