@@ -52,7 +52,7 @@ meiView.Viewer.prototype.init = function(options){
       this.parsePages(this.MEI);
     }
   }
-  this.scoreWidth = options.width || 1000;
+  this.scoreWidth = options.width || 1200; // 1000
   this.scoreHeight = options.height || 1000;
   this.Sources = this.createSourceList(this.MEI.ALTs);
   this_viewer = this;

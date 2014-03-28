@@ -217,7 +217,13 @@ meiView.UI.prototype.renderMei2Canvas = function(score, options) {
   var score_width = options.vexWidth;
   var score_height = options.vexHeight;
   Vex.LogInfo('Rendering MEI... ');
-  MEI2VF.render_notation(score, tempCanvas.getElement(), score_width, score_height);
+  MEI2VF.render_notation(score, tempCanvas.getElement(), score_width, score_height, null, {
+    staveSpacingAbove: 50,
+    systemSpacing: 90,
+    staff: {
+      bottom_text_position : 8
+    }
+  });
   Vex.LogInfo('Done rendering MEI');
   return tempCanvas;  
 }
@@ -261,7 +267,7 @@ meiView.UI.prototype.displayDotForAPP = function(appID) {
 
   // ...then display the dot at the coordinates specified by the
   // properties of MEI2VF.rendered_measures[measure_n][staff_n];
-  var vexStaffs = MEI2VF.rendered_measures[measure_n];
+  var vexStaffs = MEI2VF.getRenderedMeasures()[measure_n];
   if (vexStaffs) {
     var vexStaff = vexStaffs[staff_n];
     var dotInfo = {
@@ -280,7 +286,8 @@ meiView.UI.prototype.displayDotForAPP = function(appID) {
 meiView.UI.prototype.displayDotForMeasure = function(vexStaff) { 
   if (vexStaff) {
     var left = (vexStaff.x + vexStaff.width - 12) * this.scale;
-    var top = (vexStaff.y + 30) * this.scale;
+    // var top = (vexStaff.y + 30) * this.scale;
+    var top = (vexStaff.y - 15) * this.scale;
 
     var circle = new fabric.Circle({
       radius: 5, 
@@ -500,7 +507,8 @@ meiView.UI.prototype.ShowSelectorPanel = function(dotInfo) {
   this.dlg = new meiView.SelectorPanel({
     left: dotInfo.measure_left*this.scale, 
     top: dotInfo.measure_top*this.scale, 
-    measureWidth: 300*this.scale, 
+    measureWidth: 500*this.scale, 
+    //measureWidth: 300*this.scale, 
     canvas: this.fabrCanvas,
     scale: 0.7,
     appID: appID,
