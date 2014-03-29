@@ -193,11 +193,24 @@ meiView.Viewer.prototype.jumpToMeasure = function(i) {
 meiView.Viewer.prototype.displayCurrentPage = function() {
   //TODO: remove non-displayed staves -- Here or in meilib.js when creating the section view?
   var pageXML = this.getPageXML(this.pages.currentPage());
-  this.UI.renderPage(pageXML, {vexWidth:this.scoreWidth, vexHeight:this.scoreHeight});
+  var isFirstPage = (this.pages.currentPageIndex === 0);
+  this.UI.renderPage(pageXML, {
+    labelScheme: (isFirstPage) ? 1 : 2,
+    systemLeftMar: (isFirstPage) ? 100 : 25,
+    page_margin_top: 30,
+    staveSpacing: 70,
+    systemSpacing: 90,
+    staff: {
+      bottom_text_position : 8
+    },
+    vexWidth:this.scoreWidth, 
+    vexHeight:this.scoreHeight
+  });
   this.UI.displayDots();
-  this.UI.showTitle(this.pages.currentPageIndex === 0);
+  this.UI.showTitle(isFirstPage);
   this.UI.fabrCanvas.calcOffset();
   this.UI.updatePageLabels(this.pages.currentPageIndex+1, this.pages.totalPages())
+
 }
 
 meiView.Viewer.prototype.selectVariant = function(varXmlID) {

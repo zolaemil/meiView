@@ -213,17 +213,10 @@ meiView.UI.prototype.renderMei2Canvas = function(score, options) {
 
   var tempCanvas = new fabric.StaticCanvas();
   tempCanvas.setDimensions({width:options.vexWidth, height:options.vexHeight});
-
   var score_width = options.vexWidth;
   var score_height = options.vexHeight;
   Vex.LogInfo('Rendering MEI... ');
-  MEI2VF.render_notation(score, tempCanvas.getElement(), score_width, score_height, null, {
-    staveSpacingAbove: 50,
-    systemSpacing: 90,
-    staff: {
-      bottom_text_position : 8
-    }
-  });
+  MEI2VF.render_notation(score, tempCanvas.getElement(), score_width, score_height, null, options);
   Vex.LogInfo('Done rendering MEI');
   return tempCanvas;  
 }
@@ -287,7 +280,7 @@ meiView.UI.prototype.displayDotForMeasure = function(vexStaff) {
   if (vexStaff) {
     var left = (vexStaff.x + vexStaff.width - 12) * this.scale;
     // var top = (vexStaff.y + 30) * this.scale;
-    var top = (vexStaff.y - 15) * this.scale;
+    var top = (vexStaff.y + 20) * this.scale;
 
     var circle = new fabric.Circle({
       radius: 5, 
@@ -321,6 +314,9 @@ meiView.UI.prototype.renderPage = function(pageXML, options) {
   options.paddingY = 20;
   options.vexWidth = options.vexWidth || $(this.fabrCanvas.getElement()).attr('width');
   options.vexHeight = options.vexHeight || $(this.fabrCanvas.getElement()).attr('height');
+  
+  
+  
   var img = this.renderMei2Img(pageXML, options);
   if (this.scoreImg) {
      this.fabrCanvas.remove(this.scoreImg);    
@@ -590,7 +586,18 @@ meiView.SelectorPanel.prototype.setCanvas = function(fabricCanvas) {
 }
 
 meiView.SelectorPanel.prototype.addItem = function(text, singleVarSliceXML, selected, xmlID) {
-  var imgData = this.UI.renderMei2Img(singleVarSliceXML, { vexWidth:this.measureWidth, vexHeight:this.measureHeight });
+  var imgData = this.UI.renderMei2Img(singleVarSliceXML, {
+    labelScheme: 1,
+    systemLeftMar: 100,
+    page_margin_top: 20,
+    staveSpacing: 70,
+    systemSpacing: 90,
+    staff: {
+      bottom_text_position : 8
+    },
+    vexWidth:this.measureWidth, 
+    vexHeight:this.measureHeight 
+  });
   var newItem = new meiView.SelectorItem({text:text, imgData:imgData, xmlID:xmlID});
   this.items.push(newItem);
   if (selected) {
