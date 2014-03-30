@@ -48,14 +48,12 @@
 							</staff>
 							<staff n="3">
 								<layer>
-									<rest dur="1"/>
-									<rest dur="1"/>
+									<rest dur="breve"/>
 								</layer>
 							</staff>
 							<staff n="4">
 								<layer>
-									<rest dur="1"/>
-									<rest dur="1"/>
+									<rest dur="breve"/>
 								</layer>
 							</staff>
 						</measure>
