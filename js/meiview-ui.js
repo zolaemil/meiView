@@ -266,15 +266,17 @@ meiView.UI.prototype.displayDotForAPP = function(appID) {
   var vexStaffs = this.rendered_measures[measure_n];
   if (vexStaffs) {
     var vexStaff = vexStaffs[staff_n];
-    var dotInfo = {
-      appXmlID: appID, 
-      measure_n: Number(measure_n),
-      measure_top: vexStaff.y,
-      measure_left: vexStaff.x,
-      measure_width: vexStaff.width,
-      staff_n: Number(staff_n),
+    if (vexStaff) {
+      var dotInfo = {
+        appXmlID: appID, 
+        measure_n: Number(measure_n),
+        measure_top: vexStaff.y,
+        measure_left: vexStaff.x,
+        measure_width: vexStaff.width,
+        staff_n: Number(staff_n),
+      }
+      return { circle:this.displayDotForMeasure(vexStaff), info:dotInfo };
     }
-    return { circle:this.displayDotForMeasure(vexStaff), info:dotInfo };
   }
 }
 
