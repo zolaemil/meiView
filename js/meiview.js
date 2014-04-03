@@ -222,7 +222,7 @@ meiView.Viewer.prototype.selectReconstruction = function(editor) {
     var j;
     for (j=0; j<rdgs.length; j++) {
       var rdg_xml_id = $(rdgs[j]).attr('xml:id');
-      sectionplaneUpdate[app_xml_id] = rdg_xml_id;
+      sectionplaneUpdate[app_xml_id] = [rdg_xml_id];
     }
   }
   this.MEI.updateSectionView(sectionplaneUpdate);
