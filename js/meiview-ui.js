@@ -85,7 +85,7 @@ meiView.UI.prototype.init = function(options) {
   var titleElem = $(this.maindiv).find('span.title')[0];
 	$(titleElem).html(options.title);
 
-	this.fillSideBar($(this.maindiv).find('#accordion'), this.viewer.Sources, 'meiview-sidebar');
+	this.fillSideBar($(this.maindiv).find('#accordion'), 'meiview-sidebar');
 	$(this.maindiv).find('#accordion').accordion({
 		collapsible: true,
 		heightStyle: "content",
@@ -176,7 +176,16 @@ meiView.UI.prototype.updatePageLabels = function(current, total) {
   $(this.maindiv).find('#pageNumber-top, #pageNumber-bottom').html((current).toString() + '/' + total);
 }
 
-meiView.UI.prototype.fillSideBar = function(sidebardiv, sources, sidebar_class) {
+meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
+  var reconstructurs = this.viewer.Reconstructors;
+  sidebardiv.append('<h3 class="' + sidebar_class + '">Reconstructions</h3><div class="' + sidebar_class + '"><ul id="reconstructor-list"></ul></div>');
+  var listElem = sidebardiv.find('ul[id="reconstructor-list"]');
+  for (editorID in this.viewer.Reconstructors) {
+    var editor = this.viewer.Reconstructors[editorID];
+    listElem.append('<li class="meiview-sidebar-item" onclick="meiView.UI.callback(\'' + this.viewer.id + '-ui\', \'onReconstructionClick\', { editorID: \'' +  editorID + '\'})">' + editorID + '</li>');
+  }
+
+  var sources = this.viewer.Sources;
   for(src in sources){
     var source = sources[src];
     sidebardiv.append('<h3 class="' + sidebar_class + '">' + this.srcID2srcLabel(src) + '</h3><div class="' + sidebar_class + '"><ul id="' + src + '"></ul></div>');
@@ -184,7 +193,7 @@ meiView.UI.prototype.fillSideBar = function(sidebardiv, sources, sidebar_class) 
     for (var i=0; i<source.length; i++) {
       var appID = source[i].appID;
       var measure_n = source[i].measureNo;
-      listElem.append('<li id="' + this.liID(src, appID) + '" class="' +  this.toCSSId(appID) + ' meiview-sidebar-item" onclick="meiView.UI.callback(\'' + this.viewer.id + '-ui\', \'onSideBarClick\', {measure_n: ' + measure_n + ', appID: \'' +  appID + '\'})">' + this.appID2appLabel(appID) + '</li>')
+      listElem.append('<li id="' + this.liID(src, appID) + '" class="' +  this.toCSSId(appID) + ' meiview-sidebar-item" onclick="meiView.UI.callback(\'' + this.viewer.id + '-ui\', \'onSideBarClick\', { measure_n: ' + measure_n + ', appID: \'' +  appID + '\'})">' + this.appID2appLabel(appID) + '</li>')
     }
   }
 }
@@ -195,6 +204,10 @@ meiView.UI.callback = function(id, fname, params) {
 
 meiView.UI.onSideBarClick = function(id, measure_n, appID) {
   meiView.UI.objects[id].onSideBarClick(measure_n, appID);
+}
+
+meiView.UI.prototype.onReconstructionClick = function(params) {
+  this.viewer.toggleReconstruction(params.editorID);
 }
 
 meiView.UI.objects = {};

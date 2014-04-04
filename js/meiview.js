@@ -41,7 +41,7 @@ meiView.SelectedEditors.prototype.removeEditor = function(editor) {
   }
 }
 
-meiView.SelectedEditors.prototype.toggleEditor = function(editor) {
+meiView.SelectedEditors.prototype.toggleReconstructor = function(editor) {
   if (this.editors[editor]) {
     this.editors[editor] = false;
   } else {
@@ -105,18 +105,48 @@ meiView.Viewer.prototype.init = function(options){
   this.scoreWidth = options.width || 1000;
   this.scoreHeight = options.height || 1000;
   this.Sources = this.createSourceList(this.MEI.ALTs);
+  this.Editors = this.createEditorList();
+  this.Reconstructors = this.createReconstructorList();
   this_viewer = this;
   this.UI = new meiView.UI({
     viewer: this_viewer,
     maindiv: options.maindiv,
     title: options.title,
   });
-  this.selectedEditors = new meiView.SelectedEditors();
+  this.selectedReconstructors = new meiView.SelectedEditors();
 }
 
 meiView.Viewer.prototype.toggleReconstruction = function(editor) {
-  this.selectedEditors.toggleEditor(editor);
-  this.selectReconstructions(this.selectedEditors.editors);
+  this.selectedReconstructors.toggleReconstructor(editor);
+  this.selectReconstructions(this.selectedReconstructors.editors);
+}
+
+meiView.Viewer.prototype.createReconstructorList = function() {
+  var result = {};
+  var editors = $(this.MEI.rich_head).find('fileDesc').find('editor');
+  var me = this;
+  $(editors).each(function(i) {
+    var edid = $(this).attr('xml:id');
+    if (!edid) throw "Editor ID is undefined";
+    if ($(me.MEI.rich_score).find('app[type="reconstruction"]').find('rdg[resp="#' + edid + '"]').length > 0) {
+      result[edid] = this;
+    }
+  });  
+  return result;
+}
+
+meiView.Viewer.prototype.createEditorList = function() {
+  var result = {};
+  var editors = $(this.MEI.rich_head).find('fileDesc').find('editor');
+  var me = this;
+  $(editors).each(function() {
+    var edid = $(this).attr('xml:id');
+    if (!edid) throw "Editor ID is undefined";
+    if ($(me.MEI.rich_score).find('sic[resp="#' + edid + '"]').length > 0) {
+      result[edid] = this;
+    }
+  });  
+  return result;
 }
 
 meiView.Viewer.prototype.createSourceList = function(Apps) {
