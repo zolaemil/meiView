@@ -21,6 +21,44 @@
 
 meiView = {};
 
+meiView.SelectedEditors = function() {
+  this.init();
+}
+
+meiView.SelectedEditors.prototype.init = function (){
+  this.editors = {};
+}
+
+meiView.SelectedEditors.prototype.addEditor = function(editor) {
+  if (this.editors[editor]) {
+    this.editors[editor] = false;
+  }
+}
+
+meiView.SelectedEditors.prototype.removeEditor = function(editor) {
+  if (!this.editors[editor]) {
+    this.editors[editor] = true;
+  }
+}
+
+meiView.SelectedEditors.prototype.toggleEditor = function(editor) {
+  if (this.editors[editor]) {
+    this.editors[editor] = false;
+  } else {
+    this.editors[editor] = true;
+  }
+}
+
+meiView.SelectedEditors.prototype.editorsList = function() {
+  var res = [];
+  $.each(this.editors, function(i, e) {
+    if (e) {
+      res.push(i);
+    }
+  });
+  return res;
+}
+
 meiView.Viewer = function(options) {
   this.init(options);
 }
@@ -72,7 +110,13 @@ meiView.Viewer.prototype.init = function(options){
     viewer: this_viewer,
     maindiv: options.maindiv,
     title: options.title,
-  });  
+  });
+  this.selectedEditors = new meiView.SelectedEditors();
+}
+
+meiView.Viewer.prototype.toggleReconstruction = function(editor) {
+  this.selectedEditors.toggleEditor(editor);
+  this.selectReconstructions(this.selectedEditors.editors);
 }
 
 meiView.Viewer.prototype.createSourceList = function(Apps) {
@@ -209,6 +253,34 @@ meiView.Viewer.prototype.displayCurrentPage = function() {
   this.UI.showTitle(this.pages.currentPageIndex === 0);
   this.UI.fabrCanvas.calcOffset();
   this.UI.updatePageLabels(this.pages.currentPageIndex+1, this.pages.totalPages())
+}
+
+meiView.Viewer.prototype.selectReconstructions = function(editors) {
+  var sectionplaneUpdate = {};
+
+  var apps = $(this.MEI.rich_score).find('app[type="reconstruction"]');
+  for (editorID in editors) {
+    var i;
+    for (i=0; i<apps.length; i++) {
+      var app = apps[i];
+      var app_xml_id=$(app).attr('xml:id');
+      var rdgs = $(app).find('rdg[resp="#'+editorID+'"]');
+      var j;
+      for (j=0; j<rdgs.length; j++) {
+        var rdg_xml_id = $(rdgs[j]).attr('xml:id');
+        if (sectionplaneUpdate[app_xml_id] && editors[editorID]) {
+          sectionplaneUpdate[app_xml_id].push(rdg_xml_id);
+        } else if (!sectionplaneUpdate[app_xml_id] && editors[editorID]) {
+          sectionplaneUpdate[app_xml_id] = [rdg_xml_id];
+        } else if (!sectionplaneUpdate[app_xml_id] && !editors[editorID]){
+          sectionplaneUpdate[app_xml_id] = [];
+        }
+      };
+    };
+  }
+
+  this.MEI.updateSectionView(sectionplaneUpdate);
+  this.displayCurrentPage();
 }
 
 meiView.Viewer.prototype.selectReconstruction = function(editor) {

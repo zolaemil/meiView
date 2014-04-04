@@ -45,9 +45,8 @@ permissions and limitations under the License.
   <link href="../css/meiview.css" rel="stylesheet">
   <script type="application/javascript" language="javascript">
 
-  
     var selectReconstruction = function(editor) {
-      viewer.selectReconstruction(editor)
+      viewer.toggleReconstruction(editor);
     }
     
     var switchReconstrs = function() {
@@ -85,7 +84,6 @@ permissions and limitations under the License.
   <script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
   <div id="tests">
   </div>
-  <button onclick="switchReconstrs()">Simple</Button>
   <button onclick="selectReconstruction('A')">A</Button>
   <button onclick="selectReconstruction('B')">B</Button>
 
