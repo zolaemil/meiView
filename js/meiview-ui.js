@@ -63,6 +63,7 @@ meiView.UI.prototype.init = function(options) {
   $(this.maindiv).append(this.base_html);
   this.titleDiv = $(this.maindiv).find('.titlediv');
   this.dots = {};
+  this.measure_n_texts = {};
   meiView.UI.addObject(this.viewer.id, this.viewer);
   meiView.UI.addObject(this.viewer.id + '-ui', this);
   // console.log($(this.maindiv).find('#' + this.score_id))
@@ -84,7 +85,7 @@ meiView.UI.prototype.init = function(options) {
   var titleElem = $(this.maindiv).find('span.title')[0];
 	$(titleElem).html(options.title);
 
-	this.fillSideBar($(this.maindiv).find('#accordion'), this.viewer.Sources, 'meiview-sidebar');
+	this.fillSideBar($(this.maindiv).find('#accordion'), 'meiview-sidebar');
 	$(this.maindiv).find('#accordion').accordion({
 		collapsible: true,
 		heightStyle: "content",
@@ -175,7 +176,16 @@ meiView.UI.prototype.updatePageLabels = function(current, total) {
   $(this.maindiv).find('#pageNumber-top, #pageNumber-bottom').html((current).toString() + '/' + total);
 }
 
-meiView.UI.prototype.fillSideBar = function(sidebardiv, sources, sidebar_class) {
+meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
+  var reconstructurs = this.viewer.Reconstructors;
+  sidebardiv.append('<h3 class="' + sidebar_class + '">Reconstructions</h3><div class="' + sidebar_class + '"><ul id="reconstructor-list"></ul></div>');
+  var listElem = sidebardiv.find('ul[id="reconstructor-list"]');
+  for (editorID in this.viewer.Reconstructors) {
+    var editor = this.viewer.Reconstructors[editorID];
+    listElem.append('<li class="meiview-sidebar-item" onclick="meiView.UI.callback(\'' + this.viewer.id + '-ui\', \'onReconstructionClick\', { editorID: \'' +  editorID + '\'})">' + editorID + '</li>');
+  }
+
+  var sources = this.viewer.Sources;
   for(src in sources){
     var source = sources[src];
     sidebardiv.append('<h3 class="' + sidebar_class + '">' + this.srcID2srcLabel(src) + '</h3><div class="' + sidebar_class + '"><ul id="' + src + '"></ul></div>');
@@ -183,7 +193,7 @@ meiView.UI.prototype.fillSideBar = function(sidebardiv, sources, sidebar_class) 
     for (var i=0; i<source.length; i++) {
       var appID = source[i].appID;
       var measure_n = source[i].measureNo;
-      listElem.append('<li id="' + this.liID(src, appID) + '" class="' +  this.toCSSId(appID) + ' meiview-sidebar-item" onclick="meiView.UI.callback(\'' + this.viewer.id + '-ui\', \'onSideBarClick\', {measure_n: ' + measure_n + ', appID: \'' +  appID + '\'})">' + this.appID2appLabel(appID) + '</li>')
+      listElem.append('<li id="' + this.liID(src, appID) + '" class="' +  this.toCSSId(appID) + ' meiview-sidebar-item" onclick="meiView.UI.callback(\'' + this.viewer.id + '-ui\', \'onSideBarClick\', { measure_n: ' + measure_n + ', appID: \'' +  appID + '\'})">' + this.appID2appLabel(appID) + '</li>')
     }
   }
 }
@@ -194,6 +204,10 @@ meiView.UI.callback = function(id, fname, params) {
 
 meiView.UI.onSideBarClick = function(id, measure_n, appID) {
   meiView.UI.objects[id].onSideBarClick(measure_n, appID);
+}
+
+meiView.UI.prototype.onReconstructionClick = function(params) {
+  this.viewer.toggleReconstruction(params.editorID);
 }
 
 meiView.UI.objects = {};
@@ -218,6 +232,7 @@ meiView.UI.prototype.renderMei2Canvas = function(score, options) {
   var score_height = options.vexHeight;
   Vex.LogInfo('Rendering MEI... ');
   MEI2VF.render_notation(score, tempCanvas.getElement(), score_width, score_height);
+  this.rendered_measures = MEI2VF.rendered_measures;
   Vex.LogInfo('Done rendering MEI');
   return tempCanvas;  
 }
@@ -261,21 +276,22 @@ meiView.UI.prototype.displayDotForAPP = function(appID) {
 
   // ...then display the dot at the coordinates specified by the
   // properties of MEI2VF.rendered_measures[measure_n][staff_n];
-  var vexStaffs = MEI2VF.rendered_measures[measure_n];
+  var vexStaffs = this.rendered_measures[measure_n];
   if (vexStaffs) {
     var vexStaff = vexStaffs[staff_n];
-    var dotInfo = {
-      appXmlID: appID, 
-      measure_n: Number(measure_n),
-      measure_top: vexStaff.y,
-      measure_left: vexStaff.x,
-      measure_width: vexStaff.width,
-      staff_n: Number(staff_n),
+    if (vexStaff) {
+      var dotInfo = {
+        appXmlID: appID, 
+        measure_n: Number(measure_n),
+        measure_top: vexStaff.y,
+        measure_left: vexStaff.x,
+        measure_width: vexStaff.width,
+        staff_n: Number(staff_n),
+      }
+      return { circle:this.displayDotForMeasure(vexStaff), info:dotInfo };
     }
-    return { circle:this.displayDotForMeasure(vexStaff), info:dotInfo };
   }
 }
-
 
 meiView.UI.prototype.displayDotForMeasure = function(vexStaff) { 
   if (vexStaff) {
@@ -299,6 +315,48 @@ meiView.UI.prototype.displayDotForMeasure = function(vexStaff) {
     this.fabrCanvas.add(circle);
     return circle;
   }
+}
+
+
+
+meiView.UI.prototype.displayMeasureNos = function() {
+  console.log('meiView.UI.prototype.displayMeasureNos()')
+  for (n in this.measure_n_texts) {
+    if (this.measure_n_texts[n])
+    { 
+      this.fabrCanvas.remove(this.measure_n_texts[n]);
+      delete this.measure_n_texts[n];
+    }
+  }
+  var rendered_measures = this.rendered_measures
+  var ui_scale = this.scale;
+  var ui_canvas = this.fabrCanvas;
+  var ui_measure_n_texts = this.measure_n_texts;
+  $.each(rendered_measures, function(n, measure) {
+    console.log('meiView.UI.prototype.displayMeasureNos() n:' + n);
+    if (measure) {
+      var vexStaff = measure[1];
+      console.log('meiView.UI.prototype.displayMeasureNos() vexStaff:');      
+      console.log(vexStaff);
+      var left = (vexStaff.x) * ui_scale;
+      var top = (vexStaff.y + 15) * ui_scale;
+      var text = new fabric.Text(n.toString(), {
+        fontSize: Math.round(16 * ui_scale),
+        fill: 'grey',
+        left:left, 
+        top:top, 
+        lockMovementX: true,
+        lockMovementY: true,
+        lockScalingX: true,
+        lockScalingY: true,
+        lockRotation: true,
+        hasControls: false,
+        hasBorders: false,
+      });
+      ui_canvas.add(text);
+      ui_measure_n_texts[n] = text;
+    }
+  });
 }
 
 meiView.UI.prototype.renderMei2Img = function(meixml, options) {
@@ -333,6 +391,9 @@ meiView.UI.prototype.renderPage = function(pageXML, options) {
     selectable: false,
   });
   this.fabrCanvas.add(this.scoreImg);
+  if (this.viewer.display_measure_numbers) {
+    this.displayMeasureNos();
+  }
   this.fabrCanvas.renderAll_Hack();
 }
 

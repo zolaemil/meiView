@@ -10,7 +10,7 @@ Licensed under the Apache License, Version 2.0 (the "License"); you
 may not use this file except in compliance with the License.  You may
 obtain a copy of the License at
 
-   http://www.apache.org/licenses/LICENSE-2.0
+http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,49 +22,51 @@ permissions and limitations under the License.
 <!DOCTYPE html>
 <html>
 <head>
-	<title>meiView - Test</title>
-	
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="support/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-	<!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> -->
-	<link rel="stylesheet" href="jquery-ui-1.10.3.custom/css/pepper-grinder/jquery-ui-1.10.3.custom.css" />
-	<script type="text/JavaScript" src="support/Fabric-all.js"></script>
-	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <title>meiView - Test</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="text/JavaScript" src="../../MEI2VF/bower_components/jquery/dist/jquery.min.js"></script>
+  <link href="support/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> -->
+  <link rel="stylesheet" href="jquery-ui-1.10.3.custom/css/pepper-grinder/jquery-ui-1.10.3.custom.css" />
+  <script type="text/JavaScript" src="support/Fabric-all.js"></script>
   <!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> -->
-	<script src="jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
-<!-- <script type="text/JavaScript" src="support/jquery-1.7.1.min.js"></script> -->
-	<script type="text/JavaScript" src="support/jquery.ba-bbq.min.js"></script>
-	<script type="text/JavaScript" src="support/vexflow-min.js"></script>
+  <script src="jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
+  <!-- <script type="text/JavaScript" src="support/jquery-1.7.1.min.js"></script> -->
+  <script type="text/JavaScript" src="support/jquery.ba-bbq.min.js"></script>
+  <script type="text/JavaScript" src="support/vexflow-min.js"></script>
 
-  <!-- MEITOVEXFLOW SOURCES FOR DEBUGGING -->
-  <script type="text/JavaScript" src="../../MEItoVexFlow/meilib.js"></script>
-  <script type="text/JavaScript" src="../../MEItoVexFlow/tables.js"></script>
-  <script type="text/JavaScript" src="../../MEItoVexFlow/meitovexflow.js"></script>
-  <script type="text/JavaScript" src="../../MEItoVexFlow/EventLink.js"></script>
-  <script type="text/JavaScript" src="../../MEItoVexFlow/EventReference.js"></script>
-  <script type="text/JavaScript" src="../../MEItoVexFlow/StaffInfo.js"></script>
-  <script type="text/JavaScript" src="../../MEItoVexFlow/StaveConnector.js"></script>
-  <script type="text/JavaScript" src="../../MEItoVexFlow/StaveVoices.js"></script>
-  
-  <!-- MEITOVEXFLOW COMPILED -->
-  <!-- <script type="text/JavaScript" src="support/meitovexflow-min.js"></script> -->
+  <script type="text/JavaScript" src="../../MEI2VF/dist/meitovexflow.js"></script>
   
 
-	<script type="text/JavaScript" src="support/loadxmldoc.js"></script>
-	<script type="text/JavaScript" src="../js/meiview.js"></script>
-	<script type="text/JavaScript" src="../js/meiview-ui.js"></script>
-	<link href="../css/meiview.css" rel="stylesheet">
-	<script type="application/javascript" language="javascript">
-		
-		$(document).ready( function(){
-      
+  <script type="text/JavaScript" src="support/loadxmldoc.js"></script>
+  <script type="text/JavaScript" src="../js/meiview.js"></script>
+  <script type="text/JavaScript" src="../js/meiview-ui.js"></script>
+  <link href="../css/meiview.css" rel="stylesheet">
+  <script type="application/javascript" language="javascript">
+
+    var selectReconstruction = function(editor) {
+      viewer.toggleReconstruction(editor);
+    }
+    
+    var switchReconstrs = function() {
+      var sectionplaneUpdate = {};
+      sectionplaneUpdate["app-recon-01"] = "rdgA.app-recon-01";
+      viewer.MEI.updateSectionView(sectionplaneUpdate);
+      viewer.displayCurrentPage();
+    }
+    
+
+    $(document).ready( function(){
+    
+    
       TCID = 'CanonicalMEI02';
       TCTitle = 'Canonical MEI - 02';
       $('#tests').append('<div id="meiview-container-' + TCID + '"/>');
-		  loadedXML = loadXMLDoc('DC-CanonicalMEI.02.xml');
+      loadedXML = loadXMLDoc('DC-CanonicalMEI.02.xml');
       meiDoc = new MeiLib.MeiDoc(loadedXML);
       pagination = new meiView.Pages();
-      pagination.AddPage(1, 2);
+      pagination.AddPage(1, 4);
 
       viewer = new meiView.Viewer({
         maindiv: $('#meiview-container-' + TCID),
@@ -72,16 +74,16 @@ permissions and limitations under the License.
         pages: pagination,
         title: TCTitle,
       });
-      			
+
       viewer.nextPage();
     })
-			</script>
-		</head>
+  </script>
+</head>
 
-		<body>
-			<script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
-			<div id="tests">
-      </div>
+<body>
+  <script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
+  <div id="tests">
+  </div>
 
-		</body>
-		</html>
+</body>
+</html>
