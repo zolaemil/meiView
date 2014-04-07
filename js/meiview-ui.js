@@ -236,6 +236,44 @@ meiView.UI.prototype.renderMei2Canvas = function(score, options) {
   Vex.LogInfo('Done rendering MEI');
   return tempCanvas;  
 }
+meiView.UI.prototype.displayVoiceNames = function(score) {
+  var voiceNames = this.viewer.voiceNames(score);
+  var this_UI = this;
+  //1. Hide all voicename-divs
+  $(this.maindiv).find('.voicename-div').hide();
+  for (staff_n in voiceNames) {
+    //2. display voiceNames[staff_n] in a voicename-div
+    //corresponding to staff_n
+    var voicename_div = this_UI.getVoiceNameDiv(staff_n);
+    //3. position them according layout logic
+    var measure = $(score).find('measure')[0];
+    if (measure) {
+      var measure_n = $(measure).attr('n') || "1";
+      var vexStaffs = this.rendered_measures[measure_n];
+      if (vexStaffs) {
+        var vexStaff = vexStaffs[staff_n];
+        if (vexStaff) {
+          var canvas_offset = $(this.maindiv).find('canvas').offset();
+          $(voicename_div).show();
+          $(voicename_div).css('position', 'absolute');
+          $(voicename_div).css('top', vexStaff.y * this.scale + canvas_offset.top);
+          $(voicename_div).css('left', vexStaff.x * this.scale + canvas_offset.left);
+          $(voicename_div).find('span').html(voiceNames[staff_n]);
+        }
+      }
+    }
+  }
+}
+
+meiView.UI.prototype.getVoiceNameDiv = function() {
+  var voicename_div = $(this.maindiv).find('.voicename-div.staff-n-' + staff_n);
+  if (voicename_div.length === 0) {
+    $(this.maindiv).append('<div class="voicename-div staff-n-' + staff_n +'"><span></span></div>');
+    return $(this.maindiv).find('.voicename-div.staff-n-' + staff_n);
+  } else {
+    return voicename_div;
+  }
+}
 
 meiView.UI.prototype.displayDots = function() {
   for (appID in this.dots) {

@@ -282,6 +282,7 @@ meiView.Viewer.prototype.displayCurrentPage = function() {
   this.UI.displayDots();
   this.UI.showTitle(this.pages.currentPageIndex === 0);
   this.UI.fabrCanvas.calcOffset();
+  this.UI.displayVoiceNames(pageXML);
   this.UI.updatePageLabels(this.pages.currentPageIndex+1, this.pages.totalPages())
 }
 
@@ -331,6 +332,26 @@ meiView.Viewer.prototype.selectReconstruction = function(editor) {
   this.displayCurrentPage();
 }
 
+meiView.Viewer.prototype.voiceNames = function(mei) {
+  // Return an associative object that contains the voice names indexed
+  // by staff/@n
+  var result = {};
+  var scoreDefs;
+  if (mei.localName === 'score') {
+    scoreDefs = $(mei).find('scoreDef');
+  } else {
+    scoreDefs = $(mei).find('score').find('scoreDef');
+  }
+  if (scoreDefs.length > 0) {
+    var staffDefs = $(scoreDefs[0]).find('staffDef');
+    $(staffDefs).each(function() {
+      var staff_n = $(this).attr('n') || "1";
+      result[staff_n] = $(this).attr('label') || "N/A";
+    });
+  }
+  return result;
+}
+
 meiView.Viewer.prototype.stavesToDisplay = function(plain_mei) {
   var result = [];
   staffNs = {};
@@ -348,6 +369,7 @@ meiView.Viewer.prototype.stavesToDisplay = function(plain_mei) {
   }  
   return result;
 }
+
 
 meiView.Viewer.prototype.selectVariant = function(varXmlID) {
   /* assuming meiView.selectingState.on === true */
