@@ -256,7 +256,7 @@ meiView.UI.prototype.displayVoiceNames = function(score) {
           var canvas_offset = $(this.maindiv).find('canvas').offset();
           $(voicename_div).show();
           $(voicename_div).css('position', 'absolute');
-          $(voicename_div).css('top', vexStaff.y * this.scale + canvas_offset.top);
+          $(voicename_div).css('top', vexStaff.y * this.scale + canvas_offset.top + 6);
           $(voicename_div).css('left', vexStaff.x * this.scale + canvas_offset.left);
           $(voicename_div).find('span').html(voiceNames[staff_n]);
         }
