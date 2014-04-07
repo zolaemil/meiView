@@ -215,9 +215,9 @@ meiView.UI.prototype.renderMei2Canvas = function(score, options) {
   tempCanvas.setDimensions({width:options.vexWidth, height:options.vexHeight});
   var score_width = options.vexWidth;
   var score_height = options.vexHeight;
-  Vex.LogInfo('Rendering MEI... ');
+  this.L('Rendering MEI... ');
   MEI2VF.render_notation(score, tempCanvas.getElement(), score_width, score_height, null, options);
-  Vex.LogInfo('Done rendering MEI');
+  this.L('Done rendering MEI');
   return tempCanvas;  
 }
 
@@ -280,7 +280,7 @@ meiView.UI.prototype.displayDotForMeasure = function(vexStaff) {
   if (vexStaff) {
     var left = (vexStaff.x + vexStaff.width - 12) * this.scale;
     // var top = (vexStaff.y + 30) * this.scale;
-    var top = (vexStaff.y + 20) * this.scale;
+    var top = (vexStaff.y + 25) * this.scale;
 
     var circle = new fabric.Circle({
       radius: 5, 
@@ -341,6 +341,8 @@ meiView.UI.prototype.renderPage = function(pageXML, options) {
 
 meiView.UI.prototype.initCanvas = function(canvasid) {
 
+  var me = this;
+
   var canvas = new fabric.Canvas(canvasid);
   canvas.hoverCursor = 'pointer';
   var this_ui = this;
@@ -397,8 +399,8 @@ meiView.UI.prototype.initCanvas = function(canvasid) {
       } else {
         this_ui.HideSelectorPanel();
       }
-      Vex.LogInfo(e.target);
-      Vex.LogInfo(e.target.meiViewID  + ': x:' + e.target.left + ', y:' + e.target.top);
+      me.L(e.target);
+      me.L(e.target.meiViewID  + ': x:' + e.target.left + ', y:' + e.target.top);
     }
   });
   
@@ -538,6 +540,12 @@ meiView.UI.prototype.HideSelectorPanel = function() {
   if (this.dlg) {
     this.dlg.hide();
   }
+}
+
+meiView.DO_LOG = true;
+
+meiView.UI.prototype.L = function() {
+  if (meiView.DO_LOG) Vex.L("meiView", arguments);
 }
 
 meiView.SelectorItem = function(options) {
