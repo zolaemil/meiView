@@ -1,0 +1,28 @@
+{
+  "name": "meiview",
+  "version": "0.1.0",
+  "homepage": "https://github.com/zolaemil/meiView",
+  "authors": [
+    "Zoltan Komives <zolaemil@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "qunit": "~1.14.0",
+  },
+  "keywords": [
+    "MEI",
+    "Viewer",
+    "MEItoVexFlow",
+    "VexFlow"
+  ],
+  "devDependencies": {
+    "qunit": "~1.14.0"
+  }
+}

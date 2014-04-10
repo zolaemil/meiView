@@ -26,3 +26,8 @@
 .meiview-source-disabled {
 	color: rgb(180,180,180);
 }
+
+.voicename-div {
+    background-color: white;
+    opacity: 0.5;
+}

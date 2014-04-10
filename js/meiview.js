@@ -21,9 +21,58 @@
 
 meiView = {};
 
+meiView.SelectedEditors = function() {
+  this.init();
+}
+
+meiView.SelectedEditors.prototype.init = function (){
+  this.editors = {};
+}
+
+meiView.SelectedEditors.prototype.addEditor = function(editor) {
+  if (this.editors[editor]) {
+    this.editors[editor] = false;
+  }
+}
+
+meiView.SelectedEditors.prototype.removeEditor = function(editor) {
+  if (!this.editors[editor]) {
+    this.editors[editor] = true;
+  }
+}
+
+meiView.SelectedEditors.prototype.toggleReconstructor = function(editor) {
+  if (this.editors[editor]) {
+    this.editors[editor] = false;
+  } else {
+    this.editors[editor] = true;
+  }
+}
+
+meiView.SelectedEditors.prototype.editorsList = function() {
+  var res = [];
+  $.each(this.editors, function(i, e) {
+    if (e) {
+      res.push(i);
+    }
+  });
+  return res;
+}
+
 meiView.Viewer = function(options) {
   this.init(options);
 }
+
+meiView.DISPLAY_MEASURE_NUMBERS = {
+  NONE: 0,
+  ALL: 1,
+/*TODO:  
+  EVERY_5: 5,
+  EVERY_10: 5,
+  SYSTEM: 'SYSTEM',
+*/
+}
+
 
 /**
  * Constructor of the MEI Viewer.
@@ -44,6 +93,7 @@ meiView.Viewer.prototype.init = function(options){
   this.id = options.id || randomID();
   this.MEI = options.MEI;
   this.MEI.initSectionView();
+  this.display_measure_numbers = options.display_measure_numbers;
   if (options.pages) {
     this.pages = options.pages;
   } else {
@@ -55,12 +105,48 @@ meiView.Viewer.prototype.init = function(options){
   this.scoreWidth = options.width || 1200; // 1000
   this.scoreHeight = options.height || 1000;
   this.Sources = this.createSourceList(this.MEI.ALTs);
+  this.Editors = this.createEditorList();
+  this.Reconstructors = this.createReconstructorList();
   this_viewer = this;
   this.UI = new meiView.UI({
     viewer: this_viewer,
     maindiv: options.maindiv,
     title: options.title,
+  });
+  this.selectedReconstructors = new meiView.SelectedEditors();
+}
+
+meiView.Viewer.prototype.toggleReconstruction = function(editor) {
+  this.selectedReconstructors.toggleReconstructor(editor);
+  this.selectReconstructions(this.selectedReconstructors.editors);
+}
+
+meiView.Viewer.prototype.createReconstructorList = function() {
+  var result = {};
+  var editors = $(this.MEI.rich_head).find('fileDesc').find('editor');
+  var me = this;
+  $(editors).each(function(i) {
+    var edid = $(this).attr('xml:id');
+    if (!edid) throw "Editor ID is undefined";
+    if ($(me.MEI.rich_score).find('app[type="reconstruction"]').find('rdg[resp="#' + edid + '"]').length > 0) {
+      result[edid] = this;
+    }
   });  
+  return result;
+}
+
+meiView.Viewer.prototype.createEditorList = function() {
+  var result = {};
+  var editors = $(this.MEI.rich_head).find('fileDesc').find('editor');
+  var me = this;
+  $(editors).each(function() {
+    var edid = $(this).attr('xml:id');
+    if (!edid) throw "Editor ID is undefined";
+    if ($(me.MEI.rich_score).find('sic[resp="#' + edid + '"]').length > 0) {
+      result[edid] = this;
+    }
+  });  
+  return result;
 }
 
 meiView.Viewer.prototype.createSourceList = function(Apps) {
@@ -191,7 +277,6 @@ meiView.Viewer.prototype.jumpToMeasure = function(i) {
 }
 
 meiView.Viewer.prototype.displayCurrentPage = function() {
-  //TODO: remove non-displayed staves -- Here or in meilib.js when creating the section view?
   var pageXML = this.getPageXML(this.pages.currentPage());
   var isFirstPage = (this.pages.currentPageIndex === 0);
   this.UI.renderPage(pageXML, {
@@ -209,9 +294,94 @@ meiView.Viewer.prototype.displayCurrentPage = function() {
   this.UI.displayDots();
   this.UI.showTitle(isFirstPage);
   this.UI.fabrCanvas.calcOffset();
+  this.UI.displayVoiceNames(pageXML);
   this.UI.updatePageLabels(this.pages.currentPageIndex+1, this.pages.totalPages())
 
 }
+
+meiView.Viewer.prototype.selectReconstructions = function(editors) {
+  var sectionplaneUpdate = {};
+
+  var apps = $(this.MEI.rich_score).find('app[type="reconstruction"]');
+  for (editorID in editors) {
+    var i;
+    for (i=0; i<apps.length; i++) {
+      var app = apps[i];
+      var app_xml_id=$(app).attr('xml:id');
+      var rdgs = $(app).find('rdg[resp="#'+editorID+'"]');
+      var j;
+      for (j=0; j<rdgs.length; j++) {
+        var rdg_xml_id = $(rdgs[j]).attr('xml:id');
+        if (sectionplaneUpdate[app_xml_id] && editors[editorID]) {
+          sectionplaneUpdate[app_xml_id].push(rdg_xml_id);
+        } else if (!sectionplaneUpdate[app_xml_id] && editors[editorID]) {
+          sectionplaneUpdate[app_xml_id] = [rdg_xml_id];
+        } else if (!sectionplaneUpdate[app_xml_id] && !editors[editorID]){
+          sectionplaneUpdate[app_xml_id] = [];
+        }
+      };
+    };
+  }
+
+  this.MEI.updateSectionView(sectionplaneUpdate);
+  this.displayCurrentPage();
+}
+
+meiView.Viewer.prototype.selectReconstruction = function(editor) {
+  var sectionplaneUpdate = {};
+  var apps = $(this.MEI.rich_score).find('app[type="reconstruction"]');
+  var i;
+  for (i=0; i<apps.length; i++) {
+    var app = apps[i];
+    var app_xml_id=$(app).attr('xml:id');
+    var rdgs = $(app).find('rdg[resp="#'+editor+'"]');
+    var j;
+    for (j=0; j<rdgs.length; j++) {
+      var rdg_xml_id = $(rdgs[j]).attr('xml:id');
+      sectionplaneUpdate[app_xml_id] = [rdg_xml_id];
+    }
+  }
+  this.MEI.updateSectionView(sectionplaneUpdate);
+  this.displayCurrentPage();
+}
+
+meiView.Viewer.prototype.voiceNames = function(mei) {
+  // Return an associative object that contains the voice names indexed
+  // by staff/@n
+  var result = {};
+  var scoreDefs;
+  if (mei.localName === 'score') {
+    scoreDefs = $(mei).find('scoreDef');
+  } else {
+    scoreDefs = $(mei).find('score').find('scoreDef');
+  }
+  if (scoreDefs.length > 0) {
+    var staffDefs = $(scoreDefs[0]).find('staffDef');
+    $(staffDefs).each(function() {
+      var staff_n = $(this).attr('n') || "1";
+      result[staff_n] = $(this).attr('label') || "N/A";
+    });
+  }
+  return result;
+}
+
+meiView.Viewer.prototype.stavesToDisplay = function(plain_mei) {
+  var result = [];
+  staffNs = {};
+  staffDefs = $(plain_mei).find('staffDef');
+  var i;
+  for (i=0; i<staffDefs.length; i++) {
+    sd = staffDefs[i];
+    N = +$(sd).attr('n') || 1;
+    if ($(plain_mei).find('staff[n="' + N + '"]').length > 0) {
+      if (result.indexOf(N) === -1) {
+        result.push(Number(N));
+      }
+    }
+  }  
+  return result;
+}
+
 
 meiView.Viewer.prototype.selectVariant = function(varXmlID) {
   /* assuming meiView.selectingState.on === true */
@@ -229,7 +399,8 @@ meiView.Viewer.prototype.selectVariant = function(varXmlID) {
  */
 meiView.Viewer.prototype.getPageXML = function(page) {
   var noMeter = (page.startMeasureN !== 1);
-  return this.MEI.getSectionViewSlice({start_n:page.startMeasureN, end_n:page.endMeasureN, noMeter:noMeter});
+  staves = this.stavesToDisplay(this.MEI.sectionview_score);
+  return this.MEI.getSectionViewSlice({start_n:page.startMeasureN, end_n:page.endMeasureN, noMeter:noMeter, staves:staves});
 }
 
 meiView.Viewer.prototype.loadXMLString = function(txt) {
