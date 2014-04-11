@@ -181,28 +181,19 @@ meiView.UI.prototype.updatePageLabels = function(current, total) {
 }
 
 meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
+
   var reconstructurs = this.viewer.Reconstructors;
-  sidebardiv.append('<h3 class="' + sidebar_class + '">Reconstructions</h3><div class="' + sidebar_class + '"><ul id="reconstructor-list"></ul></div>');
-  var listElem = sidebardiv.find('ul[id="reconstructor-list"]');
   for (editorID in this.viewer.Reconstructors) {
+    var listElem = sidebardiv.find('ul[id="reconstructor-list"]');
+    if (listElem.length === 0) {
+      sidebardiv.append('<h3 class="' + sidebar_class + '">Reconstructions</h3><div class="' + sidebar_class + '"><ul id="reconstructor-list"></ul></div>');
+      listElem = sidebardiv.find('ul[id="reconstructor-list"]');
+    }
     var editor = this.viewer.Reconstructors[editorID];
     listElem.append('<li class="meiview-sidebar-item" onclick="meiView.UI.callback(\'' + this.viewer.id + '-ui\', \'onReconstructionClick\', { editorID: \'' +  editorID + '\'})">' + editorID + '</li>');
   }
 
-  var sources = this.viewer.Sources;
-  for(src in sources){
-    var source = sources[src];
-    sidebardiv.append('<h3 class="' + sidebar_class + '">' + this.srcID2srcLabel(src) + '</h3><div class="' + sidebar_class + '"><ul id="' + src + '"></ul></div>');
-    var listElem = sidebardiv.find('ul[id="'+src+'"]');
-    for (var i=0; i<source.length; i++) {
-      var appID = source[i].appID;
-      var measure_n = source[i].measureNo;
-      listElem.append('<li id="' + this.liID(src, appID) + '" class="' +  this.toCSSId(appID) + ' meiview-sidebar-item" onclick="meiView.UI.callback(\'' + this.viewer.id + '-ui\', \'onSideBarClick\', { measure_n: ' + measure_n + ', appID: \'' +  appID + '\'})">' + this.appID2appLabel(appID) + '</li>')
-    }
-  }
-
   var emendations = this.viewer.Emendations;
-
   var choices = $(this.viewer.MEI.rich_score).find('choice');
   if (choices.length > 0) {
     sidebardiv.append('<h3 class="' + sidebar_class + '">Emendations</h3><div class="' + sidebar_class + '"><ul class="emendations-list"></ul></div>');
@@ -225,6 +216,19 @@ meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
       }
     }
   }
+
+  var sources = this.viewer.Sources;
+  for(src in sources){
+    var source = sources[src];
+    sidebardiv.append('<h3 class="' + sidebar_class + '">' + this.srcID2srcLabel(src) + '</h3><div class="' + sidebar_class + '"><ul id="' + src + '"></ul></div>');
+    var listElem = sidebardiv.find('ul[id="'+src+'"]');
+    for (var i=0; i<source.length; i++) {
+      var appID = source[i].appID;
+      var measure_n = source[i].measureNo;
+      listElem.append('<li id="' + this.liID(src, appID) + '" class="' +  this.toCSSId(appID) + ' meiview-sidebar-item" onclick="meiView.UI.callback(\'' + this.viewer.id + '-ui\', \'onSideBarClick\', { measure_n: ' + measure_n + ', appID: \'' +  appID + '\'})">' + this.appID2appLabel(appID) + '</li>')
+    }
+  }
+
 }
 
 meiView.UI.callback = function(id, fname, params) {
