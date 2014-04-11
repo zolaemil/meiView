@@ -52,7 +52,7 @@ permissions and limitations under the License.
       TCTitle = 'Du Chemin: DC0110.mei';
       $('#tests').append('<div id="meiview-container-' + TCID + '"/>');
       var loadedXML = loadXMLDoc('DC0110E.xml');
-      var filteredXml = meiView.filterMei(loadedXML);
+      var filteredXml = meiView.filterMei(loadedXML, {noSysBreak: true});
 
       meiDoc = new MeiLib.MeiDoc(filteredXml);
       pagination = new meiView.Pages();

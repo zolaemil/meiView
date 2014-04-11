@@ -25,7 +25,7 @@
  */
 meiView = (typeof meiView == "undefined")? {} : meiView;
 
-meiView.filterMei = function(meiXml) { 
+meiView.filterMei = function(meiXml, options) {
   
   /**
    * Propagate relevant attribute values from scoreDef into staffDef elements
@@ -63,5 +63,9 @@ meiView.filterMei = function(meiXml) {
     propagateScoreDefAttrs(this);
   });
   
+  if (options.noSysBreak) {
+    $(music).find('sb').remove();
+  }
+
   return meiXml;
 }
