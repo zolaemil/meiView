@@ -326,8 +326,8 @@ meiView.UI.prototype.displayDotForAPP = function(appID) {
   // so, in order to retreive the right measure we have to know the measure number and the 
   // staff number:
 
-  // get the meausure number first, 
-  var app = $(this.viewer.MEI.rich_score).find('app[xml\\:id="' + appID + '"], choice[xml\\:id="' + appID + '"]')[0];
+  // get the meausure number first,
+  var app = this.viewer.MEI.ALTs[appID].elem; 
   var parent_measure = $(app).parents('measure');
   var measure_n = parent_measure.attr('n');
 
