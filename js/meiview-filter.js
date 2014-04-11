@@ -26,7 +26,7 @@
 meiView = (typeof meiView == "undefined")? {} : meiView;
 
 meiView.filterMei = function(meiXml, options) {
-  
+  var options = options || {};
   /**
    * Propagate relevant attribute values from scoreDef into staffDef elements
    */
