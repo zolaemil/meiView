@@ -327,7 +327,7 @@ meiView.UI.prototype.displayDotForAPP = function(appID) {
   // staff number:
 
   // get the meausure number first, 
-  var app = $(this.viewer.MEI.rich_score).find('app[xml\\:id="' + appID + '"]')[0];
+  var app = $(this.viewer.MEI.rich_score).find('app[xml\\:id="' + appID + '"], choice[xml\\:id="' + appID + '"]')[0];
   var parent_measure = $(app).parents('measure');
   var measure_n = parent_measure.attr('n');
 
