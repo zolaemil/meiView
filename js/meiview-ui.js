@@ -127,37 +127,41 @@ meiView.UI.prototype.srcID2srcLabel = function(src) {
   }
 }
 
-meiView.UI.prototype.appID2appLabel = function(appID) {
-  /* Very encoding specific calculation. Maybe a better solution later?*/
-  var str = appID.replace(/^app[0-9]*\./, '');
-  var locationPart = str.match(/(((n[1-9])?l[1-9])?s[1-9])?m[1-9][0-9]*/);
-  var label = '';
-  if (locationPart) {
-    label = locationPart[0].match(/m[1-9][0-9]*/)[0].replace('m', 'measure ');
-    var voice = locationPart[0].match(/s[1-4]/);
-    if (voice) { 
-      /* Should this come from the scoreDef labels? */
-      switch (voice[0].match(/[1-4]/)[0]) {
-        case '1': label += ' Supremus'; break;
-        case '2': label += ' Altus'; break;
-        case '3': label += ' Tenor'; break;
-        case '4': label += ' Bassus'; break;
-      } 
-    }
-    str = str.replace(locationPart[0], '');
+meiView.UI.prototype.editorID2editorLabel = function(src) {
+  if (src === 'sic') {
+    return 'Sic (mistakes in base text)'
+  } else {
+    return 'Corrected by ' + src.replace(/^#/, '');
   }
-  if (str.length > 0) {
-    if (label.length > 0) label += ' ';
-    extraInfo = str.replace(/^\./, '').split('.');
-    for (var i=0; i<extraInfo.length; i++) {
-      if (i === 0) {
-        label += '(';
-      } else if (extraInfo[i].length>0) {
-        label += ', ';
-      } 
-      label += extraInfo[i];
-      if (i === extraInfo.length-1) label += ')';
+}
+
+
+meiView.UI.prototype.choiceItem2choiceItemLabel = function(altitem) {
+  var label = '';
+  if (altitem.localName === 'sic') {
+    label = 'sic';
+  } else  if (altitem.localName === 'corr') {
+    label = 'corr. by ' + $(altitem).attr('resp').replace(/^#/, '');
+  }
+  return label;
+}
+
+meiView.UI.prototype.appID2appLabel = function(appID) {
+  var app = $(this.viewer.MEI.rich_score).find('app[xml\\:id="' + appID + '"], choice[xml\\:id="' + appID + '"]');
+  var measure = app.closest('measure');
+
+  var label = 'M' + measure.attr('n');
+  var staff = app.closest('staff');
+  if (staff.length>0) {
+    var staff_n = staff.attr('n') || '1';
+    var staffDefs = app.closest('score').find('staffDef[n="' + staff_n + '"]');
+    var i;
+    var staff_l = '';
+    for (i=0; i<staffDefs.length; ++i) {
+      staff_l = $(staffDefs[i]).attr('label.abbr') || $(staffDefs[i]).attr('label') || staff_l;
     }
+    if (staff_l.length > 4) staff_l = staff_l.substr(0,1);
+    label += '.' + staff_l;
   }
   return label;
 }
@@ -194,6 +198,31 @@ meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
       var appID = source[i].appID;
       var measure_n = source[i].measureNo;
       listElem.append('<li id="' + this.liID(src, appID) + '" class="' +  this.toCSSId(appID) + ' meiview-sidebar-item" onclick="meiView.UI.callback(\'' + this.viewer.id + '-ui\', \'onSideBarClick\', { measure_n: ' + measure_n + ', appID: \'' +  appID + '\'})">' + this.appID2appLabel(appID) + '</li>')
+    }
+  }
+
+  var emendations = this.viewer.Emendations;
+
+  var choices = $(this.viewer.MEI.rich_score).find('choice');
+  if (choices.length > 0) {
+    sidebardiv.append('<h3 class="' + sidebar_class + '">Emendations</h3><div class="' + sidebar_class + '"><ul class="emendations-list"></ul></div>');
+    var emendListElem = sidebardiv.find('ul.emendations-list');
+    var i=0;
+    for (var i;i<choices.length; i++) {
+      var choice = choices[i]
+      var choiceID = $(choice).attr('xml:id');
+      var liID = this.toCSSId(choiceID);
+      emendListElem.append('<li id="' + liID + '" class="meiview-sidebar-item">' + this.appID2appLabel(choiceID) + '</li>');
+      var liItem = $(emendListElem).find('li#' + liID);
+      liItem.append('<ul></ul>');
+      var ul = liItem.find('ul');
+      var altitems = $(choice).find('sic, corr');
+      var j = 0;
+      for (var j; j<altitems.length; j++) {
+        var altitem = altitems[j];
+        var xmlID = $(altitem).attr('xml:id');
+        ul.append('<li id="' + this.liID(xmlID, liID) + '" class="meiview-sidebar-item">' + this.choiceItem2choiceItemLabel(altitem) +'</li>');
+      }
     }
   }
 }
