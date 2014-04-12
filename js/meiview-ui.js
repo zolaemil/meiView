@@ -231,7 +231,7 @@ meiView.UI.prototype.renderMei2Canvas = function(score, options) {
   var score_height = options.vexHeight;
   this.L('Rendering MEI... ');
   MEI2VF.render_notation(score, tempCanvas.getElement(), score_width, score_height, null, options);
-  this.rendered_measures = MEI2VF.getRenderedMeasures();
+  this.rendered_measures = MEI2VF.rendered_measures;
   this.L('Done rendering MEI');
   return tempCanvas;  
 }
@@ -313,7 +313,7 @@ meiView.UI.prototype.displayDotForAPP = function(appID) {
 
   // ...then display the dot at the coordinates specified by the
   // properties of MEI2VF.rendered_measures[measure_n][staff_n];
-  var vexStaffs = MEI2VF.getRenderedMeasures()[measure_n];
+  var vexStaffs = MEI2VF.rendered_measures[measure_n];
   if (vexStaffs) {
     var vexStaff = vexStaffs[staff_n];
     if (vexStaff) {
@@ -694,7 +694,7 @@ meiView.SelectorPanel.prototype.setCanvas = function(fabricCanvas) {
 
 meiView.SelectorPanel.prototype.addItem = function(text, singleVarSliceXML, selected, xmlID) {
   var imgData = this.UI.renderMei2Img(singleVarSliceXML, {
-    labelScheme: 1,
+    labelMode: 'full',
     systemLeftMar: 100,
     page_margin_top: 20,
     staveSpacing: 70,

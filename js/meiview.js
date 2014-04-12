@@ -280,7 +280,7 @@ meiView.Viewer.prototype.displayCurrentPage = function() {
   var pageXML = this.getPageXML(this.pages.currentPage());
   var isFirstPage = (this.pages.currentPageIndex === 0);
   this.UI.renderPage(pageXML, {
-    labelScheme: (isFirstPage) ? 1 : 2,
+    labelMode: (isFirstPage) ? 'full' : 'abbr',
     systemLeftMar: (isFirstPage) ? 100 : 25,
     page_margin_top: 30,
     staveSpacing: 70,
