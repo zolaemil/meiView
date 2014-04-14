@@ -19,6 +19,9 @@
 * permissions and limitations under the License.
 ***/
 
+// the default line thickness is 2, but this renders poorly with meiView's scaling
+Vex.Flow.STAVE_LINE_THICKNESS = 1;
+
 meiView = {};
 
 meiView.SelectedEditors = function() {
@@ -280,13 +283,14 @@ meiView.Viewer.prototype.displayCurrentPage = function() {
   var pageXML = this.getPageXML(this.pages.currentPage());
   var isFirstPage = (this.pages.currentPageIndex === 0);
   this.UI.renderPage(pageXML, {
-    labelMode: (isFirstPage) ? 'full' : 'abbr',
-    systemLeftMar: (isFirstPage) ? 100 : 25,
+    // labelMode: (isFirstPage) ? 'full' : 'abbr',
+    // systemLeftMar: (isFirstPage) ? 100 : 25,
     page_margin_top: 30,
     staveSpacing: 70,
     systemSpacing: 90,
     staff: {
-      bottom_text_position : 8
+      bottom_text_position : 8,
+      fill_style : "#000000"
     },
     vexWidth:this.scoreWidth, 
     vexHeight:this.scoreHeight

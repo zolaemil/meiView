@@ -700,7 +700,8 @@ meiView.SelectorPanel.prototype.addItem = function(text, singleVarSliceXML, sele
     staveSpacing: 70,
     systemSpacing: 90,
     staff: {
-      bottom_text_position : 8
+      bottom_text_position : 8,
+      fill_style : "#000000"
     },
     vexWidth:this.measureWidth, 
     vexHeight:this.measureHeight 

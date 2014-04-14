@@ -30,7 +30,7 @@
 </staffGrp>
 					</scoreDef>
 					<section>
-						<scoreDef system.leftmar="100"/>
+						<!-- <scoreDef system.leftmar="100"/> -->
 						<measure n="1">
 							<staff n="1">
 								<layer>
@@ -310,7 +310,7 @@
 							</staff>
 						</measure>
 						<sb/>
-						<scoreDef system.leftmar="25"/>
+						<!-- <scoreDef system.leftmar="25"/> -->
 						<measure n="7">
 							<staff n="1">
 								<layer>
