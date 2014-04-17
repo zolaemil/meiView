@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" xml:id="m-65f52309-ba43-4133-a152-493cda1a8897" meiversion="2013">
+  <meiHead xml:id="m-ecf43275-bea4-407f-9d62-47da56b2aee2">
+    <fileDesc xml:id="m-d373527d-52e8-47ec-8d29-d1ee8fb3a4a5">
+      <titleStmt xml:id="m-e859c0db-9fa3-4a05-b148-0fe615aac47b">
+        <title xml:id="m-c40c6b4c-a205-41a4-b75c-da93261f2e0e"/>
+        <respStmt xml:id="m-61310d68-de63-4635-9e08-15c4dc54c710">
+          <persName xml:id="m-b3a352b4-b1a5-4559-b22f-fdb3629ade65"/>
+        </respStmt>
+        <editor xml:id="A"/>
+        <editor xml:id="B"/>
+        <editor xml:id="Komives"/>
+      </titleStmt>
+      <pubStmt xml:id="m-7494b37f-d154-4aef-91a4-2ca4fbf0e2d7">
+        <availability xml:id="m-c5177f55-455f-4f2c-b7a4-64e06d36215c">
+          <useRestrict xml:id="m-26120ff1-88d6-475e-88cb-81d0d3f765b3">Copyright © </useRestrict>
+        </availability>
+      </pubStmt>
+      <sourceDesc xml:id="m-88e98c7e-5ff7-4002-af00-c225a5f9121e">
+        <source xml:id="Source-A"/>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc xml:id="m-e7327c89-eedf-4ab5-9f8a-9d45ac592fb4">
+      <appInfo xml:id="m-e6c8a24c-6de0-416e-adb7-3733e142c9cc">
+        <application xml:id="sibelius7" version="7">
+          <name xml:id="m-c9e191dc-c9c1-4999-b642-7050321d28db">Sibelius</name>
+        </application>
+      </appInfo>
+    </encodingDesc>
+    <workDesc xml:id="m-8b5afa68-f9b2-4552-b887-fd18bfe39e4e">
+      <work xml:id="m-ca798429-c7c3-4f68-b92d-95314497d0b1">
+        <titleStmt xml:id="m-033b89a9-cbc1-48f4-a6d1-6134a979eb5b">
+          <title xml:id="m-f74b5955-a9fd-4d77-b146-0550c3ed2df4"/>
+          <respStmt xml:id="m-c77995a8-d8e4-4f58-8a0a-ec0c661734d3"/>
+        </titleStmt>
+        <incip xml:id="m-e942e387-8ed0-4ae3-8452-2a70cbbba9ed">
+          <score xml:id="m-458856f7-c81d-45b1-8b7e-bf5b6b46144b">
+            <scoreDef meter.count="4" meter.unit="2" ppq="256">
+              <staffGrp>
+                <staffGrp n="1" symbol="bracket">
+                  <staffDef clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Superius" lines="5" n="1"/>
+                  <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Tenor" lines="5" n="5"/>
+                  <staffDef clef.line="4" clef.shape="F" key.mode="major" key.sig="0" label="Bassus" lines="5" n="7"/>
+                </staffGrp>
+              </staffGrp>
+            </scoreDef>
+          </score>
+        </incip>
+      </work>
+    </workDesc>
+  </meiHead>
+  <music xml:id="m-f9862dd6-87ca-4a49-bfe1-7495a0a27cae">
+    <body xml:id="m-3d79a570-7ad8-4d3b-b411-5400315c1225">
+      <mdiv xml:id="m-5dfb0e14-9afc-44ce-9d34-e2c5f4ac242c">
+        <score xml:id="m-2875a860-d59a-4237-bb0e-f5d901e090f4">
+          <scoreDef xml:id="m-7d1617c8-843e-4e7b-9113-a38e062c1580" meter.count="4" meter.unit="2" ppq="256">
+            <staffGrp xml:id="m-9294faba-39d9-4958-859c-2800c9182959">
+              <staffGrp xml:id="m-f3fef126-8b82-47ad-aef2-086d71ac534b" n="1" symbol="bracket">
+                <staffDef xml:id="sd1" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Superius" lines="5" n="1"/>
+                <staffDef xml:id="sd2" label="Contratenor" n="2"/>
+                <staffDef xml:id="sd3" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Contratenor_Reconstruction_A" lines="5" n="3"/>
+                <staffDef xml:id="sd4" clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Contratenor_Reconstruction_B" lines="5" n="4"/>
+                <staffDef xml:id="sd5" clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Tenor" lines="5" n="5"/>
+                <staffDef xml:id="sd7" clef.line="4" clef.shape="F" key.mode="major" key.sig="0" label="Bassus" lines="5" n="7"/>
+              </staffGrp>
+            </staffGrp>
+          </scoreDef>
+          <section xml:id="m-d703da91-8d67-4cb2-959f-3ec2de7ce011">
+            <pb xml:id="m-0438a911-b954-4dd1-be74-7dabf27a033b" n="1"/>
+            <measure xml:id="m-e20a3ca0-00ca-4d2c-a122-d2d05b977e9c" label="1" n="1" right="end">
+              <staff xml:id="m-34a39b1d-f18d-4147-befb-505a76b46426" n="1">
+                <layer xml:id="m-76f9c231-0106-4433-9878-1ea351d1e7bd" n="1">
+                  <note xml:id="p1ccd5n0v1b1s1" dur="2" dur.ges="512p" oct="5" pname="c"/>
+                  <note xml:id="p1ccd5n512v1b1s1" dur="2" dur.ges="512p" oct="5" pname="c"/>
+                  <note xml:id="p1ccd5n1024v1b1s1" dur="2" dur.ges="512p" oct="5" pname="c"/>
+                  <note xml:id="p1ccd5n1536v1b1s1" oct="5" pname="c" dur="breve" dur.ges="4096p"/>
+                </layer>
+              </staff>
+              <app xml:id="app-recon" n="2" type="reconstruction">
+                <rdg xml:id="rdgA.app-recon" n="3" resp="#A">
+                  <staff xml:id="m-0ca2d992-0aaf-4a5f-acc3-fe9642d13885" n="3">
+                    <layer xml:id="m-3b899cb4-76b2-4a33-9646-fe690a7b4ac7" n="1">
+                      <note xml:id="p1ced4n0v1b1s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
+                      <note xml:id="p1ced4n512v1b1s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
+                      <note xml:id="p1ced4n1024v1b1s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
+                      <note xml:id="p1ced4n1536v1b1s3" oct="4" pname="e" dur="breve" dur.ges="4096p"/>
+                    </layer>
+                  </staff>
+                </rdg>
+                <rdg xml:id="rdgB.app-recon" n="4" resp="#B">
+                  <staff xml:id="m-29bee01b-6eb2-4bd4-b63b-e3a588af92f4" n="4">
+                    <layer xml:id="m-de5a95a6-a224-44f7-be2e-eee276f82baa" n="1">
+                      <note xml:id="p1ced4n0v1b1s4" dur="4" dur.ges="256p" oct="4" pname="e"/>
+                      <note xml:id="p1cgd4n256v1b1s4" dur="4" dur.ges="256p" oct="4" pname="g"/>
+                      <note xml:id="p1ced4n512v1b1s4" dur="4" dur.ges="256p" oct="4" pname="e"/>
+                      <note xml:id="p1cgd4n768v1b1s4" dur="4" dur.ges="256p" oct="4" pname="g"/>
+                      <note xml:id="p1ced4n1024v1b1s4" dur="4" dur.ges="256p" oct="4" pname="e"/>
+                      <note xml:id="p1cgd4n1280v1b1s4" dur="4" dur.ges="256p" oct="4" pname="g"/>
+                      <note xml:id="p1ced4n1536v1b1s4" dur="4" dur.ges="256p" oct="4" pname="e"/>
+                      <note xml:id="p1cgd4n1792v1b1s4" oct="4" pname="g" dur="breve" dur.ges="4096p"/>
+                    </layer>
+                  </staff>
+                </rdg>
+              </app>
+              <staff xml:id="m-a751dfcc-0a15-4ce9-9516-52e5e2c8472d" n="5">
+                <layer xml:id="m-7d362e21-42f0-4149-bba1-62879ccc177a" n="1">
+                  <note xml:id="p1ced3n0v1b1s5" dur="2" dur.ges="512p" oct="3" pname="e"/>
+                  <choice xml:id="choice01">
+                    <sic xml:id="sic-choice01">
+                      <note xml:id="p1cfd3n512v1b1s5" dur="2" dur.ges="512p" oct="3" pname="f"/>
+                    </sic>
+                    <corr xml:id="corr01-choice01" resp="#Komives">
+                      <note xml:id="p1ced3n512v1b1s6" color="rgba(255,0,0,1)" dur="2" dur.ges="512p" oct="3" pname="e"/>
+                    </corr>
+                  </choice>
+                  <note xml:id="p1ced3n1024v1b1s5" dur="2" dur.ges="512p" oct="3" pname="e"/>
+                  <note xml:id="p1ced3n1536v1b1s5" oct="3" pname="e" dur="breve" dur.ges="4096p"/>
+                </layer>
+              </staff>
+              <staff xml:id="m-0631d86b-0929-498b-9155-1b6f5d29b372" n="7">
+                <layer xml:id="m-907cbfc3-846f-4a83-86ff-9ca9c5b0797c" n="1">
+                  <note xml:id="p1ccd3n0v1b1s7" dur="2" dur.ges="512p" oct="3" pname="c"/>
+                  <note xml:id="p1ccd3n512v1b1s7" dur="2" dur.ges="512p" oct="3" pname="c"/>
+                  <app xml:id="app-var">
+                    <lem xml:id="lem.app-var">
+                      <note xml:id="p1ccd3n1024v1b1s7" dur="2" dur.ges="512p" oct="3" pname="c"/>
+                      <note xml:id="p1ccd3n1536v1b1s7" oct="3" pname="c" dur="breve" dur.ges="4096p"/>
+                    </lem>
+                    <rdg xml:id="rdg.app-var" source="#Source-A">
+                      <note xml:id="p1ccd4n1024v1b1s8" color="rgba(255,0,0,1)" dur="2" dur.ges="512p" oct="4" pname="c"/>
+                      <note xml:id="p1ccd4n1536v1b1s8" color="rgba(255,0,0,1)" oct="4" pname="c" dur="breve" dur.ges="4096p"/>
+                    </rdg>
+                  </app>
+                </layer>
+              </staff>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>

@@ -107,8 +107,7 @@ meiView.Viewer.prototype.init = function(options){
   }
   this.scoreWidth = options.width || 1200; // 1000
   this.scoreHeight = options.height || 1000;
-  this.Sources = this.createSourceList(this.MEI.ALTs);
-  this.Editors = this.createEditorList();
+  this.createSourceList(this.MEI.ALTs);
   this.Reconstructors = this.createReconstructorList();
   this_viewer = this;
   this.UI = new meiView.UI({
@@ -153,32 +152,46 @@ meiView.Viewer.prototype.createEditorList = function() {
 }
 
 meiView.Viewer.prototype.createSourceList = function(Apps) {
-  var result = {}
+
+  this.Sources = {};
+  this.Emendations = {};
   for(appID in Apps) {
     var app = Apps[appID];
+    var resultList;
+    if (app.tagname === 'app') {
+      resultList = this.Sources;
+    } else if (app.tagname === 'choice') {
+      resultList = this.Emendations
+    }
     for(varXMLID in app.altitems) {
       var altitem = app.altitems[varXMLID];
-      if (altitem.tagname === 'rdg') {
-        if (altitem.source) {
-          var srcIDs = altitem.source.split(' ');
+      var tagname = altitem.tagname;
+      if (tagname === 'rdg' || tagname === 'corr') {
+        var source_resp;
+        if (tagname === 'rdg') { 
+          source_resp = altitem.source;
+        } else {
+          source_resp = altitem.resp
+        }
+        if (source_resp) {
+          var srcIDs = source_resp.split(' ');
           for (var k=0; k<srcIDs.length; k++) {
             var srcID = srcIDs[k];
-            if (!result[srcID]) {
-              result[srcID] = [];
+            if (!resultList[srcID]) {
+              resultList[srcID] = [];
             }
-            var measure_n = $($(this.MEI.rich_score).find('app[xml\\:id="'+app.xmlID+'"]').closest('measure')[0]).attr('n');
-            result[srcID].push( { appID:app.xmlID, measureNo:measure_n } );
+            var measure_n = $($(app.elem).closest('measure')[0]).attr('n');
+            resultList[srcID].push( { appID:app.xmlID, measureNo:measure_n } );
           } 
         }
-      } else if (altitem.tagname === 'lem') {
-        if (!result['lem']) {
-          result['lem'] = [];
+      } else if (tagname === 'lem' || tagname === 'sic') {
+        if (!resultList[tagname]) {
+          resultList[tagname] = [];
         }
-        result['lem'].push( { appID:app.xmlID } );
+        resultList[tagname].push( { appID:app.xmlID } );
       }
     }
   }
-  return result;
 }
 
 meiView.Viewer.prototype.selectingState = { 
