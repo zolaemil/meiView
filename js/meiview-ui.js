@@ -227,13 +227,12 @@ meiView.UI.prototype.renderMei2Canvas = function(score, options) {
 
   var tempCanvas = new fabric.StaticCanvas();
   tempCanvas.setDimensions({width:options.vexWidth, height:options.vexHeight});
-
   var score_width = options.vexWidth;
   var score_height = options.vexHeight;
-  Vex.LogInfo('Rendering MEI... ');
-  MEI2VF.render_notation(score, tempCanvas.getElement(), score_width, score_height);
+  this.L('Rendering MEI... ');
+  MEI2VF.render_notation(score, tempCanvas.getElement(), score_width, score_height, null, options);
   this.rendered_measures = MEI2VF.rendered_measures;
-  Vex.LogInfo('Done rendering MEI');
+  this.L('Done rendering MEI');
   return tempCanvas;  
 }
 meiView.UI.prototype.displayVoiceNames = function(score) {
@@ -314,7 +313,7 @@ meiView.UI.prototype.displayDotForAPP = function(appID) {
 
   // ...then display the dot at the coordinates specified by the
   // properties of MEI2VF.rendered_measures[measure_n][staff_n];
-  var vexStaffs = this.rendered_measures[measure_n];
+  var vexStaffs = MEI2VF.rendered_measures[measure_n];
   if (vexStaffs) {
     var vexStaff = vexStaffs[staff_n];
     if (vexStaff) {
@@ -334,7 +333,8 @@ meiView.UI.prototype.displayDotForAPP = function(appID) {
 meiView.UI.prototype.displayDotForMeasure = function(vexStaff) { 
   if (vexStaff) {
     var left = (vexStaff.x + vexStaff.width - 12) * this.scale;
-    var top = (vexStaff.y + 30) * this.scale;
+    // var top = (vexStaff.y + 30) * this.scale;
+    var top = (vexStaff.y + 25) * this.scale;
 
     var circle = new fabric.Circle({
       radius: 5, 
@@ -410,6 +410,9 @@ meiView.UI.prototype.renderPage = function(pageXML, options) {
   options.paddingY = 20;
   options.vexWidth = options.vexWidth || $(this.fabrCanvas.getElement()).attr('width');
   options.vexHeight = options.vexHeight || $(this.fabrCanvas.getElement()).attr('height');
+  
+  
+  
   var img = this.renderMei2Img(pageXML, options);
   if (this.scoreImg) {
      this.fabrCanvas.remove(this.scoreImg);    
@@ -436,6 +439,8 @@ meiView.UI.prototype.renderPage = function(pageXML, options) {
 }
 
 meiView.UI.prototype.initCanvas = function(canvasid) {
+
+  var me = this;
 
   var canvas = new fabric.Canvas(canvasid);
   canvas.hoverCursor = 'pointer';
@@ -493,8 +498,8 @@ meiView.UI.prototype.initCanvas = function(canvasid) {
       } else {
         this_ui.HideSelectorPanel();
       }
-      Vex.LogInfo(e.target);
-      Vex.LogInfo(e.target.meiViewID  + ': x:' + e.target.left + ', y:' + e.target.top);
+      me.L(e.target);
+      me.L(e.target.meiViewID  + ': x:' + e.target.left + ', y:' + e.target.top);
     }
   });
   
@@ -599,7 +604,8 @@ meiView.UI.prototype.ShowSelectorPanel = function(dotInfo) {
   this.dlg = new meiView.SelectorPanel({
     left: dotInfo.measure_left*this.scale, 
     top: dotInfo.measure_top*this.scale, 
-    measureWidth: 300*this.scale, 
+    measureWidth: 500*this.scale, 
+    //measureWidth: 300*this.scale, 
     canvas: this.fabrCanvas,
     scale: 0.7,
     appID: appID,
@@ -633,6 +639,12 @@ meiView.UI.prototype.HideSelectorPanel = function() {
   if (this.dlg) {
     this.dlg.hide();
   }
+}
+
+meiView.DO_LOG = true;
+
+meiView.UI.prototype.L = function() {
+  if (meiView.DO_LOG) Vex.L("meiView", arguments);
 }
 
 meiView.SelectorItem = function(options) {
@@ -681,7 +693,19 @@ meiView.SelectorPanel.prototype.setCanvas = function(fabricCanvas) {
 }
 
 meiView.SelectorPanel.prototype.addItem = function(text, singleVarSliceXML, selected, xmlID) {
-  var imgData = this.UI.renderMei2Img(singleVarSliceXML, { vexWidth:this.measureWidth, vexHeight:this.measureHeight });
+  var imgData = this.UI.renderMei2Img(singleVarSliceXML, {
+    labelMode: 'full',
+    systemLeftMar: 100,
+    page_margin_top: 20,
+    staveSpacing: 70,
+    systemSpacing: 90,
+    staff: {
+      bottom_text_position : 8,
+      fill_style : "#000000"
+    },
+    vexWidth:this.measureWidth, 
+    vexHeight:this.measureHeight 
+  });
   var newItem = new meiView.SelectorItem({text:text, imgData:imgData, xmlID:xmlID});
   this.items.push(newItem);
   if (selected) {

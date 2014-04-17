@@ -19,6 +19,9 @@
 * permissions and limitations under the License.
 ***/
 
+// the default line thickness is 2, but this renders poorly with meiView's scaling
+Vex.Flow.STAVE_LINE_THICKNESS = 1;
+
 meiView = {};
 
 meiView.SelectedEditors = function() {
@@ -102,7 +105,7 @@ meiView.Viewer.prototype.init = function(options){
       this.parsePages(this.MEI);
     }
   }
-  this.scoreWidth = options.width || 1000;
+  this.scoreWidth = options.width || 1200; // 1000
   this.scoreHeight = options.height || 1000;
   this.Sources = this.createSourceList(this.MEI.ALTs);
   this.Editors = this.createEditorList();
@@ -278,12 +281,26 @@ meiView.Viewer.prototype.jumpToMeasure = function(i) {
 
 meiView.Viewer.prototype.displayCurrentPage = function() {
   var pageXML = this.getPageXML(this.pages.currentPage());
-  this.UI.renderPage(pageXML, {vexWidth:this.scoreWidth, vexHeight:this.scoreHeight});
+  var isFirstPage = (this.pages.currentPageIndex === 0);
+  this.UI.renderPage(pageXML, {
+    // labelMode: (isFirstPage) ? 'full' : 'abbr',
+    // systemLeftMar: (isFirstPage) ? 100 : 25,
+    page_margin_top: 30,
+    staveSpacing: 70,
+    systemSpacing: 90,
+    staff: {
+      bottom_text_position : 8,
+      fill_style : "#000000"
+    },
+    vexWidth:this.scoreWidth, 
+    vexHeight:this.scoreHeight
+  });
   this.UI.displayDots();
-  this.UI.showTitle(this.pages.currentPageIndex === 0);
+  this.UI.showTitle(isFirstPage);
   this.UI.fabrCanvas.calcOffset();
   this.UI.displayVoiceNames(pageXML);
   this.UI.updatePageLabels(this.pages.currentPageIndex+1, this.pages.totalPages())
+
 }
 
 meiView.Viewer.prototype.selectReconstructions = function(editors) {
@@ -359,10 +376,9 @@ meiView.Viewer.prototype.stavesToDisplay = function(plain_mei) {
   var i;
   for (i=0; i<staffDefs.length; i++) {
     sd = staffDefs[i];
-    N = $(sd).attr('n') || '1';
+    N = +$(sd).attr('n') || 1;
     if ($(plain_mei).find('staff[n="' + N + '"]').length > 0) {
-      is_N = function(item) { return item === N };
-      if (!result.any(is_N)) {
+      if (result.indexOf(N) === -1) {
         result.push(Number(N));
       }
     }
