@@ -157,6 +157,7 @@ meiView.Viewer.prototype.createSourceList = function(Apps) {
   this.Emendations = {};
   for(appID in Apps) {
     var app = Apps[appID];
+    var measure_n = $($(app.elem).closest('measure')[0]).attr('n');
     var resultList;
     if (app.tagname === 'app') {
       resultList = this.Sources;
@@ -180,7 +181,6 @@ meiView.Viewer.prototype.createSourceList = function(Apps) {
             if (!resultList[srcID]) {
               resultList[srcID] = [];
             }
-            var measure_n = $($(app.elem).closest('measure')[0]).attr('n');
             resultList[srcID].push( { appID:app.xmlID, measureNo:measure_n } );
           } 
         }
@@ -188,7 +188,7 @@ meiView.Viewer.prototype.createSourceList = function(Apps) {
         if (!resultList[tagname]) {
           resultList[tagname] = [];
         }
-        resultList[tagname].push( { appID:app.xmlID } );
+        resultList[tagname].push( { appID:app.xmlID, measureNo:measure_n } );
       }
     }
   }
