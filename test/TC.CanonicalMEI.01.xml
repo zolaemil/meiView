@@ -73,7 +73,7 @@
                   <note xml:id="p1ccd5n0v1b1s1" dur="2" dur.ges="512p" oct="5" pname="c"/>
                   <note xml:id="p1ccd5n512v1b1s1" dur="2" dur.ges="512p" oct="5" pname="c"/>
                   <note xml:id="p1ccd5n1024v1b1s1" dur="2" dur.ges="512p" oct="5" pname="c"/>
-                  <note xml:id="p1ccd5n1536v1b1s1" oct="5" pname="c" dur="breve" dur.ges="4096p"/>
+                  <note xml:id="p1ccd5n1536v1b1s1" oct="5" pname="c" dur="long" dur.ges="4096p"/>
                 </layer>
               </staff>
               <app xml:id="app-recon" n="2" type="reconstruction">
@@ -83,7 +83,7 @@
                       <note xml:id="p1ced4n0v1b1s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
                       <note xml:id="p1ced4n512v1b1s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
                       <note xml:id="p1ced4n1024v1b1s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
-                      <note xml:id="p1ced4n1536v1b1s3" oct="4" pname="e" dur="breve" dur.ges="4096p"/>
+                      <note xml:id="p1ced4n1536v1b1s3" oct="4" pname="e" dur="long" dur.ges="4096p"/>
                     </layer>
                   </staff>
                 </rdg>
@@ -97,7 +97,7 @@
                       <note xml:id="p1ced4n1024v1b1s4" dur="4" dur.ges="256p" oct="4" pname="e"/>
                       <note xml:id="p1cgd4n1280v1b1s4" dur="4" dur.ges="256p" oct="4" pname="g"/>
                       <note xml:id="p1ced4n1536v1b1s4" dur="4" dur.ges="256p" oct="4" pname="e"/>
-                      <note xml:id="p1cgd4n1792v1b1s4" oct="4" pname="g" dur="breve" dur.ges="4096p"/>
+                      <note xml:id="p1cgd4n1792v1b1s4" oct="4" pname="g" dur="long" dur.ges="4096p"/>
                     </layer>
                   </staff>
                 </rdg>
@@ -114,7 +114,7 @@
                     </corr>
                   </choice>
                   <note xml:id="p1ced3n1024v1b1s5" dur="2" dur.ges="512p" oct="3" pname="e"/>
-                  <note xml:id="p1ced3n1536v1b1s5" oct="3" pname="e" dur="breve" dur.ges="4096p"/>
+                  <note xml:id="p1ced3n1536v1b1s5" oct="3" pname="e" dur="long" dur.ges="4096p"/>
                 </layer>
               </staff>
               <staff xml:id="m-0631d86b-0929-498b-9155-1b6f5d29b372" n="7">
@@ -124,11 +124,11 @@
                   <app xml:id="app-var">
                     <lem xml:id="lem.app-var">
                       <note xml:id="p1ccd3n1024v1b1s7" dur="2" dur.ges="512p" oct="3" pname="c"/>
-                      <note xml:id="p1ccd3n1536v1b1s7" oct="3" pname="c" dur="breve" dur.ges="4096p"/>
+                      <note xml:id="p1ccd3n1536v1b1s7" oct="3" pname="c" dur="long" dur.ges="4096p"/>
                     </lem>
                     <rdg xml:id="rdg.app-var" source="#Source-A">
                       <note xml:id="p1ccd4n1024v1b1s8" color="rgba(255,0,0,1)" dur="2" dur.ges="512p" oct="4" pname="c"/>
-                      <note xml:id="p1ccd4n1536v1b1s8" color="rgba(255,0,0,1)" oct="4" pname="c" dur="breve" dur.ges="4096p"/>
+                      <note xml:id="p1ccd4n1536v1b1s8" color="rgba(255,0,0,1)" oct="4" pname="c" dur="long" dur.ges="4096p"/>
                     </rdg>
                   </app>
                 </layer>

@@ -64,7 +64,7 @@ permissions and limitations under the License.
       TCID = 'CanonicalMEI01';
       TCTitle = 'Canonical MEI - 01';
       $('#tests').append('<div id="meiview-container-' + TCID + '"/>');
-      loadedXML = loadXMLDoc('TC.CanonicalMEI.01-MEI2VF.xml');
+      loadedXML = loadXMLDoc('TC.CanonicalMEI.01.xml');
       var filteredXml = meiView.filterMei(loadedXML);
 
       meiDoc = new MeiLib.MeiDoc(filteredXml);

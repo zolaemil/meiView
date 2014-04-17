@@ -25,6 +25,15 @@
  */
 meiView = (typeof meiView == "undefined")? {} : meiView;
 
+meiView.substituteLonga = function(music) {
+  var longs = $(music).find('note[dur="long"]');
+  $(longs).each(function(){
+    //TODO: for now we simply replace longas with breve
+    // much better would be to introduce long in VexFlow
+    $(this).attr('dur', 'breve');
+  })
+}
+
 meiView.filterMei = function(meiXml, options) {
   var options = options || {};
   /**
@@ -62,10 +71,14 @@ meiView.filterMei = function(meiXml, options) {
   $(scoreDefs).each(function() {
     propagateScoreDefAttrs(this);
   });
-  
+
+  //3. Remove system breaks if not needed.
   if (options.noSysBreak) {
     $(music).find('sb').remove();
   }
+
+  //4. Substitue longas with breves
+  meiView.substituteLonga(music);
 
   return meiXml;
 }
