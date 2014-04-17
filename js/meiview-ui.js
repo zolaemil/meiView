@@ -182,6 +182,15 @@ meiView.UI.prototype.updatePageLabels = function(current, total) {
 
 meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
 
+  var onClickSideBarMarkup = function(me, measure_n, altID) {
+    var result = 'onclick="meiView.UI.callback('
+      + '\'' + me.viewer.id + '-ui\', \'onClickSidebarItem\', { measure_n: '
+      + measure_n + ', altID: \'' +  altID
+      + '\'})"';
+    return result;
+  }
+
+
   var reconstructurs = this.viewer.Reconstructors;
   for (editorID in this.viewer.Reconstructors) {
     var listElem = sidebardiv.find('ul[id="reconstructor-list"]');
@@ -201,9 +210,14 @@ meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
     var i=0;
     for (var i;i<choices.length; i++) {
       var choice = choices[i]
+      var measure_n = $($(choice).closest('measure')[0]).attr('n');
       var choiceID = $(choice).attr('xml:id');
       var liID = this.toCSSId(choiceID);
-      emendListElem.append('<li id="' + liID + '" class="meiview-sidebar-item">' + this.appID2appLabel(choiceID) + '</li>');
+      emendListElem.append('<li id="' + liID + '" class="meiview-sidebar-item" '
+        + onClickSideBarMarkup(this, measure_n, choiceID) + '>'
+        + this.appID2appLabel(choiceID)
+        + '</li>'
+      );
       var liItem = $(emendListElem).find('li#' + liID);
       liItem.append('<ul></ul>');
       var ul = liItem.find('ul');
@@ -212,7 +226,11 @@ meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
       for (var j; j<altitems.length; j++) {
         var altitem = altitems[j];
         var xmlID = $(altitem).attr('xml:id');
-        ul.append('<li id="' + this.liID(xmlID, liID) + '" class="meiview-sidebar-item">' + this.choiceItem2choiceItemLabel(altitem) +'</li>');
+        ul.append('<li id="' + this.liID(xmlID, liID)
+          + '" class="meiview-sidebar-item">'
+          + this.choiceItem2choiceItemLabel(altitem)
+          + '</li>'
+        );
       }
     }
   }
@@ -220,12 +238,23 @@ meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
   var sources = this.viewer.Sources;
   for(src in sources){
     var source = sources[src];
-    sidebardiv.append('<h3 class="' + sidebar_class + '">' + this.srcID2srcLabel(src) + '</h3><div class="' + sidebar_class + '"><ul id="' + src + '"></ul></div>');
+    sidebardiv.append('<h3 class="' + sidebar_class + '">'
+      + this.srcID2srcLabel(src)
+      + '</h3><div class="'
+      + sidebar_class
+      + '"><ul id="' + src + '"></ul></div>'
+    );
     var listElem = sidebardiv.find('ul[id="'+src+'"]');
     for (var i=0; i<source.length; i++) {
       var appID = source[i].appID;
       var measure_n = source[i].measureNo;
-      listElem.append('<li id="' + this.liID(src, appID) + '" class="' +  this.toCSSId(appID) + ' meiview-sidebar-item" onclick="meiView.UI.callback(\'' + this.viewer.id + '-ui\', \'onSideBarClick\', { measure_n: ' + measure_n + ', appID: \'' +  appID + '\'})">' + this.appID2appLabel(appID) + '</li>')
+      listElem.append('<li id="' + this.liID(src, appID)
+        + '" class="' +  this.toCSSId(appID)
+        + ' meiview-sidebar-item" '
+        + onClickSideBarMarkup(this, measure_n, appID) + '>'
+        + this.appID2appLabel(appID)
+        + '</li>'
+      );
     }
   }
 
@@ -233,10 +262,6 @@ meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
 
 meiView.UI.callback = function(id, fname, params) {
   meiView.UI.objects[id][fname](params);
-}
-
-meiView.UI.onSideBarClick = function(id, measure_n, appID) {
-  meiView.UI.objects[id].onSideBarClick(measure_n, appID);
 }
 
 meiView.UI.prototype.onReconstructionClick = function(params) {
@@ -248,9 +273,9 @@ meiView.UI.addObject = function(id, obj) {
   meiView.UI.objects[id] = obj;
 };
 
-meiView.UI.prototype.onSideBarClick = function(params) {
+meiView.UI.prototype.onClickSidebarItem = function(params) {
   this.viewer.jumpToMeasure(params.measure_n);
-  this.ShowSelectorPanel(this.dots[params.appID].info);  
+  this.ShowSelectorPanel(this.dots[params.altID].info);
 }
 
 meiView.UI.prototype.renderMei2Canvas = function(score, options) {
