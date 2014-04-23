@@ -498,9 +498,11 @@ meiView.UI.prototype.renderPage = function(pageXML, options) {
 
 meiView.UI.prototype.initCanvas = function(canvasid) {
 
+  var dimensions = { width: $('#'+canvasid).width(), height: $('#'+canvasid).height() }
   var me = this;
 
   var canvas = new fabric.Canvas(canvasid);
+  canvas.setDimensions(dimensions)
   canvas.hoverCursor = 'pointer';
   var this_ui = this;
 
