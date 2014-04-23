@@ -147,7 +147,8 @@ meiView.UI.prototype.choiceItem2choiceItemLabel = function(altitem) {
 }
 
 meiView.UI.prototype.appID2appLabel = function(appID) {
-  var app = $(this.viewer.MEI.rich_score).find('app[xml\\:id="' + appID + '"], choice[xml\\:id="' + appID + '"]');
+  var app = $(this.viewer.MEI.rich_score).find('app[xml\\:id="' 
+    + appID + '"], choice[xml\\:id="' + appID + '"]');
   var measure = app.closest('measure');
 
   var label = 'M' + measure.attr('n');
@@ -177,7 +178,8 @@ meiView.UI.prototype.showTitle = function(show) {
 }
 
 meiView.UI.prototype.updatePageLabels = function(current, total) {
-  $(this.maindiv).find('#pageNumber-top, #pageNumber-bottom').html((current).toString() + '/' + total);
+  $(this.maindiv).find('#pageNumber-top, #pageNumber-bottom')
+    .html((current).toString() + '/' + total);
 }
 
 meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
@@ -195,17 +197,28 @@ meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
   for (editorID in this.viewer.Reconstructors) {
     var listElem = sidebardiv.find('ul[id="reconstructor-list"]');
     if (listElem.length === 0) {
-      sidebardiv.append('<h3 class="' + sidebar_class + '">Reconstructions</h3><div class="' + sidebar_class + '"><ul id="reconstructor-list"></ul></div>');
+      sidebardiv.append('<h3 class="' + sidebar_class 
+        + '">Reconstructions</h3><div class="' + sidebar_class 
+        + '"><ul id="reconstructor-list"></ul></div>');
       listElem = sidebardiv.find('ul[id="reconstructor-list"]');
     }
     var editor = this.viewer.Reconstructors[editorID];
-    listElem.append('<li class="meiview-sidebar-item" onclick="meiView.UI.callback(\'' + this.viewer.id + '-ui\', \'onReconstructionClick\', { editorID: \'' +  editorID + '\'})">' + editorID + '</li>');
+    listElem.append('<li class="meiview-sidebar-item"\
+      onclick="meiView.UI.callback(\'' 
+      + this.viewer.id + '-ui\', \'onReconstructionClick\', { editorID: \'' 
+      + editorID + '\'})">' 
+      + editorID 
+      + '</li>');
   }
 
   var emendations = this.viewer.Emendations;
   var choices = $(this.viewer.MEI.rich_score).find('choice');
   if (choices.length > 0) {
-    sidebardiv.append('<h3 class="' + sidebar_class + '">Emendations</h3><div class="' + sidebar_class + '"><ul class="emendations-list"></ul></div>');
+    sidebardiv.append('<h3 class="' + sidebar_class 
+      + '">Emendations</h3>\
+        <div class="' + sidebar_class + '">\
+          <ul class="emendations-list"></ul>\
+        </div>');
     var emendListElem = sidebardiv.find('ul.emendations-list');
     var i=0;
     for (var i;i<choices.length; i++) {
@@ -293,7 +306,9 @@ meiView.UI.prototype.renderMei2Canvas = function(score, options) {
   this.L('Done rendering MEI');
   return tempCanvas;  
 }
-meiView.UI.prototype.displayVoiceNames = function(score) {
+meiView.UI.prototype.displayVoiceNames = function(score, base_offset) {
+  base_offset.x = (typeof base_offset.x !== 'undefined') ? base_offset.x : 0;
+  base_offset.y = (typeof base_offset.y !== 'undefined') ? base_offset.y : 6;
   var voiceNames = this.viewer.voiceNames(score);
   var this_UI = this;
   //1. Hide all voicename-divs
@@ -313,8 +328,8 @@ meiView.UI.prototype.displayVoiceNames = function(score) {
           var canvas_offset = $(this.maindiv).find('canvas').offset();
           $(voicename_div).show();
           $(voicename_div).css('position', 'absolute');
-          $(voicename_div).css('top', vexStaff.y * this.scale + canvas_offset.top + 6);
-          $(voicename_div).css('left', vexStaff.x * this.scale + canvas_offset.left);
+          $(voicename_div).css('top', vexStaff.y * this.scale + canvas_offset.top + base_offset.y);
+          $(voicename_div).css('left', vexStaff.x * this.scale + canvas_offset.left + base_offset.x);
           $(voicename_div).find('span').html(voiceNames[staff_n]);
         }
       }
@@ -434,7 +449,7 @@ meiView.UI.prototype.displayMeasureNos = function() {
       var vexStaff = measure[1];
       console.log('meiView.UI.prototype.displayMeasureNos() vexStaff:');      
       console.log(vexStaff);
-      var left = (vexStaff.x) * ui_scale;
+      var left = (vexStaff.x + 8) * ui_scale;
       var top = (vexStaff.y + 15) * ui_scale;
       var text = new fabric.Text(n.toString(), {
         fontSize: Math.round(16 * ui_scale),
@@ -623,9 +638,12 @@ meiView.UI.prototype.updateSidebarHighlight = function(appID, oldVarID) {
     for (var i=0;i<sources.length; i++) {
       var liID = this.liID(sources[i], appID);
       $(this.maindiv).find('#' + liID)
-        .removeClass('meiview-variant-on');
+      .removeClass('meiview-variant-on');
     }
-    $(this.maindiv).find('div.meiview-sidebar').not(':has(li.meiview-variant-on)').prev('.meiview-source-has-variant-on').removeClass('meiview-source-has-variant-on');
+    $(this.maindiv).find('div.meiview-sidebar')
+      .not(':has(li.meiview-variant-on)')
+      .prev('.meiview-source-has-variant-on')
+      .removeClass('meiview-source-has-variant-on');
   }
 }
 
@@ -635,7 +653,10 @@ meiView.UI.prototype.updateSidebar = function(appID, oldVarID) {
   }
   if (this.viewer.selectingState.ON) {
     /* Disable sources without variants at the currently selected <app> */
-    $(this.maindiv).find('div.meiview-sidebar').not(':has(li.' + this.toCSSId(this.viewer.selectingState.appID) + ')').prev().addClass('meiview-source-disabled');
+    $(this.maindiv).find('div.meiview-sidebar')
+      .not(':has(li.' + this.toCSSId(this.viewer.selectingState.appID) + ')')
+      .prev()
+      .addClass('meiview-source-disabled');
     /* Close up variant list the source is disbaled */
     if ($(this.maindiv).find('.meiview-source-disabled.ui-accordion-header-active').length>0) { 
       $(this.maindiv).find("#accordion").accordion( "option", "active", false);
