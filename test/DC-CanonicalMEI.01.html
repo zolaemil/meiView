@@ -1,4 +1,4 @@
-<!-- 
+<!--
 meiView.html
 Author: Zoltan Komives
 Contributor: Raffaele Viglianti
@@ -37,33 +37,23 @@ permissions and limitations under the License.
   <script type="text/JavaScript" src="support/vexflow-min.js"></script>
 
   <script type="text/JavaScript" src="support/meitovexflow.min.js"></script>
-  
+
 
   <script type="text/JavaScript" src="support/loadxmldoc.js"></script>
   <script type="text/JavaScript" src="../js/meiview.js"></script>
   <script type="text/JavaScript" src="../js/meiview-ui.js"></script>
   <script type="text/JavaScript" src="../js/meiview-filter.js"></script>
+  <script type="text/JavaScript" src="../js/compactviewer.js"></script>
+  <script type="text/JavaScript" src="../js/compactviewer-ui.js"></script>
+
   <link href="../css/meiview.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../css/compactviewer.css">
+  <link  rel="stylesheet" href="test.css">
   <script type="application/javascript" language="javascript">
 
-    var selectReconstruction = function(editor) {
-      viewer.toggleReconstruction(editor);
-    }
-    
-    var switchReconstrs = function() {
-      var sectionplaneUpdate = {};
-      sectionplaneUpdate["app-recon-01"] = "rdgA.app-recon-01";
-      viewer.MEI.updateSectionView(sectionplaneUpdate);
-      viewer.displayCurrentPage();
-    }
-    
-
-    $(document).ready( function(){
-    
-    
+  var Layout = function() {
       TCID = 'CanonicalMEI01';
       TCTitle = 'Canonical MEI - 01';
-      $('#tests').append('<div id="meiview-container-' + TCID + '"/>');
       loadedXML = loadXMLDoc('TC.CanonicalMEI.01.xml');
       var filteredXml = meiView.filterMei(loadedXML);
 
@@ -72,20 +62,52 @@ permissions and limitations under the License.
       pagination.AddPage(1, 4);
 
       viewer = new meiView.Viewer({
-        maindiv: $('#meiview-container-' + TCID),
+        maindiv: $('#canonical-full'),
         MEI: meiDoc,
         pages: pagination,
         title: TCTitle,
       });
-
       viewer.nextPage();
+    }
+
+    var Compact = function() {
+      TCID = 'CanonicalMEI01';
+      TCTitle = 'Canonical MEI - 01';
+      loadedXML = loadXMLDoc('TC.CanonicalMEI.01.xml');
+      var filteredXml = meiView.filterMei(loadedXML);
+
+      meiDoc = new MeiLib.MeiDoc(filteredXml);
+      pagination = new meiView.Pages();
+      pagination.AddPage(1, 4);
+
+      viewer = new meiView.CompactViewer({
+        maindiv: $('#canonical-compact'),
+        MEI: meiDoc,
+        pages: pagination,
+        title: TCTitle,
+      });
+      viewer.nextPage();
+    }
+
+    $(document).ready( function(){
+
+      Layout();
+      Compact();
+
     })
   </script>
 </head>
 
 <body>
   <script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
-  <div id="tests">
+  <div class="test-div">
+    Du Chemin Canonical 01 - Layout View
+    <div id="canonical-full"></div>
+  </div>
+
+  <div class="test-div">
+    Du Chemin Canonical 01 - Compact View
+    <div id="canonical-compact"></div>
   </div>
 
 </body>

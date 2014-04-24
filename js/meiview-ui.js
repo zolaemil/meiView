@@ -30,7 +30,7 @@ meiView.UI.prototype.init = function(options) {
   this.canvas_id = 'meiview-canvas-' + this.viewer.id;
   this.score_id = 'meiview-score-' + this.viewer.id;
   this.base_html = '<div class="meiview-main" id="' + this.main_id + '" style="margin: 10px 20px auto">\
-    <div id="' + this.score_id + '" align="center" class="ui-widget-content meiview-scorediv">\
+    <div id="' + this.score_id + '" align="center" class="ui-widget-content meiview-scorediv meiview-sized-scorediv">\
     	<button class="ui-widget-content ui-corner-all"onclick="meiView.UI.callback(\'' + this.viewer.id + '\', \'prevPage\')"><span class="ui-icon ui-icon-triangle-1-w"/></button>\
     	<span id="pageNumber-top" width="10">0/0</span>\
     	<button class="ui-widget-content ui-corner-all" onclick="meiView.UI.callback(\'' + this.viewer.id + '\', \'nextPage\')"><span class="ui-icon ui-icon-triangle-1-e"/></button>\
@@ -305,46 +305,6 @@ meiView.UI.prototype.renderMei2Canvas = function(score, options) {
   this.rendered_measures = MEI2VF.rendered_measures;
   this.L('Done rendering MEI');
   return tempCanvas;  
-}
-meiView.UI.prototype.displayVoiceNames = function(score, base_offset) {
-  base_offset.x = (typeof base_offset.x !== 'undefined') ? base_offset.x : 0;
-  base_offset.y = (typeof base_offset.y !== 'undefined') ? base_offset.y : 6;
-  var voiceNames = this.viewer.voiceNames(score);
-  var this_UI = this;
-  //1. Hide all voicename-divs
-  $(this.maindiv).find('.voicename-div').hide();
-  for (staff_n in voiceNames) {
-    //2. display voiceNames[staff_n] in a voicename-div
-    //corresponding to staff_n
-    var voicename_div = this_UI.getVoiceNameDiv(staff_n);
-    //3. position them according layout logic
-    var measure = $(score).find('measure')[0];
-    if (measure) {
-      var measure_n = $(measure).attr('n') || "1";
-      var vexStaffs = this.rendered_measures[measure_n];
-      if (vexStaffs) {
-        var vexStaff = vexStaffs[staff_n];
-        if (vexStaff) {
-          var canvas_offset = $(this.maindiv).find('canvas').offset();
-          $(voicename_div).show();
-          $(voicename_div).css('position', 'absolute');
-          $(voicename_div).css('top', vexStaff.y * this.scale + canvas_offset.top + base_offset.y);
-          $(voicename_div).css('left', vexStaff.x * this.scale + canvas_offset.left + base_offset.x);
-          $(voicename_div).find('span').html(voiceNames[staff_n]);
-        }
-      }
-    }
-  }
-}
-
-meiView.UI.prototype.getVoiceNameDiv = function() {
-  var voicename_div = $(this.maindiv).find('.voicename-div.staff-n-' + staff_n);
-  if (voicename_div.length === 0) {
-    $(this.maindiv).append('<div class="voicename-div staff-n-' + staff_n +'"><span></span></div>');
-    return $(this.maindiv).find('.voicename-div.staff-n-' + staff_n);
-  } else {
-    return voicename_div;
-  }
 }
 
 meiView.UI.prototype.displayDots = function() {

@@ -296,8 +296,8 @@ meiView.Viewer.prototype.displayCurrentPage = function() {
   var pageXML = this.getPageXML(this.pages.currentPage());
   var isFirstPage = (this.pages.currentPageIndex === 0);
   this.UI.renderPage(pageXML, {
-    // labelMode: (isFirstPage) ? 'full' : 'abbr',
-    // systemLeftMar: (isFirstPage) ? 100 : 25,
+    labelMode: (isFirstPage) ? 'full' : 'abbr',
+    systemLeftMar: (isFirstPage) ? 100 : 25,
     page_margin_top: 30,
     staveSpacing: 70,
     systemSpacing: 90,
@@ -311,7 +311,6 @@ meiView.Viewer.prototype.displayCurrentPage = function() {
   this.UI.displayDots();
   this.UI.showTitle(isFirstPage);
   this.UI.fabrCanvas.calcOffset();
-  this.UI.displayVoiceNames(pageXML);
   this.UI.updatePageLabels(this.pages.currentPageIndex+1, this.pages.totalPages())
 
 }

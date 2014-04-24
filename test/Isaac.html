@@ -1,4 +1,4 @@
-<!-- 
+<!--
 meiView.html
 Author: Zoltan Komives
 Contributor: Raffaele Viglianti
@@ -10,7 +10,7 @@ Licensed under the Apache License, Version 2.0 (the "License"); you
 may not use this file except in compliance with the License.  You may
 obtain a copy of the License at
 
-   http://www.apache.org/licenses/LICENSE-2.0
+http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,59 +22,115 @@ permissions and limitations under the License.
 <!DOCTYPE html>
 <html>
 <head>
-	<title>meiView - Rogamus te...</title>
-	
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="support/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-	<!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> -->
-	<link rel="stylesheet" href="jquery-ui-1.10.3.custom/css/pepper-grinder/jquery-ui-1.10.3.custom.css" />
-	<script type="text/JavaScript" src="support/Fabric-all.js"></script>
-	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <title>meiView - Rogamus te...</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="support/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> -->
+  <link rel="stylesheet" href="jquery-ui-1.10.3.custom/css/pepper-grinder/jquery-ui-1.10.3.custom.css" />
+  <script type="text/JavaScript" src="support/Fabric-all.js"></script>
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
   <!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> -->
-	<script src="jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
-	<script type="text/JavaScript" src="support/jquery.ba-bbq.min.js"></script>
-	<script type="text/JavaScript" src="support/vexflow-min.js"></script>
-	<script type="text/JavaScript" src="support/meitovexflow.min.js"></script>
-	<script type="text/JavaScript" src="support/loadxmldoc.js"></script>
-	<script type="text/JavaScript" src="../js/meiview.js"></script>
-	<script type="text/JavaScript" src="../js/meiview-ui.js"></script>
-	<link  rel="stylesheet" href="../css/meiview.css">
+  <script src="jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
+  <script type="text/JavaScript" src="support/jquery.ba-bbq.min.js"></script>
+  <script type="text/JavaScript" src="support/vexflow-min.js"></script>
+  <script type="text/JavaScript" src="support/meitovexflow.min.js"></script>
+  <script type="text/JavaScript" src="support/loadxmldoc.js"></script>
+  <script type="text/JavaScript" src="../js/meiview.js"></script>
+  <script type="text/JavaScript" src="../js/meiview-ui.js"></script>
+  <script type="text/JavaScript" src="../js/meiview-filter.js"></script>
+  <link  rel="stylesheet" href="../css/meiview.css">
+  <link  rel="stylesheet" href="test.css">
 
-	<script type="application/javascript" language="javascript">
-		
-		$(document).ready( function(){
+  <script type="text/JavaScript" src="../js/compactviewer.js"></script>
+  <script type="text/JavaScript" src="../js/compactviewer-ui.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/compactviewer.css">
 
+  <script type="application/javascript" language="javascript">
 
-			var xmlDoc = loadXMLDoc('Isaac.xml');      
-      var meiDoc = new MeiLib.MeiDoc(xmlDoc);
-      var pagination = new meiView.Pages();
-			pagination.AddPage(1, 12);
-			pagination.AddPage(13, 24);  
-			pagination.AddPage(25, 36);  
-			pagination.AddPage(37, 48);  
-      
-      var viewer = new meiView.Viewer({
-        maindiv: $('#meiview'),
-        MEI: meiDoc,
-        pages: pagination,
-        title: 'Henricus Isaac: Rogamus te piissima virgo Maria',
-        display_measure_numbers: 1,
-      });
+  var CompactView = function () {
+    var xmlDoc = loadXMLDoc('Isaac.xml');
+    var filteredXml = meiView.filterMei(xmlDoc, {noSysBreak:true});
+    var meiDoc = new MeiLib.MeiDoc(filteredXml);
+    var pagination = new meiView.Pages();
+    pagination.AddPage(1, 5);
+    pagination.AddPage(6, 10);
+    pagination.AddPage(11, 15);
+    pagination.AddPage(16, 20);
+    pagination.AddPage(21, 25);
+    pagination.AddPage(26, 30);
+    pagination.AddPage(31, 35);
+    pagination.AddPage(36, 40);
+    pagination.AddPage(41, 45);
+    pagination.AddPage(46, 48);
 
-			frag_pg = $.bbq.getState('pg');
-			if (frag_pg != undefined) {
-				viewer.jumpTo(frag_pg-1);
-			}
-			else viewer.nextPage();
-    })
-			</script>
-		</head>
+    var viewer = new meiView.CompactViewer({
+      maindiv: $('#comapct-view'),
+      MEI: meiDoc,
+      pages: pagination,
+      title: 'Henricus Isaac: Rogamus te piissima virgo Maria',
+    });
 
-		<body>
-			<script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
-			
-			<div id="meiview">
-			</div>
+    frag_pg = $.bbq.getState('pg');
+    if (frag_pg != undefined) {
+      viewer.jumpTo(frag_pg-1);
+    }
+    else {
+      viewer.nextPage();
+    }
+  }
 
-		</body>
-		</html>
+  var FullView = function () {
+    var xmlDoc = loadXMLDoc('Isaac.xml');
+    var meiDoc = new MeiLib.MeiDoc(xmlDoc);
+    var pagination = new meiView.Pages();
+    pagination.AddPage(1, 12);
+    pagination.AddPage(13, 24);
+    pagination.AddPage(25, 36);
+    pagination.AddPage(37, 48);
+
+    var viewer = new meiView.Viewer({
+      maindiv: $('#full-view'),
+      MEI: meiDoc,
+      pages: pagination,
+      title: 'Henricus Isaac: Rogamus te piissima virgo Maria',
+      display_measure_numbers: 1,
+      m2v_options: {
+        labelMode: 'full',
+      },
+    });
+
+    frag_pg = $.bbq.getState('pg');
+    if (frag_pg != undefined) {
+      viewer.jumpTo(frag_pg-1);
+    }
+    else {
+      viewer.nextPage();
+    }
+
+  }
+
+  $(document).ready( function(){
+    CompactView();
+    FullView();
+  })
+  </script>
+</head>
+
+<body>
+  <script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
+
+  <div class="test-div">
+    Isaac Layout View
+    <div id="full-view">
+    </div>
+  </div>
+
+  <div class="test-div">
+    Isaac Compact View
+    <div id="comapct-view">
+    </div>
+  </div>
+
+</body>
+</html>

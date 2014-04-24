@@ -1,4 +1,4 @@
-<!-- 
+<!--
 meiView.html
 Author: Zoltan Komives
 Contributor: Raffaele Viglianti
@@ -44,40 +44,79 @@ permissions and limitations under the License.
   <script type="text/JavaScript" src="../js/meiview.js"></script>
   <script type="text/JavaScript" src="../js/meiview-ui.js"></script>
   <script type="text/JavaScript" src="../js/meiview-filter.js"></script>
+  <script type="text/JavaScript" src="../js/compactviewer.js"></script>
+  <script type="text/JavaScript" src="../js/compactviewer-ui.js"></script>
   <link href="../css/meiview.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../css/compactviewer.css">
+  <link  rel="stylesheet" href="test.css">
   <script type="application/javascript" language="javascript">
 
+  var LayedOut = function() {
+    TCID = 'TC-DC1313';
+    TCTitle = 'Du Chemin: DC1313E.mei';
+    var loadedXML = loadXMLDoc('DC1313E.xml');
+    var filteredXml = meiView.filterMei(loadedXML);
+
+    meiDoc = new MeiLib.MeiDoc(filteredXml);
+    pagination = new meiView.Pages();
+    pagination.AddPage(1, 4);
+    pagination.AddPage(5, 8);
+    pagination.AddPage(9, 12);
+    pagination.AddPage(13, 16);
+    pagination.AddPage(17, 20);
+
+    viewer = new meiView.Viewer({
+      maindiv: $('#dc1313-full'),
+      MEI: meiDoc,
+      pages: pagination,
+      title: TCTitle,
+    });
+
+    viewer.nextPage();
+  }
+
+  var Compact = function() {
+    TCID = 'TC-DC1313';
+    TCTitle = 'Du Chemin: DC1313E.mei';
+    var loadedXML = loadXMLDoc('DC1313E.xml');
+    var filteredXml = meiView.filterMei(loadedXML);
+
+    meiDoc = new MeiLib.MeiDoc(filteredXml);
+    pagination = new meiView.Pages();
+    pagination.AddPage(1, 4);
+    pagination.AddPage(5, 8);
+    pagination.AddPage(9, 12);
+    pagination.AddPage(13, 16);
+    pagination.AddPage(17, 20);
+
+    viewer = new meiView.CompactViewer({
+      maindiv: $('#dc1313-compact'),
+      MEI: meiDoc,
+      pages: pagination,
+      title: TCTitle,
+      displayFirstPage: true,
+    });
+  }
+
     $(document).ready( function(){
-    
-      TCID = 'TC-DC1313';
-      TCTitle = 'Du Chemin: DC1313E.mei';
-      $('#tests').append('<div id="meiview-container-' + TCID + '"/>');
-      var loadedXML = loadXMLDoc('DC1313E.xml');
-      var filteredXml = meiView.filterMei(loadedXML);
 
-      meiDoc = new MeiLib.MeiDoc(filteredXml);
-      pagination = new meiView.Pages();
-      pagination.AddPage(1, 4);
-      pagination.AddPage(5, 8);
-      pagination.AddPage(9, 12);
-      pagination.AddPage(13, 16);
-      pagination.AddPage(17, 20);
+      LayedOut();
+      Compact();
 
-      viewer = new meiView.Viewer({
-        maindiv: $('#meiview-container-' + TCID),
-        MEI: meiDoc,
-        pages: pagination,
-        title: TCTitle,
-      });
-
-      viewer.nextPage();
     })
   </script>
 </head>
 
 <body>
   <script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
-  <div id="tests">
+  <div class="test-div">
+    Du Chemin 1313 - Layout View
+    <div id="dc1313-full"></div>
+  </div>
+
+  <div class="test-div">
+    Du Chemin 1313 - Compact View
+    <div id="dc1313-compact"></div>
   </div>
 
 </body>

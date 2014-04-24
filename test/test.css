@@ -1,0 +1,10 @@
+.test-div {
+    margin: 10px 10px 10px 10px;
+    text-align: center;
+    padding: 1em;
+    background: white;
+}
+
+body {
+    background: #efefff;
+}
