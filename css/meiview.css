@@ -1,6 +1,7 @@
 #sidebar {
     width: 250px;
     height: auto;
+    text-align: left;
 }
 .meiview-scorediv {
     border: 1px solid rgb(148,148,130);

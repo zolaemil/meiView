@@ -36,6 +36,15 @@
     text-align: left;
 }
 
+.critrep {
+    font-size: 0.85em;
+    width: 100%;
+}
+
+.critrep td {
+    padding: 0.3em;
+}
+
 .critrep-div.critrep-off {
     height: 1.1em;
 }
@@ -47,7 +56,7 @@
 
 .voicename-div {
     opacity: 0.7;
-    position: relative;
+    position: absolute;
     text-align: left;
 }
 

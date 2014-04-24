@@ -146,6 +146,21 @@ meiView.UI.prototype.choiceItem2choiceItemLabel = function(altitem) {
   return label;
 }
 
+meiView.UI.prototype.shortVoiceLabel = function(elem) {
+  var staff_l = '';
+  var staff = $(elem).closest('staff');
+  if (staff.length>0) {
+    var staff_n = staff.attr('n') || '1';
+    var staffDefs = $(elem).closest('score').find('staffDef[n="' + staff_n + '"]');
+    var i;
+    for (i=0; i<staffDefs.length; ++i) {
+      staff_l = $(staffDefs[i]).attr('label.abbr') || $(staffDefs[i]).attr('label') || staff_l;
+    }
+    if (staff_l.length > 4) staff_l = staff_l.substr(0,1);
+  }
+  return staff_l;
+}
+
 meiView.UI.prototype.appID2appLabel = function(appID) {
   var app = $(this.viewer.MEI.rich_score).find('app[xml\\:id="' 
     + appID + '"], choice[xml\\:id="' + appID + '"]');
@@ -162,8 +177,8 @@ meiView.UI.prototype.appID2appLabel = function(appID) {
       staff_l = $(staffDefs[i]).attr('label.abbr') || $(staffDefs[i]).attr('label') || staff_l;
     }
     if (staff_l.length > 4) staff_l = staff_l.substr(0,1);
-    label += '.' + staff_l;
   }
+  label += '.' + this.shortVoiceLabel(app);
   return label;
 }
 
@@ -182,16 +197,15 @@ meiView.UI.prototype.updatePageLabels = function(current, total) {
     .html((current).toString() + '/' + total);
 }
 
+meiView.UI.prototype.onClickSideBarMarkup = function(me, measure_n, altID) {
+  var result = 'onclick="meiView.UI.callback('
+    + '\'' + me.viewer.id + '-ui\', \'onClickSidebarItem\', { measure_n: '
+    + measure_n + ', altID: \'' +  altID
+    + '\'})"';
+  return result;
+}
+
 meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
-
-  var onClickSideBarMarkup = function(me, measure_n, altID) {
-    var result = 'onclick="meiView.UI.callback('
-      + '\'' + me.viewer.id + '-ui\', \'onClickSidebarItem\', { measure_n: '
-      + measure_n + ', altID: \'' +  altID
-      + '\'})"';
-    return result;
-  }
-
 
   var reconstructurs = this.viewer.Reconstructors;
   for (editorID in this.viewer.Reconstructors) {
@@ -227,7 +241,7 @@ meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
       var choiceID = $(choice).attr('xml:id');
       var liID = this.toCSSId(choiceID);
       emendListElem.append('<li id="' + liID + '" class="meiview-sidebar-item" '
-        + onClickSideBarMarkup(this, measure_n, choiceID) + '>'
+        + this.onClickSideBarMarkup(this, measure_n, choiceID) + '>'
         + this.appID2appLabel(choiceID)
         + '</li>'
       );
@@ -264,7 +278,7 @@ meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
       listElem.append('<li id="' + this.liID(src, appID)
         + '" class="' +  this.toCSSId(appID)
         + ' meiview-sidebar-item" '
-        + onClickSideBarMarkup(this, measure_n, appID) + '>'
+        + this.onClickSideBarMarkup(this, measure_n, appID) + '>'
         + this.appID2appLabel(appID)
         + '</li>'
       );
