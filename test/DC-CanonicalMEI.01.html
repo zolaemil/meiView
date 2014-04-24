@@ -46,68 +46,35 @@ permissions and limitations under the License.
   <script type="text/JavaScript" src="../js/compactviewer.js"></script>
   <script type="text/JavaScript" src="../js/compactviewer-ui.js"></script>
 
-  <link href="../css/meiview.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../css/meiview.css">
   <link rel="stylesheet" type="text/css" href="../css/compactviewer.css">
+  <script type="text/JavaScript" src="test-util.js"></script>
   <link  rel="stylesheet" href="test.css">
+
   <script type="application/javascript" language="javascript">
 
-  var Layout = function() {
-      TCID = 'CanonicalMEI01';
-      TCTitle = 'Canonical MEI - 01';
-      loadedXML = loadXMLDoc('TC.CanonicalMEI.01.xml');
-      var filteredXml = meiView.filterMei(loadedXML);
+  $(document).ready( function(){
 
-      meiDoc = new MeiLib.MeiDoc(filteredXml);
-      pagination = new meiView.Pages();
-      pagination.AddPage(1, 4);
-
-      viewer = new meiView.Viewer({
-        maindiv: $('#canonical-full'),
-        MEI: meiDoc,
-        pages: pagination,
-        title: TCTitle,
-      });
-      viewer.nextPage();
+    pagination = new meiView.Pages();
+    pagination.AddPage(1, 4);
+    var tc = {
+      div: $('.tests'),
+      title: 'Canonical MEI - 01',
+      filename: 'TC.CanonicalMEI.01.xml',
+      pagination: pagination,
     }
 
-    var Compact = function() {
-      TCID = 'CanonicalMEI01';
-      TCTitle = 'Canonical MEI - 01';
-      loadedXML = loadXMLDoc('TC.CanonicalMEI.01.xml');
-      var filteredXml = meiView.filterMei(loadedXML);
+    meiView.Test.LayedoutTest(tc);
+    meiView.Test.CompactTest(tc);
+      
 
-      meiDoc = new MeiLib.MeiDoc(filteredXml);
-      pagination = new meiView.Pages();
-      pagination.AddPage(1, 4);
-
-      viewer = new meiView.CompactViewer({
-        maindiv: $('#canonical-compact'),
-        MEI: meiDoc,
-        pages: pagination,
-        title: TCTitle,
-      });
-      viewer.nextPage();
-    }
-
-    $(document).ready( function(){
-
-      Layout();
-      Compact();
-
-    })
+  })
   </script>
 </head>
 
 <body>
   <script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
-  <div class="test-div">
-    Du Chemin Canonical 01 - Layout View
-    <div id="canonical-full"></div>
-  </div>
-
-  <div class="test-div">
-    Du Chemin Canonical 01 - Compact View
-    <div id="canonical-compact"></div>
+  <div class="tests">
   </div>
 
 </body>

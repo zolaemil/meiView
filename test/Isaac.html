@@ -39,12 +39,14 @@ permissions and limitations under the License.
   <script type="text/JavaScript" src="../js/meiview.js"></script>
   <script type="text/JavaScript" src="../js/meiview-ui.js"></script>
   <script type="text/JavaScript" src="../js/meiview-filter.js"></script>
-  <link  rel="stylesheet" href="../css/meiview.css">
-  <link  rel="stylesheet" href="test.css">
 
   <script type="text/JavaScript" src="../js/compactviewer.js"></script>
   <script type="text/JavaScript" src="../js/compactviewer-ui.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/meiview.css">
   <link rel="stylesheet" type="text/css" href="../css/compactviewer.css">
+
+  <script type="text/JavaScript" src="test-util.js"></script>
+  <link  rel="stylesheet" href="test.css">
 
   <script type="application/javascript" language="javascript">
 
@@ -111,8 +113,42 @@ permissions and limitations under the License.
   }
 
   $(document).ready( function(){
-    CompactView();
-    FullView();
+
+    var pagination = new meiView.Pages();
+    pagination.AddPage(1, 12);
+    pagination.AddPage(13, 24);
+    pagination.AddPage(25, 36);
+    pagination.AddPage(37, 48);
+
+    var tc_layedout = {
+      div: $('#tests'),
+      title: 'Isaac [Rogamus te]',
+      filename: 'Isaac.xml',
+      pagination: pagination,
+    }
+
+    meiView.Test.LayedoutTest(tc_layedout);
+
+    var pagination_compact = new meiView.Pages();
+    pagination_compact.AddPage(1, 5);
+    pagination_compact.AddPage(6, 10);
+    pagination_compact.AddPage(11, 15);
+    pagination_compact.AddPage(16, 20);
+    pagination_compact.AddPage(21, 25);
+    pagination_compact.AddPage(26, 30);
+    pagination_compact.AddPage(31, 35);
+    pagination_compact.AddPage(36, 40);
+    pagination_compact.AddPage(41, 45);
+    pagination_compact.AddPage(46, 48);
+    var tc_compact = {
+      div: $('#tests'),
+      title: 'Isaac [Rogamus te]',
+      filename: 'Isaac.xml',
+      pagination: pagination_compact,
+    }
+
+    meiView.Test.CompactTest(tc_compact);
+
   })
   </script>
 </head>
@@ -120,17 +156,7 @@ permissions and limitations under the License.
 <body>
   <script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
 
-  <div class="test-div">
-    Isaac Layout View
-    <div id="full-view">
-    </div>
-  </div>
-
-  <div class="test-div">
-    Isaac Compact View
-    <div id="comapct-view">
-    </div>
-  </div>
+  <div id="tests"></div>
 
 </body>
 </html>

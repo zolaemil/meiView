@@ -43,34 +43,32 @@ permissions and limitations under the License.
   <script type="text/JavaScript" src="../js/meiview.js"></script>
   <script type="text/JavaScript" src="../js/meiview-ui.js"></script>
   <script type="text/JavaScript" src="../js/meiview-filter.js"></script>
-  <link href="../css/meiview.css" rel="stylesheet">
+  <script type="text/JavaScript" src="../js/compactviewer.js"></script>
+  <script type="text/JavaScript" src="../js/compactviewer-ui.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/meiview.css">
+  <link rel="stylesheet" type="text/css" href="../css/compactviewer.css">
+
+  <script type="text/JavaScript" src="test-util.js"></script>
+  <link  rel="stylesheet" href="test.css">
   <script type="application/javascript" language="javascript">
 
     $(document).ready( function(){
     
-      TCID = 'TC-DC0110';
-      TCTitle = 'Du Chemin: DC0110.mei';
-      $('#tests').append('<div id="meiview-container-' + TCID + '"/>');
-      var loadedXML = loadXMLDoc('DC0110E.xml');
-      var filteredXml = meiView.filterMei(loadedXML, {noSysBreak: true});
-
-      meiDoc = new MeiLib.MeiDoc(filteredXml);
       pagination = new meiView.Pages();
-      pagination.AddPage(1, 4);
-      pagination.AddPage(5, 8);
-      pagination.AddPage(9, 12);
-      pagination.AddPage(13, 16);
-      pagination.AddPage(17, 20);
+      pagination.AddPage(1, 5);
+      pagination.AddPage(6, 10);
+      pagination.AddPage(11, 15);
+      pagination.AddPage(16, 20);
 
-      viewer = new meiView.Viewer({
-        maindiv: $('#meiview-container-' + TCID),
-        MEI: meiDoc,
-        pages: pagination,
-        title: TCTitle,
-        display_measure_numbers: 1,
-      });
+      var tc = {
+        div: $('#tests'),
+        title: 'Du Chemin DC0110',
+        filename: 'DC0110E.xml',
+        pagination: pagination,
+      }
 
-      viewer.nextPage();
+      meiView.Test.LayedoutTest(tc);
+      meiView.Test.CompactTest(tc);
     })
   </script>
 </head>

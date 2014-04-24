@@ -45,47 +45,39 @@ permissions and limitations under the License.
   <script type="text/JavaScript" src="support/loadxmldoc.js"></script>
   <script type="text/JavaScript" src="../js/meiview.js"></script>
   <script type="text/JavaScript" src="../js/meiview-ui.js"></script>
-  <link href="../css/meiview.css" rel="stylesheet">
-  <script type="application/javascript" language="javascript">
+  <script type="text/JavaScript" src="../js/meiview-filter.js"></script>
+  <script type="text/JavaScript" src="../js/compactviewer.js"></script>
+  <script type="text/JavaScript" src="../js/compactviewer-ui.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/meiview.css">
+  <link rel="stylesheet" type="text/css" href="../css/compactviewer.css">
 
-    var selectReconstruction = function(editor) {
-      viewer.toggleReconstruction(editor);
-    }
-    
-    var switchReconstrs = function() {
-      var sectionplaneUpdate = {};
-      sectionplaneUpdate["app-recon-01"] = "rdgA.app-recon-01";
-      viewer.MEI.updateSectionView(sectionplaneUpdate);
-      viewer.displayCurrentPage();
-    }
-    
+  <script type="text/JavaScript" src="test-util.js"></script>
+  <link  rel="stylesheet" href="test.css">
+  <script type="application/javascript" language="javascript">
 
     $(document).ready( function(){
     
-    
-      TCID = 'CanonicalMEI02';
-      TCTitle = 'Canonical MEI - 02';
-      $('#tests').append('<div id="meiview-container-' + TCID + '"/>');
-      loadedXML = loadXMLDoc('DC-CanonicalMEI.02.xml');
-      meiDoc = new MeiLib.MeiDoc(loadedXML);
       pagination = new meiView.Pages();
       pagination.AddPage(1, 4);
 
-      viewer = new meiView.Viewer({
-        maindiv: $('#meiview-container-' + TCID),
-        MEI: meiDoc,
-        pages: pagination,
-        title: TCTitle,
-      });
+      var tc = {
+        div: $('.tests'),
+        title: 'Canonical MEI - 02',
+        filename: 'DC-CanonicalMEI.02.xml',
+        pagination: pagination,
+      }
 
-      viewer.nextPage();
+      meiView.Test.LayedoutTest(tc);
+      meiView.Test.CompactTest(tc);
+      
     })
   </script>
 </head>
 
 <body>
   <script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
-  <div id="tests">
+
+  <div class="tests">
   </div>
 
 </body>
