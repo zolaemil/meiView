@@ -93,6 +93,8 @@ meiView.Inherit(meiView.CompactUI, meiView.UI, {
     //150 is an ugly constant to accommodate selector panels that may pop up
     var main_height = Math.max(this.content_dims.height + 150, minSidebarDivHeight);
     $(this.maindiv).find('.main-canvas-div').height(main_height);
+    this.fabrCanvas.setDimensions({height: main_height});
+    this.fabrCanvasClef.setDimensions({height: main_height});
      this.resizeElements();
   },
 
@@ -246,6 +248,7 @@ meiView.Inherit(meiView.CompactUI, meiView.UI, {
       var pagination_heigh = (this.paginationOn()) ? $(maindiv).find('.pagination-div').height() : 0;
       var critrep_heigh = (this.critRepOn()) ? $(maindiv).find('.critrep-div').height() : 0;
       var main_area_height = main_canvas_div_height + 2 * pagination_heigh + critrep_heigh;
+      $(maindiv).find('.clef-canvas-div').css('height', main_canvas_div_height);
       $(maindiv).find('.view').css('width', view_main_width);
       $(maindiv).find('.main-area').css('width', view_main_width);
       $(maindiv).find('.main-area').css('height', main_area_height);
