@@ -43,3 +43,46 @@ test( "filterMei", function() {
   assertStaffDef(music, "sd10", 'meter.unit', '2');
   
 });
+
+
+test( "meiView.Pages - auto", function() {
+  console.log(meiView);
+  var pgs1 = new meiView.Pages({
+    length: 10,
+    mpp: 3,
+  });
+
+  var pgs2 = new meiView.Pages({
+    length: 36,
+    mpp: 5,
+  });
+
+  ok(pgs1.totalPages() == 4, 'number of pages: ' + pgs1.totalPages()  + ' (excepted 4)');
+  ok(pgs2.totalPages() == 8, 'number of pages: ' + pgs2.totalPages()  + ' (excepted 8)');
+
+  pgs1.nextPage();
+
+  ok(pgs1.currentPage().startMeasureN == 1);
+  ok(pgs1.currentPage().endMeasureN == 3);
+
+  pgs1.nextPage();
+
+  ok(pgs1.currentPage().startMeasureN == 4);
+  ok(pgs1.currentPage().endMeasureN == 6);
+
+  pgs1.nextPage();
+
+  ok(pgs1.currentPage().startMeasureN == 7);
+  ok(pgs1.currentPage().endMeasureN == 9);
+
+  pgs1.nextPage();
+
+  ok(pgs1.currentPage().startMeasureN == 10);
+  ok(pgs1.currentPage().endMeasureN == 10);
+
+  ok(pgs2.whichPage(12) == 2);
+
+  pgs2.jumpToMeasure(36);
+  ok(pgs2.currentPage().startMeasureN == 36);
+  ok(pgs2.currentPage().endMeasureN == 36);
+});

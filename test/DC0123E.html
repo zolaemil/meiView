@@ -50,23 +50,15 @@ permissions and limitations under the License.
   <script type="application/javascript" language="javascript">
 
   $(document).ready( function(){
-
-    var pagination = new meiView.Pages();
-    pagination.AddPage(1, 4);
-    pagination.AddPage(5, 8);
-    pagination.AddPage(9, 12);
-    pagination.AddPage(13, 16);
-    pagination.AddPage(17, 20);
-    pagination.AddPage(21, 24);
-    pagination.AddPage(25, 28);
-    pagination.AddPage(29, 32);
-    pagination.AddPage(33, 36);
       
     var tc = {
       div: $('#tests'),
       title: 'Du Chemin DC0123 [Puisque fortune]',
       filename: 'DC0123E.xml',
-      pagination: pagination,
+      pagination: new meiView.Pages({
+        length: 36,
+        mpp: 4,
+      }),
     }
 
     meiView.Test.LayedoutTest(tc);

@@ -20,7 +20,7 @@
 ***/
 
 // the default line thickness is 2, but this renders poorly with meiView's scaling
-Vex.Flow.STAVE_LINE_THICKNESS = 1;
+if (typeof Vex !== 'undefined') Vex.Flow.STAVE_LINE_THICKNESS = 1;
 
 meiView = {};
 
@@ -225,8 +225,20 @@ meiView.Page = function(start, end) {
   this.endMeasureN = end;
 }
 
-meiView.Pages = function() {
-  this.pages = [];
+meiView.Pages = function(options) {
+  options = options || {};
+  if (options.pages) {
+    this.pages = options.pages;
+  } else {
+    this.pages = [];
+    var length = (typeof options.length !== 'undefined') ? options.length : 0;
+    var mpp = +(typeof options.mpp !== 'undefined') ? options.mpp : 5;
+    if (mpp > 0) {
+      for (var i=0; i*mpp<length; ++i) {
+        this.pages.push(new meiView.Page(i*mpp+1, Math.min(i*mpp+mpp, length)));
+      }
+    }
+  }
   this.currentPageIndex = -1;
 }
 
