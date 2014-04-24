@@ -155,9 +155,16 @@ meiView.Viewer.prototype.createSourceList = function(Apps) {
 
   this.Sources = {};
   this.Emendations = {};
+  this.Report = {};
   for(appID in Apps) {
     var app = Apps[appID];
     var measure_n = $($(app.elem).closest('measure')[0]).attr('n');
+    if (app.tagname === 'choice' || (app.tagname === 'app' && $(app.elem).attr('type') !== 'reconstruction')) {
+      if (typeof this.Report[measure_n] === 'undefined') {
+        this.Report[measure_n] = [];
+      }
+      this.Report[measure_n].push(Apps[appID]);
+    }
     var resultList;
     if (app.tagname === 'app') {
       resultList = this.Sources;

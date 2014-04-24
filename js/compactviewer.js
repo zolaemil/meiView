@@ -150,7 +150,6 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
   displayCurrentPage_TwoParts: function() {
     var pageXML_ContentPart = this.getPageXML_ContentPart(this.pages.currentPage());
     var pageXML_ClefPart = this.getPageXML_ClefPart(this.pages.currentPage());
-    console.log(pageXML_ClefPart.innerHTML);
     this.UI.renderContentPart(pageXML_ContentPart, {vexWidth:this.scoreWidth, vexHeight:this.scoreHeight});
     this.UI.rendered_measures = MEI2VF.rendered_measures;
     this.UI.content_dims = MEI2VF.Converter.getStaffArea();

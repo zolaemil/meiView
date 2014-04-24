@@ -37,9 +37,8 @@ meiView.Inherit(meiView.CompactUI, meiView.UI, {
           <canvas class="main-canvas" id="' + this.canvas_id + '"></canvas>\
         </div>\
       </div>\
-      <div class="critrep-div ui-widget-content ui-corner-top" onclick="toggleCritRep()">Critical Report<ul>\
-        <li/><li/><li/><li/><li/><li/><li/><li/><li/><li/>\
-      </ul>\
+      <div class="critrep-div ui-widget-content ui-corner-top" onclick="toggleCritRep()">Critical Report\
+      <ul></ul>\
       </div>\
       <div class="pagination-div" align="center">'
         + pageTurnButton('prev', this.viewer.id)
@@ -69,6 +68,7 @@ meiView.Inherit(meiView.CompactUI, meiView.UI, {
       heightStyle: "fill",
       active: false
     });
+    this.fillCritReport();
 
     this.fabrCanvas = this.initCanvas(this.canvas_id);
     this.canvasClef = $(this.maindiv).find('.clef-canvas').get();
@@ -325,7 +325,6 @@ meiView.Inherit(meiView.CompactUI, meiView.UI, {
             var canvas_offset = canvas.offset();
             $(voicename_div).show();
             var mypos = $(voicename_div).position();
-            console.log('mypos:');
             console.log(mypos);
             // $(voicename_div).css('left', -1 * mypos.left + 20);
             
@@ -413,4 +412,47 @@ meiView.Inherit(meiView.CompactUI, meiView.UI, {
     }
   },
   
+  fillCritReport: function() {
+
+    var getTableBody = function(maindiv) {
+      var table = $(maindiv).find('.critrep-div table.critrep tbody');
+      if (table.length === 0) {
+        $(maindiv).find('.critrep-div').append('<table class="critrep">'
+          + '<tbody>'
+            + '<tr>'
+              + '<th>Measure</th>'
+              + '<th>Voice</th>'
+              + '<th>Type</th>'
+              + '<th>Source/Responsibility</th>'
+            + '</tr>'
+          + '</tbody></table>');
+        return $(maindiv).find('.critrep-div table.critrep tbody');
+      } else {
+        return table;
+      }
+    }
+
+    // measure by measure
+    var me = this;
+    console.log("Critical Report:")
+    console.log(this.viewer.Report);
+    var tbody = getTableBody(this.maindiv);
+    for (measure_n in this.viewer.Report) {
+      var altlist = this.viewer.Report[measure_n];
+      var i;
+      for (i=0, j=altlist.length; i<j; ++i) {
+        var alt = altlist[i];
+        $(me.maindiv).find('.critrep-div ul').append('<li>' + alt.xmlID + '</li>');
+        $(tbody).append('<tr class="meiview-sidebar-item">'
+          + '<td class="critrep-field critrep-measureno">' + 'measureno (xmlID:' + alt.xmlID + ')</td>'
+          + '<td class="critrep-field critrep-voice">' + 'voice' + '</td>'
+          + '<td class="critrep-field critrep-type">' + alt.tagname + '</td>'
+          + '<td class="critrep-field critrep-sources">' + 'sources' +'</td>'
+        + '</tr>');
+      }
+    }
+  },
+
 });
+
+

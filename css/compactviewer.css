@@ -33,6 +33,7 @@
     overflow-y: auto;
     font-size: 1em;
     margin: 2px;
+    text-align: left;
 }
 
 .critrep-div.critrep-off {
