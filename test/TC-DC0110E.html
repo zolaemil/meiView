@@ -53,18 +53,12 @@ permissions and limitations under the License.
   <script type="application/javascript" language="javascript">
 
     $(document).ready( function(){
-    
-      pagination = new meiView.Pages();
-      pagination.AddPage(1, 5);
-      pagination.AddPage(6, 10);
-      pagination.AddPage(11, 15);
-      pagination.AddPage(16, 20);
 
       var tc = {
         div: $('#tests'),
         title: 'Du Chemin DC0110',
         filename: 'DC0110E.xml',
-        pagination: pagination,
+        pagination: 5,
       }
 
       meiView.Test.LayedoutTest(tc);

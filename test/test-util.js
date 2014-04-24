@@ -24,6 +24,12 @@ meiView.Test = (function () {
       });
       testdiv.appendTo(tc.div);
       testdiv.append('<div class="viewer"></div>');
+      if (typeof tc.pagination === 'number') {
+        tc.pagination = new meiView.Pages({
+          length: $(meiDoc.rich_score).find('measure').length,
+          mpp: tc.pagination,
+        });
+      }
       viewer = new meiView.Viewer({
         maindiv: $(testdiv).find('.viewer'),
         MEI: meiDoc,
@@ -42,6 +48,12 @@ meiView.Test = (function () {
       });
       testdiv.appendTo(tc.div);
       testdiv.append('<div class="viewer"></div>');
+      if (typeof tc.pagination === 'number') {
+        tc.pagination = new meiView.Pages({
+          length: $(meiDoc.rich_score).find('measure').length,
+          mpp: tc.pagination,
+        });
+      }
       viewer = new meiView.CompactViewer({
         maindiv: $(testdiv).find('.viewer'),
         MEI: meiDoc,

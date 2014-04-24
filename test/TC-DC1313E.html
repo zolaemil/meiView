@@ -68,7 +68,10 @@ permissions and limitations under the License.
     viewer = new meiView.Viewer({
       maindiv: $('#dc1313-full'),
       MEI: meiDoc,
-      pages: pagination,
+      pages: new meiView.Pages({
+        length: $(meiDoc.rich_score).find('measure').length,
+        mpp: 4,
+      }),
       title: TCTitle,
     });
 
@@ -94,7 +97,10 @@ permissions and limitations under the License.
     viewer = new meiView.CompactViewer({
       maindiv: $('#dc1313-compact'),
       MEI: meiDoc,
-      pages: pagination,
+      pages: new meiView.Pages({
+        length: $(meiDoc.rich_score).find('measure').length,
+        mpp: 5,
+      }),
       title: TCTitle,
       displayFirstPage: true,
     });
