@@ -48,6 +48,7 @@ meiView.Test = (function () {
         pages: tc.pagination,
         title: tc.title,
         displayFirstPage: true,
+        mode: tc.mode,
       });
       return viewer;
     },
