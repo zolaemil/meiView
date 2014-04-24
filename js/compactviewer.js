@@ -154,6 +154,7 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
     this.UI.renderContentPart(pageXML_ContentPart, {vexWidth:this.scoreWidth, vexHeight:this.scoreHeight});
     this.UI.rendered_measures = MEI2VF.rendered_measures;
     this.UI.content_dims = MEI2VF.Converter.getStaffArea();
+    this.UI.updateMainHeight();
     var clefoptions = {}
     clefoptions.page_margin_right = 0;
     clefoptions.page_margin_left = 10;
@@ -172,7 +173,6 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
     this.pages.nextPage();
     this.displayCurrentPage_TwoParts();
     this.UI.dlg && this.UI.dlg.hide();
-    this.UI.updateMainHeight();
     // setTimeout(function(){this.UI.fabrCanvas.renderAll()}, 0);
   },
 
@@ -180,7 +180,6 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
     this.pages.prevPage();
     this.displayCurrentPage_TwoParts();
     this.UI.dlg && this.UI.dlg.hide();
-    this.UI.updateMainHeight();
     // setTimeout(function(){this.UI.fabrCanvas.renderAll()}, 0);
   },
 
@@ -188,14 +187,12 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
     this.pages.jumpTo(i);
     this.displayCurrentPage_TwoParts();
     this.UI.dlg && this.UI.dlg.hide();
-    this.UI.updateMainHeight();
   },
 
   jumpToMeasure: function(i) {
     this.pages.jumpToMeasure(i);
     this.displayCurrentPage_TwoParts();
     this.UI.dlg && this.UI.dlg.hide();
-    this.UI.updateMainHeight();
   },
 });
 
