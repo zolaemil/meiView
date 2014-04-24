@@ -73,6 +73,8 @@ permissions and limitations under the License.
     });
 
     viewer.nextPage();
+
+    return viewer;
   }
 
   var Compact = function() {
@@ -96,13 +98,18 @@ permissions and limitations under the License.
       title: TCTitle,
       displayFirstPage: true,
     });
+
+    return viewer;
+
   }
 
     $(document).ready( function(){
 
+      var compactviewer = Compact();
       LayedOut();
-      Compact();
 
+      //Need to refresh the page due to layout change in the DOM...
+      compactviewer.displayCurrentPage();
     })
   </script>
 </head>
