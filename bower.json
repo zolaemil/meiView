@@ -5,7 +5,15 @@
   "authors": [
     "Zoltan Komives <zolaemil@gmail.com>"
   ],
+  "description": "MEI Viewer",
+  "keywords": [
+    "HTML5",
+    "canvas",
+    "render",
+    "MEI"
+  ],
   "license": "MIT",
+  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
@@ -14,15 +22,8 @@
     "tests"
   ],
   "dependencies": {
+    "jquery": "~2.1.0",
     "qunit": "~1.14.0",
-  },
-  "keywords": [
-    "MEI",
-    "Viewer",
-    "MEItoVexFlow",
-    "VexFlow"
-  ],
-  "devDependencies": {
-    "qunit": "~1.14.0"
+    "vexflow": "*"
   }
 }
