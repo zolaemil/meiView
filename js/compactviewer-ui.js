@@ -314,7 +314,6 @@ meiView.Inherit(meiView.CompactUI, meiView.UI, {
           if (vexStaff) {
             var canvas_offset = $(this.maindiv).find('canvas.clef-canvas').offset();
             $(voicename_div).show();
-            $(voicename_div).css('position', 'absolute');
             $(voicename_div).css('top', vexStaff.y * this_UI.scale + canvas_offset.top + base_offset.y);
             $(voicename_div).css('left', vexStaff.x * this_UI.scale + canvas_offset.left + base_offset.x);
             $(voicename_div).find('span').html(voiceNames[staff_n]);
