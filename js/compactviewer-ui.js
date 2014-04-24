@@ -295,26 +295,15 @@ meiView.Inherit(meiView.CompactUI, meiView.UI, {
   
   displayVoiceNames: function(score, base_offset) {
     base_offset.x = (typeof base_offset.x !== 'undefined') ? base_offset.x : 0;
-    base_offset.y = (typeof base_offset.y !== 'undefined') ? base_offset.y : 0;
+    base_offset.y = (typeof base_offset.y !== 'undefined') ? base_offset.y : 10;
     var voiceNames = this.viewer.voiceNames(score);
     var this_UI = this;
     //1. Hide all voicename-divs
     $(this.maindiv).find('.voicename-div').hide();
-    var critrep_height = $(this.maindiv).find('.critrep-div').height();
-    var clefdiv_height = $(this.maindiv).find('.clef-canvas-div').height();
-    var pagination_height = $(this.maindiv).find('.pagination-div').height();
     for (staff_n in voiceNames) {
       //2. display voiceNames[staff_n] in a voicename-div
       //corresponding to staff_n
-      var heights_sum = critrep_height + pagination_height + clefdiv_height;
       var voicename_div = this_UI.getVoiceNameDiv(staff_n);
-      $(this.maindiv).find('.voicename-div').each(function () {
-        if (this !== voicename_div.get(0)) {
-          heights_sum += $(this).height();
-        } else {
-          return false;
-        }
-      });
       //3. position them according layout logic
       var measure = $(score).find('measure')[0];
       if (measure) {
@@ -323,17 +312,11 @@ meiView.Inherit(meiView.CompactUI, meiView.UI, {
         if (vexStaffs) {
           var vexStaff = vexStaffs[staff_n];
           if (vexStaff) {
-            var canvas =  $(this.maindiv).find('canvas.clef-canvas');
-            var canvas_offset = canvas.offset();
+            var canvas_offset = $(this.maindiv).find('canvas.clef-canvas').offset();
             $(voicename_div).show();
-            var mypos = $(voicename_div).position();
-            console.log(mypos);
-            // $(voicename_div).css('left', -1 * mypos.left + 20);
-            
-            $(voicename_div).css('top',  -1 * heights_sum + vexStaff.y * this_UI.scale + base_offset.y);
-            // mypos = $(voicename_div).position();
-            // $(voicename_div).css('top', vexStaff.y * this.scale + canvas_offset.top + base_offset.y);
-            $(voicename_div).css('left', vexStaff.x * this_UI.scale + base_offset.x);
+            $(voicename_div).css('position', 'absolute');
+            $(voicename_div).css('top', vexStaff.y * this_UI.scale + canvas_offset.top + base_offset.y);
+            $(voicename_div).css('left', vexStaff.x * this_UI.scale + canvas_offset.left + base_offset.x);
             $(voicename_div).find('span').html(voiceNames[staff_n]);
           }
         }
