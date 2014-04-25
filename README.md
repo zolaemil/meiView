@@ -2,20 +2,10 @@ meiView
 =======
 Application displaying music encoded in MEI format. 
 
-The Music Encoding Initiative (MEI) is a community-driven effort to create a 
-commonly-accepted, digital, symbolic representation of music notation 
-documents.
+Demo
+----
 
-The purpose of this application is to demonstrate how to display variant 
-readings of a musical piece encoded in MEI using MEI2VexFlow. meiView uses 
-MEI2VexFlow in order to render MEI segments onto the screen.
-
-Usage
------
-
-The application is available at 
-[http://zolaemil.github.io/meiView](http://zolaemil.github.io/meiView).
-
+An out of date demo is available at [http://zolaemil.github.io/meiView](http://zolaemil.github.io/meiView).
 
 Within the score there're green dots above each measure that contains an <app>
 element. Click on the dot, to see which source contains what musical text. 
@@ -25,5 +15,27 @@ On the right-hand side, you can see the list of sources. When you click
 on a source, it expands into a list to show a list of places where the 
 selected source has any difference from the base text.
 
-sources and the list of places where each source is 
-different from the base text.
+Build
+-----
+
+To build meiView, you'll need Node.js and npm. In the main directory run (skip the first step if you have bower and grunt already installed globally):
+
+```
+$ npm install -g bower grunt-cli
+$ npm install
+$ bower install
+```
+
+Now you can build the distribution files running:
+
+`$ grunt`
+
+You can open the test pages if you run:
+
+`$ grunt run`
+
+This will build the distribution files and start a web server at your local 8000 port. Point your browser at one of the test files, for instance:
+
+http://0.0.0.0:8000/test/DC-CanonicalMEI.02.html
+
+
