@@ -24,6 +24,7 @@
   "dependencies": {
     "jquery": "~2.1.0",
     "qunit": "~1.14.0",
-    "vexflow": "*"
+    "vexflow": "*",
+    "jquery-ui": "~1.10.4"
   }
 }
