@@ -10,7 +10,7 @@ meiView.Test = (function () {
   test = {
     
     loadMEIDoc: function(filename, options) {
-      var loadedXML = loadXMLDoc(filename);
+      var loadedXML = meiView.Util.loadXMLDoc(filename);
       var filteredXml = meiView.filterMei(loadedXML, options);
       var meiDoc = new MeiLib.MeiDoc(filteredXml);
       return meiDoc;
