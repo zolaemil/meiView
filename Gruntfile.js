@@ -38,11 +38,11 @@ module.exports = function(grunt) {
           separator: ';'
         },
         src: [
-          'js/compactviewer-ui.js,',
-          'js/compactviewer.js',
-          'js/meiview-filter.js',
-          'js/meiview-ui.js',
           'js/meiview.js',
+          'js/meiview-ui.js',
+          'js/meiview-filter.js',
+          'js/compactviewer.js',
+          'js/compactviewer-ui.js',
         ],
         dest: 'dist/meiview-all.js'
       },
@@ -51,7 +51,7 @@ module.exports = function(grunt) {
           separator: ';'
         },
         src: [
-          'css/meiview.css,',
+          'css/meiview.css',
           'css/compactviewer.css',
         ],
         dest: 'dist/meiview-all.css'
