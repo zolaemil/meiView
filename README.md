@@ -38,4 +38,17 @@ This will build the distribution files and start a web server at your local 8000
 
 http://0.0.0.0:8000/test/DC-CanonicalMEI.02.html
 
+Usage and Dependencies
+----------------------
+
+There are a number of libraries and plug-ins needed for the application to work. When running meiView, the browser must have the following libraries loaded:
+
+* JQuery
+* JQuery-UI (only the .js file mandatory, .css optional)
+* VexFlow
+* MEItoVexFlow
+* Fabric.js
+
+The specific fabric.js and MEItoVexFlow distributtions are currently supplied in the deps/ directory.
+
 
