@@ -34,7 +34,6 @@ permissions and limitations under the License.
   <script type="text/JavaScript" src="../deps/meitovexflow.min.js"></script>
 
   <link rel="stylesheet" href="support/bootstrap/css/bootstrap.min.css" media="screen"/>
-  <script type="text/JavaScript" src="support/jquery.ba-bbq.min.js"></script>
 
   <script type="text/JavaScript" src="../js/meiview.js"></script>
   <script type="text/JavaScript" src="../js/meiview-ui.js"></script>
@@ -49,68 +48,6 @@ permissions and limitations under the License.
   <link  rel="stylesheet" href="test.css">
 
   <script type="application/javascript" language="javascript">
-
-  var CompactView = function () {
-    var xmlDoc = meiView.Util.loadXMLDoc('Isaac.xml');
-    var filteredXml = meiView.filterMei(xmlDoc, {noSysBreak:true});
-    var meiDoc = new MeiLib.MeiDoc(filteredXml);
-    var pagination = new meiView.Pages();
-    pagination.AddPage(1, 5);
-    pagination.AddPage(6, 10);
-    pagination.AddPage(11, 15);
-    pagination.AddPage(16, 20);
-    pagination.AddPage(21, 25);
-    pagination.AddPage(26, 30);
-    pagination.AddPage(31, 35);
-    pagination.AddPage(36, 40);
-    pagination.AddPage(41, 45);
-    pagination.AddPage(46, 48);
-
-    var viewer = new meiView.CompactViewer({
-      maindiv: $('#comapct-view'),
-      MEI: meiDoc,
-      pages: pagination,
-      title: 'Henricus Isaac: Rogamus te piissima virgo Maria',
-    });
-
-    frag_pg = $.bbq.getState('pg');
-    if (frag_pg != undefined) {
-      viewer.jumpTo(frag_pg-1);
-    }
-    else {
-      viewer.nextPage();
-    }
-  }
-
-  var FullView = function () {
-    var xmlDoc = meiView.Util.loadXMLDoc('Isaac.xml');
-    var meiDoc = new MeiLib.MeiDoc(xmlDoc);
-    var pagination = new meiView.Pages();
-    pagination.AddPage(1, 12);
-    pagination.AddPage(13, 24);
-    pagination.AddPage(25, 36);
-    pagination.AddPage(37, 48);
-
-    var viewer = new meiView.Viewer({
-      maindiv: $('#full-view'),
-      MEI: meiDoc,
-      pages: pagination,
-      title: 'Henricus Isaac: Rogamus te piissima virgo Maria',
-      display_measure_numbers: 1,
-      m2v_options: {
-        labelMode: 'full',
-      },
-    });
-
-    frag_pg = $.bbq.getState('pg');
-    if (frag_pg != undefined) {
-      viewer.jumpTo(frag_pg-1);
-    }
-    else {
-      viewer.nextPage();
-    }
-
-  }
 
   $(document).ready( function(){
 
