@@ -19,16 +19,14 @@ module.exports = function(grunt) {
           banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'   
         },   
         files: { 
-          'dist/<%= pkg.name %>.min.js': [ 'dist/<%= pkg.name %>-all.js' ],
+          'dist/<%= pkg.name %>.min.js': [ 'dist/<%= pkg.name %>.js' ],
         }
       }
     },
 
     cssmin: {
-      combine: {
-        files: {
-          'dist/<%= pkg.name %>.min.css': ['dist/<%= pkg.name %>-all.css' ]
-        }
+      files: {
+        'dist/<%= pkg.name %>.min.css': ['dist/<%= pkg.name %>.css' ]
       }
     },
     
@@ -44,7 +42,7 @@ module.exports = function(grunt) {
           'js/compactviewer.js',
           'js/compactviewer-ui.js',
         ],
-        dest: 'dist/meiview-all.js'
+        dest: 'dist/<%= pkg.name %>.js'
       },
       bower_css: {
         options: {
@@ -54,7 +52,7 @@ module.exports = function(grunt) {
           'css/meiview.css',
           'css/compactviewer.css',
         ],
-        dest: 'dist/meiview-all.css'
+        dest: 'dist/<%= pkg.name %>.css'
       },
       
     },
