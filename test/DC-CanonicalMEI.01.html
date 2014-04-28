@@ -24,23 +24,34 @@ permissions and limitations under the License.
 <head>
   <title>meiView - Test</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--
+    Load dependencies managed by bower
+  -->
   <script type="text/JavaScript" src="../bower_components/jquery/dist/jquery.min.js"></script>
   <script type="text/JavaScript" src="../bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
   <script type="text/JavaScript" src="../bower_components/vexflow/build/vexflow/vexflow-min.js"></script>
-  <link rel="stylesheet" href="../bower_components/jquery-ui/themes/pepper-grinder/jquery-ui.min.css" />
 
+  <!--
+    Load dependencies that are shipped with the distribution
+  -->
   <script type="text/JavaScript" src="../deps/Fabric-all.js"></script>
   <script type="text/JavaScript" src="../deps/meitovexflow.min.js"></script>
 
-  <link rel="stylesheet" href="support/bootstrap/css/bootstrap.min.css" media="screen"/>
-
+  <!--
+    Load distribution files
+  -->
   <script type="text/JavaScript" src="../dist/meiview.js"></script>
   <link  rel="stylesheet" href="../dist/meiview.css"/>
 
+  <!--
+    Add styling
+  -->
+  <link rel="stylesheet" href="../bower_components/jquery-ui/themes/pepper-grinder/jquery-ui.min.css" />
+  <link rel="stylesheet" href="support/bootstrap/css/bootstrap.min.css" media="screen"/>
+  <script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
+
   <script type="text/JavaScript" src="test-util.js"></script>
   <link  rel="stylesheet" href="test.css">
-
   <script type="application/javascript" language="javascript">
 
   $(document).ready( function(){
@@ -63,7 +74,6 @@ permissions and limitations under the License.
 </head>
 
 <body>
-  <script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
   <div class="tests">
   </div>
 
