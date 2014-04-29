@@ -52,11 +52,9 @@ The specific fabric.js and MEItoVexFlow distributtions are currently supplied in
 Deploy meiView
 --------------
 
-
 To deploy meiView in a web page follow these steps:
 
-
-1. Include the dependencies:
+**1.Include the dependencies**:
 ```
 <script type="text/JavaScript" src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/JavaScript" src="../bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
@@ -66,18 +64,20 @@ To deploy meiView in a web page follow these steps:
 ```
 
 
-2. Include the distribution files:
+**2.Include the distribution files**:
 ```
 <script type="text/JavaScript" src="../dist/meiview.js"></script>
 <link  rel="stylesheet" href="../dist/meiview.css"/>
 ```
 
-3. Make sure you've got an element in the body for the viewer:
+**3.Make sure you've got an element in the body for the viewer**:
 ```
     <div class="viewer"></div>
 ```
 
-4. Now you can create a viewer by calling `new meiView.Viewer(options)`.
+**4.Create the viewer**
+
+Now you can create a viewer by calling `new meiView.Viewer(options)`.
 In the options you must pass on the DOM element and an MeiDoc object. You can 
 create an MeiDoc object using MeiLib (shipped with MEIToVexFlow):
 ```
@@ -114,6 +114,6 @@ When your MeiDoc and pagination objects are ready, initialise the viewer:
 ```
 
 Note that the options `displayFirstPage: true` is needed if you 
-want the viewer to start up by dipsplaying the first page. 
-Otherwise you can call `viewer.nextPage()` after it's been initialised.
+want the viewer to start up by dipsplaying any pages. 
+If you don't add this option, you can call `viewer.nextPage()` manually.
 
