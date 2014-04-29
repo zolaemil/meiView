@@ -1,0 +1,100 @@
+<!-- 
+meiView.html
+Author: Zoltan Komives
+Contributor: Raffaele Viglianti
+
+Copyright © 2013 Zoltan Komives, Raffaele Viglianti
+University of Maryland
+
+Licensed under the Apache License, Version 2.0 (the "License"); you
+may not use this file except in compliance with the License.  You may
+obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+implied.  See the License for the specific language governing
+permissions and limitations under the License.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>meiView - Tests and Samples</title>
+
+  <script type="text/JavaScript" src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script type="application/javascript" language="javascript">
+
+  $(document).ready( function(){
+
+    var TCs = [
+    {
+      title: 'Sample Compact Viewer',
+      href: 'DC-CanonicalMEI.01-Sample.html',
+    },
+    {
+      title: 'Single voice with one concordant source',
+      href: 'DC-Variants.04.html',
+    },
+    {
+      title: 'MEI with reconstructions, emendations and variants (1)',
+      href: 'DC-CanonicalMEI.01.html',
+    },
+    {
+      title: 'MEI with reconstructions, emendations and variants (1) - Without Styling',
+      href: 'DC-CanonicalMEI.01.nostyle.html',
+    },
+    {
+      title: 'MEI with reconstructions, emendations and variants (2)',
+      href: 'DC-CanonicalMEI.02.html',
+    },
+    {
+      title: 'Du Chemin #0123',
+      href: 'DC0123E.html',
+    },
+    {
+      title: 'A fragment of Henricus Isaac [Rogamus te]',
+      href: 'Isaac.html',
+    },
+    {
+      title: 'Du Chemin #0110',
+      href: 'TC-DC0110E.html',
+    },
+    {
+      title: 'Du Chemin #01209',
+      href: 'TC-DC1209E.html',
+    },
+    {
+      title: 'Du Chemin #01313',
+      href: 'TC-DC1313E.html',
+    },
+    {
+      title: 'Phrase View: A single pharse from Du Chemin #0123',
+      href: 'DC0123E-Phrase.html',
+    },
+    
+    ]
+    
+    for (var i=0, j=TCs.length; i<j; ++i) {
+      var tc = TCs[i];
+      $('#test-titles ul').append('<li><a href="' + tc.href + '">'
+        + ((typeof tc.title !== 'undefined') ? tc.title : tc.href)
+        + '</a></li>');
+    }
+
+  })
+  </script>
+
+</head>
+<body>
+  <div id="test-titles">
+    <h3><a href="unit_test.html">Unit tests</a></h3>
+    <h3>Functional test cases and sample pages</h3>
+    <ul>
+    </ul>
+  </div>
+
+</body>
+</html>
