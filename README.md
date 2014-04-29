@@ -1,9 +1,7 @@
-meiView
-=======
+#meiView
 Application displaying music encoded in MEI format. 
 
-Demo
-----
+##Demo
 
 An out of date demo is available at [http://zolaemil.github.io/meiView](http://zolaemil.github.io/meiView).
 
@@ -15,8 +13,7 @@ On the right-hand side, you can see the list of sources. When you click
 on a source, it expands into a list to show a list of places where the 
 selected source has any difference from the base text.
 
-Build and Test
---------------
+##Build and Test
 
 To build meiView, you'll need Node.js and npm. In the main directory run (skip the first step if you have bower and grunt already installed globally):
 
@@ -36,8 +33,7 @@ If you only one to build the distribution files run `$ grunt build` instead.
 Similarly, if you only want to run the web server using the existing distribution,
 run `$ grunt run`. This will build the distribution files in the dist/ directory.
 
-Usage and Dependencies
-----------------------
+##Usage and Dependencies
 
 There are a number of libraries and plug-ins needed for the application to work. When running meiView, the browser must have the following libraries loaded:
 
@@ -49,13 +45,11 @@ There are a number of libraries and plug-ins needed for the application to work.
 
 The specific fabric.js and MEItoVexFlow distributtions are currently supplied in the deps/ directory.
 
-Deploy meiView
---------------
+##Deploy meiView
 
 To deploy meiView in a web page follow these steps:
 
-**1.Include the dependencies**:
-=======
+###1.Include the dependencies:
 ```
 <script type="text/JavaScript" src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/JavaScript" src="../bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
@@ -65,22 +59,19 @@ To deploy meiView in a web page follow these steps:
 ```
 
 
-**2.Include the distribution files**:
-=======
+###2.Include the distribution files:
 ```
 <script type="text/JavaScript" src="../dist/meiview.js"></script>
 <link  rel="stylesheet" href="../dist/meiview.css"/>
 ```
 
-**3.Make sure you've got an element in the body for the viewer**:
-=======
+###3.Make sure you've got an element in the body for the viewer:
 ```
     <div class="viewer"></div>
 ```
 
-**4.Create the viewer**
+###4.Create the viewer
 
-=======
 Now you can create a viewer by calling `new meiView.Viewer(options)`.
 In the options you must pass on the DOM element and an MeiDoc object. You can 
 create an MeiDoc object using MeiLib (shipped with MEIToVexFlow):
