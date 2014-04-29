@@ -49,7 +49,7 @@ The specific fabric.js and MEItoVexFlow distributtions are currently supplied in
 
 To deploy meiView in a web page follow these steps:
 
-###1.Include the dependencies:
+#####1.Include the dependencies:
 ```
 <script type="text/JavaScript" src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/JavaScript" src="../bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
@@ -59,18 +59,18 @@ To deploy meiView in a web page follow these steps:
 ```
 
 
-###2.Include the distribution files:
+#####2.Include the distribution files:
 ```
 <script type="text/JavaScript" src="../dist/meiview.js"></script>
 <link  rel="stylesheet" href="../dist/meiview.css"/>
 ```
 
-###3.Make sure you've got an element in the body for the viewer:
+#####3.Make sure you've got an element in the body for the viewer:
 ```
     <div class="viewer"></div>
 ```
 
-###4.Create the viewer
+#####4.Create the viewer
 
 Now you can create a viewer by calling `new meiView.Viewer(options)`.
 In the options you must pass on the DOM element and an MeiDoc object. You can 
