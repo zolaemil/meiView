@@ -2,7 +2,7 @@ test( "filterMei", function() {
   
   // Test preparation
   
-  var meiXml = loadXMLDoc('DC1209E.xml');
+  var meiXml = meiView.Util.loadXMLDoc('DC1209E.xml');
 
   //Function under test
   
