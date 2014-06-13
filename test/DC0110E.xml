@@ -47,7 +47,7 @@
 	<body xml:id="m-8a876d91-4d1a-4d3a-9eda-bf0a6fd58ce3">
 		<mdiv xml:id="m-25160921-1fcf-43de-adc9-d96470f42f16">
 			<score xml:id="m-90e86f90-2201-4933-8da8-a0b55d5142c4">
-				<scoreDef xml:id="m-11bf472e-7ef5-4ad6-a066-7287523f5636" page.botmar="32mm" page.height="270mm" page.leftmar="27.7mm" page.rightmar="18.5mm" page.topmar="23mm" page.width="185mm" ppq="256" meter.count="2" meter.unit="2" meter.sym="cut">
+				<scoreDef xml:id="m-11bf472e-7ef5-4ad6-a066-7287523f5636" page.botmar="32mm" page.height="270mm" page.leftmar="27.7mm" page.rightmar="18.5mm" page.topmar="23mm" page.width="185mm" ppq="256" meter.count="4" meter.unit="2" meter.sym="cut">
 					<staffGrp xml:id="m-2f586444-d78e-4887-9d15-a7298f5d744c">
 						<staffGrp xml:id="m-e17fb0bd-adf3-433b-a39f-0f545817861b" n="1" symbol="bracket">
 							<staffDef xml:id="sd1" clef.line="2" clef.shape="G" key.mode="major" key.sig="1f" label="Superius" lines="5" n="1"/>
