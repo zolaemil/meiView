@@ -61,7 +61,7 @@ meiView.Inherit(meiView.CompactUI, meiView.UI, {
     var titleElem = $(this.maindiv).find('span.title')[0];
     $(titleElem).html(options.title);
 
-    this.fillSideBar($(this.maindiv).find('#accordion'), this.viewer.Sources, 'meiview-sidebar');
+    this.fillSideBar($(this.maindiv).find('#accordion'), 'meiview-sidebar');
     $(this.maindiv).find('#accordion').accordion({
       collapsible: true,
       heightStyle: "fill",
