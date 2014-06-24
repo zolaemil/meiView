@@ -161,6 +161,10 @@ meiView.Inherit(meiView.CompactUI, meiView.UI, {
     this.resizeElements();
   },
 
+  sideBarLength: function() {
+    return $(this.maindiv).find('.sidebar').find('h3.meiview-sidebar').length;
+  },
+
   sideBarOn: function () {
     return $(this.maindiv).find('.sidebar').css('display') !== 'none';
   },

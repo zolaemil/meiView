@@ -80,6 +80,10 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
       this.UI.hidePagination();
     }
 
+    if (this.UI.sideBarLength() == 0) {
+      this.UI.hideSideBar();
+    }
+
   },
 
 
