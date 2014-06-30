@@ -67,6 +67,10 @@ meiView.Inherit(meiView.CompactUI, meiView.UI, {
       heightStyle: "fill",
       active: false
     });
+    if ($(this.maindiv).find('#accordion h3').length === 0) {
+      this.hideSideBar();
+    }
+
     this.fillCritReport();
 
     this.scale = options.scale || 1.0;
