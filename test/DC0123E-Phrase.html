@@ -52,8 +52,7 @@ permissions and limitations under the License.
   $(document).ready( function(){
 
     var pagination = new meiView.Pages();
-    pagination.AddPage(9, 12);
-    pagination.AddPage(13, 16);
+    pagination.AddPage(1, 50);
       
     var tc = {
       div: $('#tests'),
@@ -61,13 +60,18 @@ permissions and limitations under the License.
       filename: 'DC0123E.xml',
       pagination: pagination,
       mode: meiView.Mode.SINGLE_PAGE,
+      pxpMeasure: 300,
     }
-    pagination.jumpTo(1);
     meiView.Test.CompactTest(tc);
   })
   </script>
 </head>
 
+<style>
+  #tests canvas.main-canvas {
+    width: 3000px;
+  }
+</style>
 <body>
   <script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
 
