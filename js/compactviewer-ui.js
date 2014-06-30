@@ -69,6 +69,8 @@ meiView.Inherit(meiView.CompactUI, meiView.UI, {
     });
     this.fillCritReport();
 
+    this.scale = options.scale || 1.0;
+
     this.fabrCanvas = this.initCanvas(this.canvas_id);
     this.canvasClef = $(this.maindiv).find('.clef-canvas').get();
     var dimensions = { width: $(this.canvasClef).width(), height: $(this.canvasClef).height() }
@@ -176,9 +178,10 @@ meiView.Inherit(meiView.CompactUI, meiView.UI, {
     if (this.scoreImg) {
        this.fabrCanvas.remove(this.scoreImg);    
     }
-    this.scale = this.fabrCanvas.width/options.vexWidth;
-    var W = this.fabrCanvas.width;
-    var H = options.vexHeight * this.scale;
+    this.fabrCanvas.setDimensions({width:options.vexWidth, height:options.vexHeight});
+    // this.scale = 1; // this.fabrCanvas.width/options.vexWidth;
+    var W = options.vexWidth; //this.fabrCanvas.width;
+    var H = options.vexHeight;// * this.scale;
     this.scoreImg = new fabric.Image(img, {
       width:W,height:H, left:W/2, top:H/2,
       lockMovementX: true,

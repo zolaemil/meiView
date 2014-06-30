@@ -49,7 +49,11 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
         this.parsePages(this.MEI);
       }
     }
-    this.scoreWidth = options.width || 1200; // 1000
+    if (options.pxpMeasure) {
+      this.pxpMeasure = options.pxpMeasure;
+    } else {
+      this.scoreWidth = options.width || 1200;
+    }
     this.scoreHeight = options.height || 1000;
     this.createSourceList(this.MEI.ALTs);
     this.Reconstructors = this.createReconstructorList();
@@ -82,6 +86,14 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
 
   },
 
+  getScoreWidth: function(score) {
+    if (this.pxpMeasure) {
+      var no_of_measures = $(score).find('measure').length;
+      return this.pxpMeasure * no_of_measures;
+    } else {
+      return this.scoreWidth;
+    }
+  },
 
   toggleCritRep: function() {
     if (this.UI.critRepOn()) {
@@ -150,7 +162,7 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
   displayCurrentPage_TwoParts: function() {
     var pageXML_ContentPart = this.getPageXML_ContentPart(this.pages.currentPage());
     var pageXML_ClefPart = this.getPageXML_ClefPart(this.pages.currentPage());
-    this.UI.renderContentPart(pageXML_ContentPart, {vexWidth:this.scoreWidth, vexHeight:this.scoreHeight});
+    this.UI.renderContentPart(pageXML_ContentPart, {vexWidth:this.getScoreWidth(pageXML_ContentPart), vexHeight:this.scoreHeight});
     this.UI.rendered_measures = MEI2VF.rendered_measures;
     this.UI.content_dims = MEI2VF.Converter.getStaffArea();
     this.UI.updateMainHeight();

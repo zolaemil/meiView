@@ -61,6 +61,7 @@ meiView.Test = (function () {
         title: tc.title,
         displayFirstPage: true,
         mode: tc.mode,
+        pxpMeasure: tc.pxpMeasure,
       });
       return viewer;
     },
