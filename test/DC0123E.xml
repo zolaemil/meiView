@@ -27,7 +27,7 @@
           <title xml:id="m-a6c1b25b-52f3-4dd8-8f98-4e060e53da93">Puisque fortune</title>
           <respStmt xml:id="m-0209fa10-7e8a-4814-a5e8-aebaa4fc5a72"/>
         </titleStmt>
-        <incip xml:id="m-bb8762bc-126b-4631-b4b4-d1fad11ee724"><score xml:id="m-373f4ff4-daef-43ad-a6aa-bccbf9cd1128"><scoreDef meter.count="4" meter.unit="4" ppq="256">
+        <incip xml:id="m-bb8762bc-126b-4631-b4b4-d1fad11ee724"><score xml:id="m-373f4ff4-daef-43ad-a6aa-bccbf9cd1128"><scoreDef meter.count="4" meter.unit="2" ppq="256">
           <staffGrp>
             <staffGrp n="1" symbol="bracket">
               <staffDef clef.line="2" clef.shape="G" key.mode="major" key.sig="1f" label="Superius" lines="5" n="1"/>
@@ -47,10 +47,10 @@
           <scoreDef>
             <staffGrp>
               <staffGrp n="1" symbol="bracket">
-                <staffDef xml:id="sd1" meter.count="2" meter.unit="2" clef.line="2" clef.shape="G" key.mode="major" key.sig="1f" label="Superius" lines="5" n="1"/>
-                <staffDef xml:id="sd2" meter.count="2" meter.unit="2" clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.mode="major" key.sig="1f" label="Contratenor" lines="5" n="2"/>
-                <staffDef xml:id="sd3" meter.count="2" meter.unit="2" clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.mode="major" key.sig="1f" label="Tenor" lines="5" n="3"/>
-                <staffDef xml:id="sd4" meter.count="2" meter.unit="2" clef.line="4" clef.shape="F" key.mode="major" key.sig="1f" label="Bassus" lines="5" n="4"/>
+                <staffDef xml:id="sd1" meter.count="4" meter.unit="2" clef.line="2" clef.shape="G" key.mode="major" key.sig="1f" label="Superius" lines="5" n="1"/>
+                <staffDef xml:id="sd2" meter.count="4" meter.unit="2" clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.mode="major" key.sig="1f" label="Contratenor" lines="5" n="2"/>
+                <staffDef xml:id="sd3" meter.count="4" meter.unit="2" clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.mode="major" key.sig="1f" label="Tenor" lines="5" n="3"/>
+                <staffDef xml:id="sd4" meter.count="4" meter.unit="2" clef.line="4" clef.shape="F" key.mode="major" key.sig="1f" label="Bassus" lines="5" n="4"/>
               </staffGrp>
             </staffGrp>
           </scoreDef>

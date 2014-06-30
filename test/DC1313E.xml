@@ -33,7 +33,7 @@
         </titleStmt>
         <incip xml:id="m-1be43088-8f40-400e-a0f3-bc7052fe73a5">
           <score xml:id="m-a297fac0-c7d1-4c35-9a68-a4ca3903a7ea">
-            <scoreDef xml:id="m-a27eb31e-f707-468c-bdad-990d537f6b9b" meter.count="4" meter.unit="4" page.botmar="32mm" page.height="270mm" page.leftmar="27.7mm" page.rightmar="18.5mm" page.topmar="23mm" page.width="185mm" ppq="256">
+            <scoreDef xml:id="m-a27eb31e-f707-468c-bdad-990d537f6b9b" meter.count="4" meter.unit="2" page.botmar="32mm" page.height="270mm" page.leftmar="27.7mm" page.rightmar="18.5mm" page.topmar="23mm" page.width="185mm" ppq="256">
               <staffGrp xml:id="m-0b3b72d8-dcd2-4696-8a5b-e71e6d08277f">
                 <staffGrp xml:id="m-d9ebf871-9d82-4343-a16b-ae927e3e0996" n="1" symbol="bracket">
                   <staffDef xml:id="m-4e2a31d8-d7c6-4b66-be2a-fd708f982b68" clef.line="2" clef.shape="G" key.mode="major" key.sig="1f" label="Superius" lines="5" n="1"/>
@@ -50,7 +50,7 @@
     <body xml:id="m-0faba25c-3002-4a51-a8ad-eb0e84c3ec79">
       <mdiv xml:id="m-1bbe3bbf-6323-4fe9-8b26-99ae5c2adf37">
         <score xml:id="m-3fccb1ff-5780-4eb7-abf4-b6c0c41444b3">
-          <scoreDef xml:id="m-a26be142-a530-444e-bf6c-d9b1e69f015e" page.botmar="32mm" page.height="270mm" page.leftmar="27.7mm" page.rightmar="18.5mm" page.topmar="23mm" page.width="185mm" ppq="256" meter.count="2" meter.unit="2" meter.sym="cut">
+          <scoreDef xml:id="m-a26be142-a530-444e-bf6c-d9b1e69f015e" page.botmar="32mm" page.height="270mm" page.leftmar="27.7mm" page.rightmar="18.5mm" page.topmar="23mm" page.width="185mm" ppq="256" meter.count="4" meter.unit="2" meter.sym="cut">
             <staffGrp xml:id="m-289acbca-3dbd-4bdb-8435-7183b083a5c8">
               <staffGrp xml:id="m-e95d0829-1bbb-4bad-bda6-2b4b7099628d" n="1" symbol="bracket">
                 <staffDef xml:id="sd1" clef.line="2" clef.shape="G" key.mode="major" key.sig="1f" label="Superius" lines="5" n="1"/>
