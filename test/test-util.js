@@ -63,6 +63,7 @@ meiView.Test = (function () {
         mode: tc.mode,
         pxpMeasure: tc.pxpMeasure,
         width: tc.width,
+        scale: tc.scale,
       });
       return viewer;
     },

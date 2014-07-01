@@ -62,6 +62,7 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
       viewer: this_viewer,
       maindiv: options.maindiv,
       title: options.title,
+      scale: options.scale,
     });
     this.selectedReconstructors = new meiView.SelectedEditors();
     if (options.displayFirstPage) {
@@ -173,7 +174,8 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
     var clefoptions = {}
     clefoptions.page_margin_right = 0;
     clefoptions.page_margin_left = 10;
-    clefoptions.scale = this.UI.scale
+    clefoptions.scale = this.UI.scale;
+    clefoptions.vexHeight = this.scoreHeight;
     this.UI.renderClefPart(pageXML_ClefPart, clefoptions);
     this.UI.rendered_clefmeasures = MEI2VF.rendered_measures;
     this.UI.resizeElements();
