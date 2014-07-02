@@ -420,26 +420,40 @@ meiView.UI.prototype.displayMeasureNos = function() {
   $.each(rendered_measures, function(n, measure) {
     console.log('meiView.UI.prototype.displayMeasureNos() n:' + n);
     if (measure) {
-      var vexStaff = measure[1];
-      console.log('meiView.UI.prototype.displayMeasureNos() vexStaff:');      
-      console.log(vexStaff);
-      var left = (vexStaff.x + 8) * ui_scale;
-      var top = (vexStaff.y + 15) * ui_scale;
-      var text = new fabric.Text(n.toString(), {
-        fontSize: Math.round(16 * ui_scale),
-        fill: 'grey',
-        left:left, 
-        top:top, 
-        lockMovementX: true,
-        lockMovementY: true,
-        lockScalingX: true,
-        lockScalingY: true,
-        lockRotation: true,
-        hasControls: false,
-        hasBorders: false,
-      });
-      ui_canvas.add(text);
-      ui_measure_n_texts[n] = text;
+      var i, vexStaff = measure[1], skip = false;
+      for (i=0; i<vexStaff.modifiers.length; i++) {
+        var modifier = vexStaff.modifiers[i];
+
+        // TODO: Detect collision between measure number and modifier
+        // (perhaps by detecting collision with modifier.modifier_context)
+        //
+        // For now: if modifier is a volta, do not render measure number.
+        if (modifier.volta == Vex.Flow.Volta.type.BEGIN || 
+            modifier.volta == Vex.Flow.Volta.type.BEGIN_END) {
+          skip = true;
+        }
+      }
+      if (!skip) {
+        console.log('meiView.UI.prototype.displayMeasureNos() vexStaff:');      
+        console.log(vexStaff);
+        var left = (vexStaff.x + 8) * ui_scale;
+        var top = (vexStaff.y + 15) * ui_scale;
+        var text = new fabric.Text(n.toString(), {
+          fontSize: Math.round(16 * ui_scale),
+          fill: 'grey',
+          left:left, 
+          top:top, 
+          lockMovementX: true,
+          lockMovementY: true,
+          lockScalingX: true,
+          lockScalingY: true,
+          lockRotation: true,
+          hasControls: false,
+          hasBorders: false,
+        });
+        ui_canvas.add(text);
+        ui_measure_n_texts[n] = text;
+      }
     }
   });
 }
