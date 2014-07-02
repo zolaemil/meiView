@@ -65,9 +65,6 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
       scale: options.scale,
     });
     this.selectedReconstructors = new meiView.SelectedEditors();
-    if (options.displayFirstPage) {
-      this.nextPage();
-    }
 
     if (this.mode == meiView.Mode.FULL) {
       // this.UI.showCritRep();
@@ -87,6 +84,10 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
 
     if (this.UI.sideBarLength() == 0) {
       this.UI.hideSideBar();
+    }
+
+    if (options.displayFirstPage) {
+      this.nextPage();
     }
 
   },
@@ -179,11 +180,11 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
     this.UI.renderClefPart(pageXML_ClefPart, clefoptions);
     this.UI.rendered_clefmeasures = MEI2VF.rendered_measures;
     this.UI.resizeElements();
-    this.UI.displayVoiceNames(pageXML_ClefPart, { x: clefoptions.page_margin_left + 14});
     this.UI.displayDots();
     this.UI.showTitle(this.pages.currentPageIndex === 0);
-    this.UI.fabrCanvas.calcOffset();
     this.UI.updatePageLabels(this.pages.currentPageIndex+1, this.pages.totalPages())
+    this.UI.displayVoiceNames(pageXML_ClefPart, { x: clefoptions.page_margin_left + 20});
+    this.UI.fabrCanvas.calcOffset();
   },
 
   nextPage: function(){
