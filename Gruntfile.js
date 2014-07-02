@@ -46,7 +46,7 @@ module.exports = function(grunt) {
       },
       bower_css: {
         options: {
-          separator: ';'
+          separator: '\n',
         },
         src: [
           'css/meiview.css',
