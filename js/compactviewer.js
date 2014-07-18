@@ -129,33 +129,45 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
   },
 
   getPageXML_ClefPart: function(page) {
+    var me = this, staves, clefxml, score,
+        scoredefs, scoredef, section, measure, staff_n;
     console.log('getPageXML_ClefPart() {start}');
-    var staves = this.stavesToDisplay(this.MEI.sectionview_score);
-    var clefxml = this.MEI.getSectionViewSlice({
+    staves = me.stavesToDisplay(this.MEI.sectionview_score);
+    clefxml = me.MEI.getSectionViewSlice({
       start_n:'-1',
       noMeter:true,
       noKey:false,
       noClef:false,
       staves:staves
     });
-    var score = clefxml;
+    score = clefxml;
     if (score) {
       console.log('getPageXML_ClefPart() {I}');
     
-      var scoredefs = $(score).find('scoreDef');
-      var scoredef = scoredefs[0]
+      scoredefs = $(score).find('scoreDef');
+      scoredef = scoredefs[0];
 
-      var section = $(score).find('section')[0];
-      if (section) {
-        $(section).append('<measure n="1" right="invis"/>');
-      }
+      section = $(score).find('section').get(0);
+
+      // in some browsers JQuery.append() didn't seem to work,
+      // the measure wouldn't get inserted to the section; using
+      // native XML DOM methods instead.
+      measure = me.MEI.xmlDoc.createElementNS("http://www.music-encoding.org/ns/mei", "measure");
+      measure.setAttribute('n', '1');
+      measure.setAttribute('right', 'invis');
       if (scoredef) {
         $(scoredefs[0]).find('staffDef').each(function(i, std) {
+          var staff, layer;
           if (section) {
             staff_n = $(std).attr('n');
-            $(section).find('measure').first().append('<staff n="' + staff_n + '"><layer></layer></staff>')
+              staff = me.MEI.xmlDoc.createElementNS("http://www.music-encoding.org/ns/mei", "staff");
+              staff.setAttribute('n', staff_n);
+              layer = me.MEI.xmlDoc.createElementNS("http://www.music-encoding.org/ns/mei", "layer");
+              staff.appendChild(layer);
+              measure.appendChild(staff);
           }
         });
+        section.appendChild(measure);
       }
     }
     return clefxml;
