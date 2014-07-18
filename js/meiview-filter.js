@@ -82,3 +82,4 @@ meiView.filterMei = function(meiXml, options) {
 
   return meiXml;
 }
+
