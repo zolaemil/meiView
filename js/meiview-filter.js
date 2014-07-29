@@ -75,6 +75,7 @@ meiView.filterMei = function(meiXml, options) {
   //3. Remove system breaks if not needed.
   if (options.noSysBreak) {
     $(music).find('sb').remove();
+    $(music).find('annot').remove();
   }
 
   //4. Substitue longas with breves
