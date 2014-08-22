@@ -225,6 +225,24 @@ meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
       + '</li>');
   }
 
+  var concordanses = this.viewer.Concordances;
+  for (editorID in this.viewer.Concordances) {
+    var listElem = sidebardiv.find('ul[id="concordance-list"]');
+    if (listElem.length === 0) {
+      sidebardiv.append('<h3 class="' + sidebar_class 
+        + '">Concordances</h3><div class="' + sidebar_class 
+        + '"><ul id="concordance-list"></ul></div>');
+      listElem = sidebardiv.find('ul[id="concordance-list"]');
+    }
+    var editor = this.viewer.Concordances[editorID];
+    listElem.append('<li class="meiview-sidebar-item"\
+      onclick="meiView.UI.callback(\'' 
+      + this.viewer.id + '-ui\', \'onConcordanceClick\', { editorID: \'' 
+      + editorID + '\'})">' 
+      + editorID 
+      + '</li>');
+  }
+
   var emendations = this.viewer.Emendations;
   var choices = $(this.viewer.MEI.rich_score).find('choice');
   if (choices.length > 0) {
@@ -293,6 +311,10 @@ meiView.UI.callback = function(id, fname, params) {
 
 meiView.UI.prototype.onReconstructionClick = function(params) {
   this.viewer.toggleReconstruction(params.editorID);
+}
+
+meiView.UI.prototype.onConcordanceClick = function(params) {
+  this.viewer.toggleConcordance(params.editorID);
 }
 
 meiView.UI.objects = {};

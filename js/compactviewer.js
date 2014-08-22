@@ -57,6 +57,7 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
     this.scoreHeight = options.height || 1000;
     this.createSourceList(this.MEI.ALTs);
     this.Reconstructors = this.createReconstructorList();
+    this.Concordances = this.createConcordanceList();
     this_viewer = this;
     this.UI = new meiView.CompactUI({
       viewer: this_viewer,
@@ -65,6 +66,7 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
       scale: options.scale,
     });
     this.selectedReconstructors = new meiView.SelectedEditors();
+    this.selectedConcordances = new meiView.SelectedEditors();
 
     if (this.mode == meiView.Mode.FULL) {
       // this.UI.showCritRep();

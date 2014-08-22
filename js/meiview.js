@@ -68,6 +68,14 @@ meiView.SelectedEditors.prototype.toggleReconstructor = function(editor) {
   }
 }
 
+meiView.SelectedEditors.prototype.toggleConcordance = function(editor) {
+  if (this.editors[editor]) {
+    this.editors[editor] = false;
+  } else {
+    this.editors[editor] = true;
+  }
+}
+
 meiView.SelectedEditors.prototype.editorsList = function() {
   var res = [];
   $.each(this.editors, function(i, e) {
@@ -125,6 +133,7 @@ meiView.Viewer.prototype.init = function(options){
   this.scoreHeight = options.height || 1000;
   this.createSourceList(this.MEI.ALTs);
   this.Reconstructors = this.createReconstructorList();
+  this.Concordances = this.createConcordanceList();
   this_viewer = this;
   this.UI = new meiView.UI({
     viewer: this_viewer,
@@ -132,11 +141,17 @@ meiView.Viewer.prototype.init = function(options){
     title: options.title,
   });
   this.selectedReconstructors = new meiView.SelectedEditors();
+  this.selectedConcordances = new meiView.SelectedEditors();
 }
 
 meiView.Viewer.prototype.toggleReconstruction = function(editor) {
   this.selectedReconstructors.toggleReconstructor(editor);
   this.selectReconstructions(this.selectedReconstructors.editors);
+}
+
+meiView.Viewer.prototype.toggleConcordance = function(editor) {
+  this.selectedConcordances.toggleConcordance(editor);
+  this.selectConcordances(this.selectedConcordances.editors);
 }
 
 meiView.Viewer.prototype.createReconstructorList = function() {
@@ -147,6 +162,20 @@ meiView.Viewer.prototype.createReconstructorList = function() {
     var edid = $(this).attr('xml:id');
     if (!edid) throw "Editor ID is undefined";
     if ($(me.MEI.rich_score).find('app[type="reconstruction"]').find('rdg[resp="#' + edid + '"]').length > 0) {
+      result[edid] = this;
+    }
+  });  
+  return result;
+}
+
+meiView.Viewer.prototype.createConcordanceList = function() {
+  var result = {};
+  var editors = $(this.MEI.rich_head).find('fileDesc').find('source');
+  var me = this;
+  $(editors).each(function(i) {
+    var edid = $(this).attr('xml:id');
+    if (!edid) throw "Source ID is undefined";
+    if ($(me.MEI.rich_score).find('app[type="concordance"]').find('rdg[source="#' + edid + '"]').length > 0) {
       result[edid] = this;
     }
   });  
@@ -175,7 +204,7 @@ meiView.Viewer.prototype.createSourceList = function(Apps) {
   for(appID in Apps) {
     var app = Apps[appID];
     var measure_n = $($(app.elem).closest('measure')[0]).attr('n');
-    if (app.tagname === 'choice' || (app.tagname === 'app' && $(app.elem).attr('type') !== 'reconstruction')) {
+    if (app.tagname === 'choice' || (app.tagname === 'app' && $(app.elem).attr('type') !== 'reconstruction' && $(app.elem).attr('type') !== 'concordance')) {
       if (typeof this.Report[measure_n] === 'undefined') {
         this.Report[measure_n] = [];
       }
@@ -190,7 +219,7 @@ meiView.Viewer.prototype.createSourceList = function(Apps) {
     for(varXMLID in app.altitems) {
       var altitem = app.altitems[varXMLID];
       var tagname = altitem.tagname;
-      if (tagname === 'rdg' || tagname === 'corr') {
+      if ((tagname === 'rdg' && $(altitem.elem).attr('type') !== 'concordance') || tagname === 'corr') {
         var source_resp;
         if (tagname === 'rdg') { 
           source_resp = altitem.source;
@@ -378,6 +407,34 @@ meiView.Viewer.prototype.selectReconstructions = function(editors) {
   this.displayCurrentPage();
 }
 
+meiView.Viewer.prototype.selectConcordances = function(editors) {
+  var sectionplaneUpdate = {};
+
+  var apps = $(this.MEI.rich_score).find('app[type="concordance"]');
+  for (editorID in editors) {
+    var i;
+    for (i=0; i<apps.length; i++) {
+      var app = apps[i];
+      var app_xml_id=$(app).attr('xml:id');
+      var rdgs = $(app).find('rdg[source="#'+editorID+'"]');
+      var j;
+      for (j=0; j<rdgs.length; j++) {
+        var rdg_xml_id = $(rdgs[j]).attr('xml:id');
+        if (sectionplaneUpdate[app_xml_id] && editors[editorID]) {
+          sectionplaneUpdate[app_xml_id].push(rdg_xml_id);
+        } else if (!sectionplaneUpdate[app_xml_id] && editors[editorID]) {
+          sectionplaneUpdate[app_xml_id] = [rdg_xml_id];
+        } else if (!sectionplaneUpdate[app_xml_id] && !editors[editorID]){
+          sectionplaneUpdate[app_xml_id] = [];
+        }
+      };
+    };
+  }
+
+  this.MEI.updateSectionView(sectionplaneUpdate);
+  this.displayCurrentPage();
+}
+
 meiView.Viewer.prototype.selectReconstruction = function(editor) {
   var sectionplaneUpdate = {};
   var apps = $(this.MEI.rich_score).find('app[type="reconstruction"]');
@@ -386,6 +443,24 @@ meiView.Viewer.prototype.selectReconstruction = function(editor) {
     var app = apps[i];
     var app_xml_id=$(app).attr('xml:id');
     var rdgs = $(app).find('rdg[resp="#'+editor+'"]');
+    var j;
+    for (j=0; j<rdgs.length; j++) {
+      var rdg_xml_id = $(rdgs[j]).attr('xml:id');
+      sectionplaneUpdate[app_xml_id] = [rdg_xml_id];
+    }
+  }
+  this.MEI.updateSectionView(sectionplaneUpdate);
+  this.displayCurrentPage();
+}
+
+meiView.Viewer.prototype.selectConcordance = function(editor) {
+  var sectionplaneUpdate = {};
+  var apps = $(this.MEI.rich_score).find('app[type="concordance"]');
+  var i;
+  for (i=0; i<apps.length; i++) {
+    var app = apps[i];
+    var app_xml_id=$(app).attr('xml:id');
+    var rdgs = $(app).find('rdg[source="#'+editor+'"]');
     var j;
     for (j=0; j<rdgs.length; j++) {
       var rdg_xml_id = $(rdgs[j]).attr('xml:id');
