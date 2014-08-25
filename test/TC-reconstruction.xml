@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" xml:id="m-e76ae71c-133c-4540-997f-96a8f513fe53" meiversion="2013">
+<meiHead xml:id="m-31070f27-5d24-4194-b9dc-b0fd97a12fea">
+	<fileDesc xml:id="m-67ab5966-11f4-48ed-bb17-22b350e7c37c">
+		<titleStmt xml:id="m-54b7d9ec-4d36-4a19-a6ba-dae518ace752">
+			<title xml:id="m-2f78fcaf-debe-4711-849f-4b6d51ef630b"/>
+			<respStmt xml:id="m-091a730a-1709-4f2b-86b6-f5bc9aa6ea00">
+				<persName xml:id="m-e3661b0c-d5cd-4f51-bac9-d512252d3f08"/>
+			</respStmt>
+		<editor xml:id="A"/><editor xml:id="B"/><editor xml:id="Komives"/></titleStmt>
+		<pubStmt xml:id="m-a5f78e6a-b16a-483a-8fb7-399027331a65">
+			<availability xml:id="m-09a0abdc-6ad0-42bb-bedd-08ae8559c041">
+				<useRestrict xml:id="m-00bcc962-87a1-4663-a86a-97d2323be0a9">Copyright © </useRestrict>
+			</availability>
+		</pubStmt>
+	<sourceDesc xml:id="m-df2176b6-69bc-418e-a032-71a9d5d57ccf"><source xml:id="Source-A"/></sourceDesc></fileDesc>
+	<encodingDesc xml:id="m-be93781a-2ca2-46d2-b8c4-06d896f11e70">
+		<appInfo xml:id="m-0522ca43-2cef-4a1a-b30c-4d3f4cb197b0">
+			<application xml:id="sibelius7" version="7">
+				<name xml:id="m-210d728b-6064-436d-a06e-b8158e7075e4">Sibelius</name>
+			</application>
+		</appInfo>
+	</encodingDesc>
+	<workDesc xml:id="m-dc19b3a1-1421-49b4-8b39-6e9d9529d020">
+		<work xml:id="m-33c624f3-8ebb-4731-911b-a976ca05f898">
+			<titleStmt xml:id="m-efb3d1b6-e659-4aec-819c-8087afcb1117">
+				<title xml:id="m-fa81588b-1661-4c21-a36f-c1f79b4a8620"/>
+				<respStmt xml:id="m-001956c9-713a-408b-bc66-82a6d00ea94c"/>
+			</titleStmt>
+		<incip xml:id="m-cdc73d6d-0e81-4641-99bc-92133e650123"><score xml:id="m-fb9c4ce6-8a3b-4f3f-b5a3-940498005c52"><scoreDef meter.count="4" meter.unit="2" ppq="256">
+					<staffGrp>
+						<staffGrp n="1" symbol="bracket">
+							<staffDef clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Superius" lines="5" n="1"/>
+							<staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Tenor" lines="5" n="5"/>
+							<staffDef clef.line="4" clef.shape="F" key.mode="major" key.sig="0" label="Bassus" lines="5" n="7"/>
+							</staffGrp>
+					</staffGrp>
+				</scoreDef>
+				</score></incip></work>
+	</workDesc>
+</meiHead>
+<music xml:id="m-f2e79839-6675-44a0-8a9c-0ca478da387d">
+	<body xml:id="m-00a11f8d-6208-4206-bf29-a181dedcbb05">
+		<mdiv xml:id="m-cb796758-fcf3-4c77-8067-63c3b15c02c9">
+			<score xml:id="m-84d89fed-3c11-45e7-94c0-1da4657c1400">
+				<scoreDef xml:id="m-dd491969-77b5-4e1f-b3ff-3ac4430a03e4" meter.count="4" meter.unit="2" ppq="256">
+					<staffGrp xml:id="m-6ca0ee64-362b-4450-b83e-0b39aedb76f4">
+						<staffGrp xml:id="m-48e61411-1a88-4029-ba29-9f1aa883659e" n="1" symbol="bracket">
+							<staffDef xml:id="sd1" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Superius" lines="5" n="1" meter.count="4" meter.unit="2"/>
+							<staffDef xml:id="sd2" label="Contratenor" n="2" meter.count="4" meter.unit="2"/>
+							<staffDef xml:id="sd3" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Contratenor_Reconstruction_A" lines="5" n="3" meter.count="4" meter.unit="2"/>
+							<staffDef xml:id="sd4" clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Contratenor_Reconstruction_B" lines="5" n="4" meter.count="4" meter.unit="2"/>
+							<staffDef xml:id="sd5" clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Tenor" lines="5" n="5" meter.count="4" meter.unit="2"/>
+							<staffDef xml:id="sd7" clef.line="4" clef.shape="F" key.mode="major" key.sig="0" label="Bassus" lines="5" n="7" meter.count="4" meter.unit="2"/>
+							</staffGrp>
+					</staffGrp>
+				</scoreDef>
+				<section xml:id="m-cacc6215-496f-4930-a752-ca1d5b74671d">
+					<pb xml:id="m-2d56dca9-6e9c-4c1e-b8e1-e8ede5330554" n="1"/>
+					<measure xml:id="m-c5f4cdeb-680b-4839-9870-fd058c799d03" label="1" n="1">
+						<staff xml:id="m-2192f3a9-4737-49e2-9bd0-1de41018b5a7" n="1">
+							<layer xml:id="m-5857d644-a518-4ff3-ace5-49e9f272773f" n="1">
+								<note xml:id="p1ccd5n0v1b1s1" dur="2" dur.ges="512p" oct="5" pname="c"/>
+								<note xml:id="p1ccd5n512v1b1s1" dur="2" dur.ges="512p" oct="5" pname="c"/>
+								<note xml:id="p1ccd5n1024v1b1s1" dur="2" dur.ges="512p" oct="5" pname="c"/>
+								<note xml:id="p1ccd5n1536v1b1s1" dur="2" dur.ges="512p" oct="5" pname="c"/>
+							</layer>
+						</staff>
+						<app xml:id="app-recon-01" n="2"><rdg type="reconstruction" xml:id="rdgA.app-recon-01" n="3" resp="#A"><staff xml:id="m-979cb084-c907-41fd-a97c-0eda70d42404" n="3">
+							<layer xml:id="m-906802d2-dbcb-414c-ba37-77fcef752a04" n="1">
+								<note xml:id="p1ced4n0v1b1s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
+								<note xml:id="p1ced4n512v1b1s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
+								<note xml:id="p1ced4n1024v1b1s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
+								<note xml:id="p1ced4n1536v1b1s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
+							</layer>
+						</staff>
+						</rdg><rdg xml:id="rdgB.app-recon-01" type="reconstruction" n="4" resp="#B"><staff xml:id="m-9f4e2368-202c-4834-a5e6-b7cc5f03eb90" n="4">
+							<layer xml:id="m-002363e1-dab7-4558-bccc-951eac6b2278" n="1">
+								<note xml:id="p1ced4n0v1b1s4" dur="4" dur.ges="256p" oct="4" pname="e"/>
+								<note xml:id="p1cgd4n256v1b1s4" dur="4" dur.ges="256p" oct="4" pname="g"/>
+								<note xml:id="p1ced4n512v1b1s4" dur="4" dur.ges="256p" oct="4" pname="e"/>
+								<note xml:id="p1cgd4n768v1b1s4" dur="4" dur.ges="256p" oct="4" pname="g"/>
+								<note xml:id="p1ced4n1024v1b1s4" dur="4" dur.ges="256p" oct="4" pname="e"/>
+								<note xml:id="p1cgd4n1280v1b1s4" dur="4" dur.ges="256p" oct="4" pname="g"/>
+								<note xml:id="p1ced4n1536v1b1s4" dur="4" dur.ges="256p" oct="4" pname="e"/>
+								<note xml:id="p1cgd4n1792v1b1s4" dur="4" dur.ges="256p" oct="4" pname="g"/>
+							</layer>
+						</staff>
+						</rdg></app><staff xml:id="m-c7ca549d-4fdb-45e5-8118-d193f5246498" n="5">
+							<layer xml:id="m-da0b8391-1dbb-487f-af23-1d55ee244275" n="1">
+								<note xml:id="p1ced3n0v1b1s5" dur="2" dur.ges="512p" oct="3" pname="e"/>
+								<choice xml:id="choice01"><sic xml:id="sic-choice01"><note xml:id="p1cfd3n512v1b1s5" dur="2" dur.ges="512p" oct="3" pname="f"/>
+								</sic><corr xml:id="corr01-choice01" resp="#Komives"><note xml:id="p1ced3n512v1b1s6" color="rgba(255,0,0,1)" dur="2" dur.ges="512p" oct="3" pname="e"/>
+								</corr></choice><note xml:id="p1ced3n1024v1b1s5" dur="2" dur.ges="512p" oct="3" pname="e"/>
+								<note xml:id="p1ced3n1536v1b1s5" dur="2" dur.ges="512p" oct="3" pname="e"/>
+							</layer>
+						</staff>
+						<staff xml:id="m-01cd4a01-80a7-45ed-a645-2310e101ecb4" n="7">
+							<layer xml:id="m-48b2fb65-9710-465b-a99d-01d6520036ee" n="1">
+								<note xml:id="p1ccd3n0v1b1s7" dur="2" dur.ges="512p" oct="3" pname="c"/>
+								<note xml:id="p1ccd3n512v1b1s7" dur="2" dur.ges="512p" oct="3" pname="c"/>
+								<note xml:id="p1ccd3n1024v1b1s7" dur="2" dur.ges="512p" oct="3" pname="c"/>
+								<app xml:id="app-var-01"><lem xml:id="lem.app-var-01"><note xml:id="p1ccd3n1536v1b1s7" dur="2" dur.ges="512p" oct="3" pname="c"/>
+							</lem><rdg type="variant" xml:id="rdg.app-var-01" source="#Source-A"><note xml:id="p1ccd4n1536v1b1s8" color="rgba(255,0,0,1)" dur="2" dur.ges="512p" oct="4" pname="c"/>
+							</rdg></app></layer>
+						</staff>
+						</measure>
+					<measure xml:id="m-cffdf1a3-e025-4b3b-824a-bf7f40a6844d" n="2" right="end">
+						<staff xml:id="m-783b05e9-a9b9-46ec-8ac2-a63272dc0d23" n="1">
+							<layer xml:id="m-4ea0f55e-fdc9-43d9-b59b-955db8f5258d" n="1">
+								<note xml:id="p1ccd5n0v1b2s1" dur="2" dur.ges="512p" oct="5" pname="c"/>
+								<note xml:id="p1ccd5n512v1b2s1" dur="2" dur.ges="512p" oct="5" pname="c"/>
+								<note xml:id="p1ccd5n1024v1b2s1" dur="2" dur.ges="512p" oct="5" pname="c"/>
+								<note xml:id="p1ccd5n1536v1b2s1" oct="5" pname="c" dur="breve" dur.ges="4096p"/>
+							</layer>
+						</staff>
+						<app xml:id="app-recon-02" type="supplied" n="2"><rdg type="reconstruction" xml:id="rdgA.app-recon-02" n="3" resp="#A"><staff xml:id="m-09c8c732-6d3c-4ab1-898e-3567d80fb560" n="3">
+							<layer xml:id="m-0c069323-6cdd-4c18-95e2-5bdb1c7f6caa" n="1">
+								<note xml:id="p1ced4n0v1b2s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
+								<note xml:id="p1ced4n512v1b2s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
+								<note xml:id="p1ced4n1024v1b2s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
+								<note xml:id="p1ced4n1536v1b2s3" oct="4" pname="e" dur="breve" dur.ges="4096p"/>
+							</layer>
+						</staff>
+						</rdg><rdg xml:id="rdgB.app-recon-02" type="reconstruction" n="4" resp="#B"><staff xml:id="m-522d2912-50e1-4491-a798-0c94c16c5f4d" n="4">
+							<layer xml:id="m-f6b6731f-d31d-4ec9-86ed-09529917d1c8" n="1">
+								<note xml:id="p1ced4n0v1b2s4" dur="4" dur.ges="256p" oct="4" pname="e"/>
+								<note xml:id="p1cgd4n256v1b2s4" dur="4" dur.ges="256p" oct="4" pname="g"/>
+								<note xml:id="p1ced4n512v1b2s4" dur="4" dur.ges="256p" oct="4" pname="e"/>
+								<note xml:id="p1cgd4n768v1b2s4" dur="4" dur.ges="256p" oct="4" pname="g"/>
+								<note xml:id="p1ced4n1024v1b2s4" dur="4" dur.ges="256p" oct="4" pname="e"/>
+								<note xml:id="p1cgd4n1280v1b2s4" dur="4" dur.ges="256p" oct="4" pname="g"/>
+								<note xml:id="p1cgd4n1792v1b2s4" oct="4" pname="g" dur="breve" dur.ges="4096p"/>
+							</layer>
+						</staff>
+						</rdg></app><staff xml:id="m-f7e2c174-a653-4294-b9f5-34d57f7356e7" n="5">
+							<layer xml:id="m-a37409f3-b62e-41c6-b4cc-ad32097306e0" n="1">
+								<note xml:id="p1ced3n0v1b2s5" dur="2" dur.ges="512p" oct="3" pname="e"/>
+								<note xml:id="p1cfd3n512v1b2s5" dur="2" dur.ges="512p" oct="3" pname="f"/>
+								<note xml:id="p1ced3n1024v1b2s5" dur="2" dur.ges="512p" oct="3" pname="e"/>
+								<note xml:id="p1ced3n1536v1b2s5" oct="3" pname="e" dur="breve" dur.ges="4096p"/>
+							</layer>
+						</staff>
+						<staff xml:id="m-90bda29c-dff7-404f-98ec-462c8c316524" n="7">
+							<layer xml:id="m-79cdc975-d3c3-4834-9c6c-ba192e6bdda1" n="1">
+								<app xml:id="app-var-02"><lem xml:id="lem.app-var-02"><note xml:id="p1ccd3n0v1b2s7" dur="2" dur.ges="512p" oct="3" pname="c"/>
+								</lem><rdg type="variant" xml:id="rdg.app-var-02" source="#Source-A"><note xml:id="p1ccd4n0v1b2s8" color="rgba(255,0,0,1)" dur="2" dur.ges="512p" oct="4" pname="c"/>
+								</rdg></app><note xml:id="p1ccd3n512v1b2s7" dur="2" dur.ges="512p" oct="3" pname="c"/>
+								<note xml:id="p1ccd3n1024v1b2s7" dur="2" dur.ges="512p" oct="3" pname="c"/>
+								<note xml:id="p1ccd3n1536v1b2s7" oct="3" pname="c" dur="breve" dur.ges="4096p"/>
+							</layer>
+						</staff>
+						</measure>
+				</section>
+        <annot plist="#app-recon-01 #app-recon-02" type="appGrp"/>
+        <annot plist="#app-var-01 #app-var-02" type="appGrp"/>
+			</score>
+		</mdiv>
+	</body>
+</music>
+</mei>
