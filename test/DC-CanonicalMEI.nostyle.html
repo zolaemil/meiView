@@ -37,83 +37,38 @@ permissions and limitations under the License.
   <script type="text/JavaScript" src="../deps/Fabric-all.js"></script>
   <script type="text/JavaScript" src="../deps/meitovexflow.min.js"></script>
 
+
   <!--
     Load distribution files
   -->
   <script type="text/JavaScript" src="../dist/meiview.js"></script>
   <link  rel="stylesheet" href="../dist/meiview.css"/>
 
-  <!--
-    Add styling
-  -->
-  <link rel="stylesheet" href="../bower_components/jquery-ui/themes/pepper-grinder/jquery-ui.min.css" />
-  <link rel="stylesheet" href="support/bootstrap/css/bootstrap.min.css" media="screen"/>
-  <script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
-
-
-  <style type="text/css">
-  .test-div {
-    margin: 10px 10px 10px 10px;
-    text-align: center;
-    padding: 1em;
-    background: white;
-  }
-
-  body {
-    background: #efefff;
-  }
-  </style>
-
+  <script type="text/JavaScript" src="test-util.js"></script>
+  <link  rel="stylesheet" href="test.css">
   <script type="application/javascript" language="javascript">
 
   $(document).ready( function(){
 
-    /**
-     * Load an MEI file from an XML document
-     */
-    var loadedXML = meiView.Util.loadXMLDoc('TC.CanonicalMEI.01.xml');
-
-    /**
-     * Make sure the file will be suitable for rendering
-     */
-    var filteredXml = meiView.filterMei(loadedXML, { noSysBreak:true });
-
-    /**
-     * Make sure the MEI will be suitable for rendering
-     */
-    var meiDoc = new MeiLib.MeiDoc(filteredXml);
-
-
-    /**
-     * Define pagination by specifying pages by the
-     * first and last measures. Measure numbering is
-     * as they appear in the MEI file, that is measure/@n
-     */
-    var pagination = new meiView.Pages();
+    pagination = new meiView.Pages();
     pagination.AddPage(1, 4);
+    var tc = {
+      div: $('.tests'),
+      title: 'Canonical MEI - 01',
+      filename: 'TC-CanonicalMEI.01.xml',
+      pagination: pagination,
+    }
 
-    /**
-     * Create a compact viewer.
-     */
-    var viewer = new meiView.CompactViewer({
-      maindiv: $('.viewer'),
-      MEI: meiDoc,
-      pages: pagination,
-      title: "title",
-      displayFirstPage: true,
-    });
+    meiView.Test.LayedoutTest(tc);
+    meiView.Test.CompactTest(tc);
+      
 
   })
   </script>
 </head>
 
 <body>
-  
-  <div class="test-div">
-    <!--
-      Element to contain the viewer.
-    -->
-    <div class="viewer"></div>
+  <div class="tests">
   </div>
 
 </body>

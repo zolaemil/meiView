@@ -1,4 +1,4 @@
-<!--
+<!-- 
 meiView.html
 Author: Zoltan Komives
 Contributor: Raffaele Viglianti
@@ -24,50 +24,53 @@ permissions and limitations under the License.
 <head>
   <title>meiView - Test</title>
 
-  <!--
-    Load dependencies managed by bower
-  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script type="text/JavaScript" src="../bower_components/jquery/dist/jquery.min.js"></script>
   <script type="text/JavaScript" src="../bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
   <script type="text/JavaScript" src="../bower_components/vexflow/build/vexflow/vexflow-min.js"></script>
+  <link rel="stylesheet" href="../bower_components/jquery-ui/themes/pepper-grinder/jquery-ui.min.css" />
 
-  <!--
-    Load dependencies that are shipped with the distribution
-  -->
   <script type="text/JavaScript" src="../deps/Fabric-all.js"></script>
   <script type="text/JavaScript" src="../deps/meitovexflow.min.js"></script>
 
+  <link rel="stylesheet" href="support/bootstrap/css/bootstrap.min.css" media="screen"/>
 
-  <!--
-    Load distribution files
-  -->
-  <script type="text/JavaScript" src="../dist/meiview.js"></script>
-  <link  rel="stylesheet" href="../dist/meiview.css"/>
+  <script type="text/JavaScript" src="../js/meiview.js"></script>
+  <script type="text/JavaScript" src="../js/meiview-ui.js"></script>
+  <script type="text/JavaScript" src="../js/meiview-filter.js"></script>
+  <script type="text/JavaScript" src="../js/compactviewer.js"></script>
+  <script type="text/JavaScript" src="../js/compactviewer-ui.js"></script>
 
   <script type="text/JavaScript" src="test-util.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="../css/meiview.css">
+  <link rel="stylesheet" type="text/css" href="../css/compactviewer.css">
   <link  rel="stylesheet" href="test.css">
+
   <script type="application/javascript" language="javascript">
 
-  $(document).ready( function(){
+    $(document).ready( function(){
+    
+      pagination = new meiView.Pages();
+      pagination.AddPage(1, 4);
 
-    pagination = new meiView.Pages();
-    pagination.AddPage(1, 4);
-    var tc = {
-      div: $('.tests'),
-      title: 'Canonical MEI - 01',
-      filename: 'TC.CanonicalMEI.01.xml',
-      pagination: pagination,
-    }
+      var tc = {
+        div: $('.tests'),
+        title: 'Test Case for MEIMassaging - Reconstruction',
+        filename: 'TC-reconstruction.xml',
+        pagination: pagination,
+      }
 
-    meiView.Test.LayedoutTest(tc);
-    meiView.Test.CompactTest(tc);
+      meiView.Test.LayedoutTest(tc);
+      meiView.Test.CompactTest(tc);
       
-
-  })
+    })
   </script>
 </head>
 
 <body>
+  <script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
+
   <div class="tests">
   </div>
 
