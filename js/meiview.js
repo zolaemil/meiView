@@ -40,45 +40,34 @@ meiView.Util.loadXMLDoc = function(filename) {
   return xmlhttp.responseXML;
 }
 
-meiView.SelectedEditors = function() {
-  this.init();
+meiView.SelectedSuppliedParts = function(type_name) {
+  this.init(type_name);
 }
 
-meiView.SelectedEditors.prototype.init = function (){
-  this.editors = {};
+meiView.SelectedSuppliedParts.prototype.init = function (type_name){
+  this.origins = {};
+  this.var_type = type_name;
 }
 
-meiView.SelectedEditors.prototype.addEditor = function(editor) {
-  if (this.editors[editor]) {
-    this.editors[editor] = false;
+meiView.SelectedSuppliedParts.prototype.addOrigin = function(origin) {
+  if (this.origins[origin]) {
+    this.origins[origin] = true;
   }
 }
 
-meiView.SelectedEditors.prototype.removeEditor = function(editor) {
-  if (!this.editors[editor]) {
-    this.editors[editor] = true;
+meiView.SelectedSuppliedParts.prototype.removeOrigin = function(origin) {
+  if (!this.origins[origin]) {
+    this.origins[origin] = false;
   }
 }
 
-meiView.SelectedEditors.prototype.toggleReconstructor = function(editor) {
-  if (this.editors[editor]) {
-    this.editors[editor] = false;
-  } else {
-    this.editors[editor] = true;
-  }
+meiView.SelectedSuppliedParts.prototype.toggleSuppliedPart = function(origin) {
+    this.origins[origin] = !this.origins[origin];
 }
 
-meiView.SelectedEditors.prototype.toggleConcordance = function(editor) {
-  if (this.editors[editor]) {
-    this.editors[editor] = false;
-  } else {
-    this.editors[editor] = true;
-  }
-}
-
-meiView.SelectedEditors.prototype.editorsList = function() {
+meiView.SelectedSuppliedParts.prototype.originsList = function() {
   var res = [];
-  $.each(this.editors, function(i, e) {
+  $.each(this.origins, function(i, e) {
     if (e) {
       res.push(i);
     }
@@ -132,72 +121,60 @@ meiView.Viewer.prototype.init = function(options){
   this.scoreWidth = options.width || 1200; // 1000
   this.scoreHeight = options.height || 1000;
   this.createSourceList(this.MEI.ALTs);
-  this.Reconstructors = this.createReconstructorList();
-  this.Concordances = this.createConcordanceList();
+  
+  // Create an object of supplied parts. Reconstructions, concordances,
+  // and any other supplied parts can be added to this object.
+  this.SuppliedPartLists = {};
+  this.SuppliedPartLists['Reconstructions'] =
+      this.createSuppliedPartList('reconstruction');
+  this.SuppliedPartLists['Concordances'] =
+      this.createSuppliedPartList('concordance');
+
   this_viewer = this;
   this.UI = new meiView.UI({
     viewer: this_viewer,
     maindiv: options.maindiv,
     title: options.title,
   });
-  this.selectedReconstructors = new meiView.SelectedEditors();
-  this.selectedConcordances = new meiView.SelectedEditors();
+  this.selectedSuppliedParts = {};
+  this.selectedSuppliedParts['Reconstructions'] =
+      new meiView.SelectedSuppliedParts('Reconstructions');
+  this.selectedSuppliedParts['Concordances'] =
+      new meiView.SelectedSuppliedParts('Concordances');
 }
 
-meiView.Viewer.prototype.toggleReconstruction = function(editor) {
-  this.selectedReconstructors.toggleReconstructor(editor);
-  this.selectReconstructions(this.selectedReconstructors.editors);
-}
-
-meiView.Viewer.prototype.toggleConcordance = function(editor) {
-  this.selectedConcordances.toggleConcordance(editor);
-  this.selectConcordances(this.selectedConcordances.editors);
-}
-
-meiView.Viewer.prototype.createReconstructorList = function() {
+meiView.Viewer.prototype.createSuppliedPartList = function(var_type) {
+  if (var_type == 'reconstruction') {
+    origin_title = 'editor';
+    origin_attr = 'resp';
+    origin_el = 'rdg';
+  }
+  else if (var_type = 'emendation') {
+    origin_title = 'editor';
+    origin_attr = 'resp';
+    origin_el = 'corr';
+  }
+  else {
+    origin_title = 'source';
+    origin_attr = 'source';
+    origin_el = 'rdg';
+  }
   var result = {};
-  var editors = $(this.MEI.rich_head).find('fileDesc').find('editor');
+  var origins = $(this.MEI.rich_head).find('fileDesc').find(origin_title);
   var me = this;
-  $(editors).each(function(i) {
-    var edid = $(this).attr('xml:id');
-    if (!edid) throw "Editor ID is undefined";
-    if ($(me.MEI.rich_score).find('app[type="reconstruction"]').find('rdg[resp="#' + edid + '"]').length > 0) {
-      result[edid] = this;
+  $(origins).each(function(i) {
+    var orig_id = $(this).attr('xml:id');
+    if (!orig_id) throw (origin_title + "ID is undefined");
+
+    if ( $(me.MEI.rich_score).find(origin_el + '[' + origin_attr + '="#' + orig_id + '"]').length > 0) {
+      result[orig_id] = this;
     }
-  });  
+  });
   return result;
 }
 
-meiView.Viewer.prototype.createConcordanceList = function() {
-  var result = {};
-  var editors = $(this.MEI.rich_head).find('fileDesc').find('source');
-  var me = this;
-  $(editors).each(function(i) {
-    var edid = $(this).attr('xml:id');
-    if (!edid) throw "Source ID is undefined";
-    if ($(me.MEI.rich_score).find('app[type="concordance"]').find('rdg[source="#' + edid + '"]').length > 0) {
-      result[edid] = this;
-    }
-  });  
-  return result;
-}
-
-meiView.Viewer.prototype.createEditorList = function() {
-  var result = {};
-  var editors = $(this.MEI.rich_head).find('fileDesc').find('editor');
-  var me = this;
-  $(editors).each(function() {
-    var edid = $(this).attr('xml:id');
-    if (!edid) throw "Editor ID is undefined";
-    if ($(me.MEI.rich_score).find('sic[resp="#' + edid + '"]').length > 0) {
-      result[edid] = this;
-    }
-  });  
-  return result;
-}
 
 meiView.Viewer.prototype.createSourceList = function(Apps) {
-
   this.Sources = {};
   this.Emendations = {};
   this.Report = {};
@@ -366,8 +343,8 @@ meiView.Viewer.prototype.displayCurrentPage = function() {
     staveSpacing: 70,
     systemSpacing: 90,
     staff: {
-      bottom_text_position : 8,
-      fill_style : "#000000"
+      bottom_text_position: 8,
+      fill_style: "#000000"
     },
     vexWidth:this.scoreWidth, 
     vexHeight:this.scoreHeight
@@ -379,94 +356,30 @@ meiView.Viewer.prototype.displayCurrentPage = function() {
 
 }
 
-meiView.Viewer.prototype.selectReconstructions = function(editors) {
+meiView.Viewer.prototype.selectSuppliedParts = function(var_type, origins) {
   var sectionplaneUpdate = {};
 
-  var apps = $(this.MEI.rich_score).find('app[type="reconstruction"]');
-  for (editorID in editors) {
+  var all_apps = $(this.MEI.rich_score).find('app');
+  for (originID in origins) {
     var i;
-    for (i=0; i<apps.length; i++) {
-      var app = apps[i];
+    for (i=0; i<all_apps.length; i++) {
+      var app = all_apps[i];
       var app_xml_id=$(app).attr('xml:id');
-      var rdgs = $(app).find('rdg[resp="#'+editorID+'"]');
+      var rdgs = $(app).find('rdg[resp="#'+originID+'"]');
       var j;
       for (j=0; j<rdgs.length; j++) {
         var rdg_xml_id = $(rdgs[j]).attr('xml:id');
-        if (sectionplaneUpdate[app_xml_id] && editors[editorID]) {
+        if (sectionplaneUpdate[app_xml_id] && origins[originID]) {
           sectionplaneUpdate[app_xml_id].push(rdg_xml_id);
-        } else if (!sectionplaneUpdate[app_xml_id] && editors[editorID]) {
+        } else if (!sectionplaneUpdate[app_xml_id] && origins[originID]) {
           sectionplaneUpdate[app_xml_id] = [rdg_xml_id];
-        } else if (!sectionplaneUpdate[app_xml_id] && !editors[editorID]){
+        } else if (!sectionplaneUpdate[app_xml_id] && !origins[originID]){
           sectionplaneUpdate[app_xml_id] = [];
         }
       };
     };
   }
 
-  this.MEI.updateSectionView(sectionplaneUpdate);
-  this.displayCurrentPage();
-}
-
-meiView.Viewer.prototype.selectConcordances = function(editors) {
-  var sectionplaneUpdate = {};
-
-  var apps = $(this.MEI.rich_score).find('app[type="concordance"]');
-  for (editorID in editors) {
-    var i;
-    for (i=0; i<apps.length; i++) {
-      var app = apps[i];
-      var app_xml_id=$(app).attr('xml:id');
-      var rdgs = $(app).find('rdg[source="#'+editorID+'"]');
-      var j;
-      for (j=0; j<rdgs.length; j++) {
-        var rdg_xml_id = $(rdgs[j]).attr('xml:id');
-        if (sectionplaneUpdate[app_xml_id] && editors[editorID]) {
-          sectionplaneUpdate[app_xml_id].push(rdg_xml_id);
-        } else if (!sectionplaneUpdate[app_xml_id] && editors[editorID]) {
-          sectionplaneUpdate[app_xml_id] = [rdg_xml_id];
-        } else if (!sectionplaneUpdate[app_xml_id] && !editors[editorID]){
-          sectionplaneUpdate[app_xml_id] = [];
-        }
-      };
-    };
-  }
-
-  this.MEI.updateSectionView(sectionplaneUpdate);
-  this.displayCurrentPage();
-}
-
-meiView.Viewer.prototype.selectReconstruction = function(editor) {
-  var sectionplaneUpdate = {};
-  var apps = $(this.MEI.rich_score).find('app[type="reconstruction"]');
-  var i;
-  for (i=0; i<apps.length; i++) {
-    var app = apps[i];
-    var app_xml_id=$(app).attr('xml:id');
-    var rdgs = $(app).find('rdg[resp="#'+editor+'"]');
-    var j;
-    for (j=0; j<rdgs.length; j++) {
-      var rdg_xml_id = $(rdgs[j]).attr('xml:id');
-      sectionplaneUpdate[app_xml_id] = [rdg_xml_id];
-    }
-  }
-  this.MEI.updateSectionView(sectionplaneUpdate);
-  this.displayCurrentPage();
-}
-
-meiView.Viewer.prototype.selectConcordance = function(editor) {
-  var sectionplaneUpdate = {};
-  var apps = $(this.MEI.rich_score).find('app[type="concordance"]');
-  var i;
-  for (i=0; i<apps.length; i++) {
-    var app = apps[i];
-    var app_xml_id=$(app).attr('xml:id');
-    var rdgs = $(app).find('rdg[source="#'+editor+'"]');
-    var j;
-    for (j=0; j<rdgs.length; j++) {
-      var rdg_xml_id = $(rdgs[j]).attr('xml:id');
-      sectionplaneUpdate[app_xml_id] = [rdg_xml_id];
-    }
-  }
   this.MEI.updateSectionView(sectionplaneUpdate);
   this.displayCurrentPage();
 }

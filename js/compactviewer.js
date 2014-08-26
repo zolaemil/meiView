@@ -56,8 +56,15 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
     }
     this.scoreHeight = options.height || 1000;
     this.createSourceList(this.MEI.ALTs);
-    this.Reconstructors = this.createReconstructorList();
-    this.Concordances = this.createConcordanceList();
+
+    // Create an object of supplied parts. Reconstructions, concordances,
+    // and any other supplied parts can be added to this object.
+    this.SuppliedPartList = {}
+    this.SuppliedPartList['Reconstructions'] =
+        this.createSuppliedPartList('reconstruction');
+    this.SuppliedPartList['Concordances'] =
+        this.createSuppliedPartList('concordance');
+
     this_viewer = this;
     this.UI = new meiView.CompactUI({
       viewer: this_viewer,
@@ -65,8 +72,11 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
       title: options.title,
       scale: options.scale,
     });
-    this.selectedReconstructors = new meiView.SelectedEditors();
-    this.selectedConcordances = new meiView.SelectedEditors();
+    this.selectedSuppliedParts = {}
+    this.selectedSuppliedParts['Reconstructions'] =
+        new meiView.SelectedSuppliedParts('Reconstructions');
+    this.selectedSuppliedParts['Concordances'] =
+        new meiView.SelectedSuppliedParts('Concordances');
 
     if (this.mode == meiView.Mode.FULL) {
       // this.UI.showCritRep();

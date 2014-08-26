@@ -127,7 +127,7 @@ meiView.UI.prototype.srcID2srcLabel = function(src) {
   }
 }
 
-meiView.UI.prototype.editorID2editorLabel = function(src) {
+meiView.UI.prototype.originID2originLabel = function(src) {
   if (src === 'sic') {
     return 'Sic (mistakes in base text)'
   } else {
@@ -206,41 +206,25 @@ meiView.UI.prototype.onClickSideBarMarkup = function(me, measure_n, altID) {
 }
 
 meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
-
-  var reconstructurs = this.viewer.Reconstructors;
-  for (editorID in this.viewer.Reconstructors) {
-    var listElem = sidebardiv.find('ul[id="reconstructor-list"]');
-    if (listElem.length === 0) {
-      sidebardiv.append('<h3 class="' + sidebar_class 
-        + '">Reconstructions</h3><div class="' + sidebar_class 
-        + '"><ul id="reconstructor-list"></ul></div>');
-      listElem = sidebardiv.find('ul[id="reconstructor-list"]');
+  // Supplied part lists: reconstructions and concordances
+  for (var part_list in this.viewer.SuppliedPartLists) {
+    for (originID in this.viewer.SuppliedPartLists[part_list]) {
+      var listElem = sidebardiv.find('ul[id="' + part_list + '"]');
+      if (listElem.length === 0) {
+        sidebardiv.append('<h3 class="' + sidebar_class + 
+            '">' + part_list + '</h3><div class="' + sidebar_class +
+            '"><ul id="' + part_list + '"></ul></div>');
+        listElem = sidebardiv.find('ul[id="' + part_list + '"]');
+      }
+      var origin = part_list[originID];
+      listElem.append('<li class="meiview-sidebar-item"\
+          onclick="meiView.UI.callback(\'' + 
+          this.viewer.id + '-ui\', \'onSuppliedPartClick\', { originID: \'' +
+          originID + '\', part_list: \'' +
+          part_list + '\',})">' +
+          originID +
+          '</li>');
     }
-    var editor = this.viewer.Reconstructors[editorID];
-    listElem.append('<li class="meiview-sidebar-item"\
-      onclick="meiView.UI.callback(\'' 
-      + this.viewer.id + '-ui\', \'onReconstructionClick\', { editorID: \'' 
-      + editorID + '\'})">' 
-      + editorID 
-      + '</li>');
-  }
-
-  var concordanses = this.viewer.Concordances;
-  for (editorID in this.viewer.Concordances) {
-    var listElem = sidebardiv.find('ul[id="concordance-list"]');
-    if (listElem.length === 0) {
-      sidebardiv.append('<h3 class="' + sidebar_class 
-        + '">Concordances</h3><div class="' + sidebar_class 
-        + '"><ul id="concordance-list"></ul></div>');
-      listElem = sidebardiv.find('ul[id="concordance-list"]');
-    }
-    var editor = this.viewer.Concordances[editorID];
-    listElem.append('<li class="meiview-sidebar-item"\
-      onclick="meiView.UI.callback(\'' 
-      + this.viewer.id + '-ui\', \'onConcordanceClick\', { editorID: \'' 
-      + editorID + '\'})">' 
-      + editorID 
-      + '</li>');
   }
 
   var emendations = this.viewer.Emendations;
@@ -309,12 +293,9 @@ meiView.UI.callback = function(id, fname, params) {
   meiView.UI.objects[id][fname](params);
 }
 
-meiView.UI.prototype.onReconstructionClick = function(params) {
-  this.viewer.toggleReconstruction(params.editorID);
-}
-
-meiView.UI.prototype.onConcordanceClick = function(params) {
-  this.viewer.toggleConcordance(params.editorID);
+meiView.UI.prototype.onSuppliedPartClick = function(params) {
+  this.selectedSuppliedParts[params.part_list].toggleSuppliedPart(params.originID);
+  this.selectSuppliedParts(this.selectedSuppliedParts[params.part_list][params.originID]);
 }
 
 meiView.UI.objects = {};
