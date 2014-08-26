@@ -149,11 +149,6 @@ meiView.Viewer.prototype.createSuppliedPartList = function(var_type) {
     origin_attr = 'resp';
     origin_el = 'rdg';
   }
-  else if (var_type = 'emendation') {
-    origin_title = 'editor';
-    origin_attr = 'resp';
-    origin_el = 'corr';
-  }
   else {
     origin_title = 'source';
     origin_attr = 'source';
