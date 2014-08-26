@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" xml:id="m-3cd14a7b-65bf-4783-b1f8-daf9efddafe4" meiversion="2013">
+  <meiHead xml:id="m-609279e7-1285-4497-84dc-112be37948aa">
+    <fileDesc xml:id="m-790cf28f-2251-4f56-88a3-fb1ee85ae8e1">
+      <titleStmt xml:id="m-da511896-0c5b-423b-8e57-5554ef034372">
+        <title xml:id="m-695486bb-beda-4cd7-81e9-35270b443c8c">Test Case for MEIMassaging - Variants</title>
+        <respStmt xml:id="m-38bb407e-73ac-4d6c-91d9-2266e7721768">
+        <persName xml:id="m-56f9a306-2a3c-422c-9375-232fccc0007f"/>
+      </respStmt>
+    <editor xml:id="Besson"/>
+      </titleStmt>
+      <pubStmt xml:id="m-f088a1cd-bcde-4464-99c8-8ce266b74c51">
+        <availability xml:id="m-b1c82ad3-cc70-4651-b176-3be17c2f54ff">
+          <useRestrict xml:id="m-7c782644-93a5-4bb8-8122-a56b991e5b28">Copyright © </useRestrict>
+        </availability>
+      </pubStmt>
+      <sourceDesc xml:id="m-fa98915c-bfd8-4aee-8ec6-ff7734db439b">
+        <source xml:id="ZK"/>
+      </sourceDesc>
+    </fileDesc>
+    <workDesc xml:id="m-9b844b36-4d2c-40aa-ba48-1cfd9d5baeba">
+      <work xml:id="m-118603af-9526-4d5f-9bb2-16e0a86de750">
+        <incip xml:id="m-a2c4c198-f03f-4f40-8b56-490c9eb0c6bc">
+          <score xml:id="m-9a39dfd8-57f1-4ada-9848-c7d3d92a1a1b">
+            <scoreDef meter.count="4" meter.unit="4" ppq="256">
+              <staffGrp>
+                <staffGrp n="1" symbol="bracket">
+                  <staffDef clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Superius" lines="5" n="1"/>
+                </staffGrp>
+              </staffGrp>
+            </scoreDef>
+          </score>
+        </incip>
+      </work>
+    </workDesc>
+  </meiHead>
+  <music xml:id="m-b5339d1e-97cb-4a6b-b198-383dd41d9b2f">
+    <body xml:id="m-526ffbe4-4787-4401-afe2-b8e16bc956d0">
+      <mdiv xml:id="m-4ef2e543-bc97-41e0-9183-39d684dd2d26">
+        <score xml:id="m-6058ce37-cd48-4fb4-9f8c-bd4aeaa78292">
+          <scoreDef xml:id="m-dfb9e67d-31c9-4777-8d45-651e1549716d" meter.count="4" meter.unit="4" ppq="256">
+            <staffGrp xml:id="m-463697ad-0f87-43c5-a136-022e6bd040c9">
+              <staffGrp xml:id="m-4ea3912a-a259-46a7-8cb1-1f441424b8bb" n="1" symbol="bracket">
+                <staffDef meter.count="4" meter.unit="4" xml:id="sd1" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Superius" lines="5" n="1"/>
+              </staffGrp>
+            </staffGrp>
+          </scoreDef>
+          <section xml:id="m-8723c973-18fd-4519-badb-bb4a36c5e359">
+            <measure xml:id="m-1ed79dca-4d21-44b2-88dc-af0ae7f2acee" n="1">
+              <staff xml:id="m-809c84d0-5a7d-497c-9d96-dfa98fdd8423" n="1">
+                <layer xml:id="m-95792493-d4ad-49b7-a41d-ebe143d8a83b" n="1">
+                  <app xml:id="m-85097fe9-ea2d-4bdc-acec-299be3a02c58">
+                    <lem xml:id="m-dd111df6-1bb2-473d-8248-8743f15a03cf">
+                      <rest xml:id="m-ad2583ed-ff45-4a3d-a8a3-42641edf60b1" dur="2"/>
+                    </lem>
+                    <rdg xml:id="m-798c3911-bdeb-49ff-a86f-fb5d2655fff7" source="#ZK">
+                      <note xml:id="m-bac671a4-30f4-42f0-be5d-857f20115c68" dur="2" oct="4" pname="f" color="rgba(255,0,0,1)"/>
+                    </rdg>
+                  </app>
+                  <note xml:id="m-6467cdab-1861-4c4a-b04e-5f5585b1841d" dur="2" oct="4" pname="f"/>
+                  <note xml:id="m-8f719dfe-9ef1-47d8-8685-779ef79cbde0" dur="2" oct="4" pname="f"/>
+                  <note xml:id="m-2146017a-3eb9-4587-99a6-cb43b792642a" dur="2" oct="4" pname="f"/>
+                </layer>
+              </staff>
+            </measure>
+            <measure xml:id="m-5285c7c1-bd60-4c04-a722-8c0529e6b3c3" n="2">
+              <staff xml:id="m-ba3abdb8-b5b8-4fce-9485-c8f1612f8cf7" n="1">
+                <layer xml:id="m-10bcc920-2cfa-4556-b0af-15c8ef4c46d2" n="1">
+                  <note xml:id="m-78695bd6-17f7-4db3-98d6-fa3c4ae7507d" dur="2" oct="4" pname="f"/>
+                  <note xml:id="m-5db456a5-e963-43f3-bbaf-cd21fd7c65ae" dur="2" oct="4" pname="f"/>
+                  <note xml:id="m-d7b9d362-9a9d-4bde-9922-aba6e8aaa71e" dur="2" oct="4" pname="f"/>
+                  <note xml:id="m-196374f5-dde1-439e-a2ce-5c410209a3b2" dur="2" oct="4" pname="f"/>
+                </layer>
+              </staff>
+            </measure>
+            <measure xml:id="m-30bcbe71-60cb-46a8-b7d7-eccce07e5cfd" n="3">
+              <staff xml:id="m-3a6b673e-15bb-4610-95b4-375f56a5e4d4" n="1">
+                <layer xml:id="m-4e2e06ee-f25c-4c47-abd8-37ab24e376ff" n="1">
+                  <note xml:id="m-6af90df5-1f8b-4b9c-94b9-d71f5db43552" dur="2" oct="4" pname="a"/>
+                  <note xml:id="m-5cbc0d74-e0e7-4066-8180-795f1a55c8ab" dur="2" oct="4" pname="b"/>
+                  <note xml:id="m-caddcbc1-431f-4794-b179-8ab8ba9bf8af" dur="2" oct="4" pname="c"/>
+                  <choice xml:id="m-a33111c0-ad8a-4fb9-a485-4348decc84d9">
+                    <sic xml:id="m-3ca2802f-725c-49e9-84d0-99a5847bf5a2">
+                      <note xml:id="m-4dc5dc72-9376-419e-923e-58d9e70a8d1c" dur="2" oct="4" pname="d"/>
+                    </sic>
+                    <corr xml:id="m-b7e3eb95-352d-43fa-871e-a1f4a244fbbb" resp="#ZK">
+                      <note xml:id="m-14931614-7527-407e-a51b-4c9776e40c3d" dur="2" oct="4" pname="g"/>
+                    </corr>
+                  </choice>
+                </layer>
+              </staff>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>
