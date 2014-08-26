@@ -59,10 +59,10 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
 
     // Create an object of supplied parts. Reconstructions, concordances,
     // and any other supplied parts can be added to this object.
-    this.SuppliedPartList = {}
-    this.SuppliedPartList['Reconstructions'] =
+    this.SuppliedPartLists = {}
+    this.SuppliedPartLists['reconstruction'] =
         this.createSuppliedPartList('reconstruction');
-    this.SuppliedPartList['Concordances'] =
+    this.SuppliedPartLists['concordance'] =
         this.createSuppliedPartList('concordance');
 
     this_viewer = this;
@@ -76,7 +76,7 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
     // part lists which have been created
     this.selectedSuppliedPartLists = {};
     for (var key in this.SuppliedPartLists) {
-      this.selectedSuppliedPartLists[key] = new meiView.SelectedSuppliedPartList[key]
+      this.selectedSuppliedPartLists[key] = new meiView.SelectedSuppliedPartList(key)
     }
 
     if (this.mode == meiView.Mode.FULL) {
@@ -238,4 +238,3 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
     this.UI.dlg && this.UI.dlg.hide();
   },
 });
-
