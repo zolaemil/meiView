@@ -240,25 +240,24 @@ meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
       var measure_n = $($(choice).closest('measure')[0]).attr('n');
       var choiceID = $(choice).attr('xml:id');
       var liID = this.toCSSId(choiceID);
+
+      // resplist <- list of editors who have entered corrections
+      var resplist = '';
+      var corrs = $(choice).find('corr');
+      var altlabel_open = '(corr. by ';
+      var altlabel_close = ')';
+      var j = 0;
+      for (var j; j<corrs.length; j++) {
+        var corr = corrs[j];
+        resplist += ( j > 0 ? ', ' : '') + $(corr).attr('resp').replace(/^#/, '');
+      }
+
       emendListElem.append('<li id="' + liID + '" class="meiview-sidebar-item" '
         + this.onClickSideBarMarkup(this, measure_n, choiceID) + '>'
-        + this.appID2appLabel(choiceID)
+        + this.appID2appLabel(choiceID) + altlabel_open + resplist + altlabel_close
         + '</li>'
       );
       var liItem = $(emendListElem).find('li#' + liID);
-      liItem.append('<ul></ul>');
-      var ul = liItem.find('ul');
-      var altitems = $(choice).find('sic, corr');
-      var j = 0;
-      for (var j; j<altitems.length; j++) {
-        var altitem = altitems[j];
-        var xmlID = $(altitem).attr('xml:id');
-        ul.append('<li id="' + this.liID(xmlID, liID)
-          + '" class="meiview-sidebar-item">'
-          + this.choiceItem2choiceItemLabel(altitem)
-          + '</li>'
-        );
-      }
     }
   }
 
