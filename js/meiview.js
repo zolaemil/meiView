@@ -19,8 +19,34 @@
 * permissions and limitations under the License.
 ***/
 
+
 // the default line thickness is 2, but this renders poorly with meiView's scaling
 if (typeof Vex !== 'undefined') Vex.Flow.STAVE_LINE_THICKNESS = 1;
+
+
+// Constants associated with each variant (supplied part) type
+cons = function(var_type) {
+  if (var_type == 'reconstruction') {
+    return {
+      title: 'editor',
+      attr: 'resp',
+      el: 'rdg',
+      parent: 'app',
+    }
+  }
+  else if (var_type == 'concordance') {
+    return {
+      title: 'source[type="concordance"]',
+      attr: 'source',
+      el: 'rdg',
+      parent: 'app',
+    }
+  }
+  else {
+    throw "Unsupported supplied part type";
+  }
+}
+
 
 meiView = {};
 
@@ -40,32 +66,32 @@ meiView.Util.loadXMLDoc = function(filename) {
   return xmlhttp.responseXML;
 }
 
-meiView.SelectedSuppliedParts = function(type_name) {
+meiView.SelectedSuppliedPartList = function(type_name) {
   this.init(type_name);
 }
 
-meiView.SelectedSuppliedParts.prototype.init = function (type_name){
+meiView.SelectedSuppliedPartList.prototype.init = function (type_name){
   this.origins = {};
   this.var_type = type_name;
 }
 
-meiView.SelectedSuppliedParts.prototype.addOrigin = function(origin) {
+meiView.SelectedSuppliedPartList.prototype.addOrigin = function(origin) {
   if (this.origins[origin]) {
     this.origins[origin] = true;
   }
 }
 
-meiView.SelectedSuppliedParts.prototype.removeOrigin = function(origin) {
+meiView.SelectedSuppliedPartList.prototype.removeOrigin = function(origin) {
   if (!this.origins[origin]) {
     this.origins[origin] = false;
   }
 }
 
-meiView.SelectedSuppliedParts.prototype.toggleSuppliedPart = function(origin) {
-    this.origins[origin] = !this.origins[origin];
+meiView.SelectedSuppliedPartList.prototype.toggleSuppliedPart = function(origin) {
+  this.origins[origin] = !this.origins[origin];
 }
 
-meiView.SelectedSuppliedParts.prototype.originsList = function() {
+meiView.SelectedSuppliedPartList.prototype.originsList = function() {
   var res = [];
   $.each(this.origins, function(i, e) {
     if (e) {
@@ -125,9 +151,9 @@ meiView.Viewer.prototype.init = function(options){
   // Create an object of supplied parts. Reconstructions, concordances,
   // and any other supplied parts can be added to this object.
   this.SuppliedPartLists = {};
-  this.SuppliedPartLists['Reconstructions'] =
+  this.SuppliedPartLists['reconstruction'] =
       this.createSuppliedPartList('reconstruction');
-  this.SuppliedPartLists['Concordances'] =
+  this.SuppliedPartLists['concordance'] =
       this.createSuppliedPartList('concordance');
 
   this_viewer = this;
@@ -136,32 +162,29 @@ meiView.Viewer.prototype.init = function(options){
     maindiv: options.maindiv,
     title: options.title,
   });
-  this.selectedSuppliedParts = {};
-  this.selectedSuppliedParts['Reconstructions'] =
-      new meiView.SelectedSuppliedParts('Reconstructions');
-  this.selectedSuppliedParts['Concordances'] =
-      new meiView.SelectedSuppliedParts('Concordances');
+  // Create dictionary of selected part lists, matching the
+  // part lists which have been created
+  this.selectedSuppliedPartLists = {};
+  for (var key in this.SuppliedPartLists) {
+    this.selectedSuppliedPartLists[key] = new meiView.SelectedSuppliedPartList(key)
+  }
+}
+
+meiView.Viewer.prototype.toggleSuppliedPart = function(var_type, origin) {
+  this.selectedSuppliedPartLists[var_type].toggleSuppliedPart(origin);
+  this.selectSuppliedParts(var_type, this.selectedSuppliedPartLists);
 }
 
 meiView.Viewer.prototype.createSuppliedPartList = function(var_type) {
-  if (var_type == 'reconstruction') {
-    origin_title = 'editor';
-    origin_attr = 'resp';
-    origin_el = 'rdg';
-  }
-  else {
-    origin_title = 'source';
-    origin_attr = 'source';
-    origin_el = 'rdg';
-  }
   var result = {};
-  var origins = $(this.MEI.rich_head).find('fileDesc').find(origin_title);
+  var origins = $(this.MEI.rich_head).find('fileDesc').find(cons(var_type)['title']);
   var me = this;
   $(origins).each(function(i) {
     var orig_id = $(this).attr('xml:id');
-    if (!orig_id) throw (origin_title + "ID is undefined");
-
-    if ( $(me.MEI.rich_score).find(origin_el + '[' + origin_attr + '="#' + orig_id + '"]').length > 0) {
+    if (!orig_id) {
+      throw ("Origin ID is undefined");
+    }
+    if ($(me.MEI.rich_score).find(cons(var_type)['el'] + '[' + cons(var_type)['attr'] + '="#' + orig_id + '"]').length > 0) {
       result[orig_id] = this;
     }
   });
@@ -351,28 +374,30 @@ meiView.Viewer.prototype.displayCurrentPage = function() {
 
 }
 
-meiView.Viewer.prototype.selectSuppliedParts = function(var_type, origins) {
+meiView.Viewer.prototype.selectSuppliedParts = function() {
   var sectionplaneUpdate = {};
-
-  var all_apps = $(this.MEI.rich_score).find('app');
-  for (originID in origins) {
-    var i;
-    for (i=0; i<all_apps.length; i++) {
-      var app = all_apps[i];
-      var app_xml_id=$(app).attr('xml:id');
-      var rdgs = $(app).find('rdg[resp="#'+originID+'"]');
-      var j;
-      for (j=0; j<rdgs.length; j++) {
-        var rdg_xml_id = $(rdgs[j]).attr('xml:id');
-        if (sectionplaneUpdate[app_xml_id] && origins[originID]) {
-          sectionplaneUpdate[app_xml_id].push(rdg_xml_id);
-        } else if (!sectionplaneUpdate[app_xml_id] && origins[originID]) {
-          sectionplaneUpdate[app_xml_id] = [rdg_xml_id];
-        } else if (!sectionplaneUpdate[app_xml_id] && !origins[originID]){
-          sectionplaneUpdate[app_xml_id] = [];
+  for (var var_type in this.selectedSuppliedPartLists) {
+    origins = this.selectedSuppliedPartLists[var_type].origins
+    var all_apps = $(this.MEI.rich_score).find(cons(var_type)['parent']);
+    for (originID in origins) {
+      var i;
+      for (i=0; i<all_apps.length; i++) {
+        var app = all_apps[i];
+        var app_xml_id=$(app).attr('xml:id');
+        var rdgs = $(app).find(cons(var_type)['el'] + '[' + cons(var_type)['attr'] + '="#'+originID+'"]');
+        var j;
+        for (j=0; j<rdgs.length; j++) {
+          var rdg_xml_id = $(rdgs[j]).attr('xml:id');
+          if (sectionplaneUpdate[app_xml_id] && origins[originID]) {
+            sectionplaneUpdate[app_xml_id].push(rdg_xml_id);
+          } else if (!sectionplaneUpdate[app_xml_id] && origins[originID]) {
+            sectionplaneUpdate[app_xml_id] = [rdg_xml_id];
+          } else if (!sectionplaneUpdate[app_xml_id] && !origins[originID]){
+            sectionplaneUpdate[app_xml_id] = [];
+          }
         }
-      };
-    };
+      }
+    }
   }
 
   this.MEI.updateSectionView(sectionplaneUpdate);

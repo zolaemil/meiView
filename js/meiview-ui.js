@@ -206,24 +206,28 @@ meiView.UI.prototype.onClickSideBarMarkup = function(me, measure_n, altID) {
 }
 
 meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
+  // Create a capitalized, plural form of a var name
+  // e.g. 'reconstruction' -> 'Reconstructions'
+  cap_plural = function(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1) + 's';
+  }
   // Supplied part lists: reconstructions and concordances
-  for (var part_list in this.viewer.SuppliedPartLists) {
-    for (originID in this.viewer.SuppliedPartLists[part_list]) {
-      var listElem = sidebardiv.find('ul[id="' + part_list + '"]');
+  for (var var_type in this.viewer.SuppliedPartLists) {
+    for (originID in this.viewer.SuppliedPartLists[var_type]) {
+      var listElem = sidebardiv.find('ul[id="' + var_type + '"]');
       if (listElem.length === 0) {
         sidebardiv.append('<h3 class="' + sidebar_class + 
-            '">' + part_list + '</h3><div class="' + sidebar_class +
-            '"><ul id="' + part_list + '"></ul></div>');
-        listElem = sidebardiv.find('ul[id="' + part_list + '"]');
+            '">' + cap_plural(var_type) + '</h3><div class="' + sidebar_class +
+            '"><ul id="' + var_type + '"></ul></div>');
+        listElem = sidebardiv.find('ul[id="' + var_type + '"]');
       }
-      var origin = part_list[originID];
+      var origin = var_type[originID];
       listElem.append('<li class="meiview-sidebar-item"\
           onclick="meiView.UI.callback(\'' + 
-          this.viewer.id + '-ui\', \'onSuppliedPartClick\', { originID: \'' +
-          originID + '\', part_list: \'' +
-          part_list + '\',})">' +
-          originID +
-          '</li>');
+          this.viewer.id + '-ui\', \'onSuppliedPartClick\', { ' +
+          'originID: \'' + originID + '\',' +
+          'var_type: \'' + var_type + '\',' +
+          '})">' + originID + '</li>');
     }
   }
 
@@ -294,8 +298,7 @@ meiView.UI.callback = function(id, fname, params) {
 }
 
 meiView.UI.prototype.onSuppliedPartClick = function(params) {
-  this.selectedSuppliedParts[params.part_list].toggleSuppliedPart(params.originID);
-  this.selectSuppliedParts(this.selectedSuppliedParts[params.part_list][params.originID]);
+  this.viewer.toggleSuppliedPart(params.var_type, params.originID);
 }
 
 meiView.UI.objects = {};

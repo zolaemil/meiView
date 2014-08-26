@@ -72,11 +72,12 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
       title: options.title,
       scale: options.scale,
     });
-    this.selectedSuppliedParts = {}
-    this.selectedSuppliedParts['Reconstructions'] =
-        new meiView.SelectedSuppliedParts('Reconstructions');
-    this.selectedSuppliedParts['Concordances'] =
-        new meiView.SelectedSuppliedParts('Concordances');
+    // Create dictionary of selected part lists, matching the
+    // part lists which have been created
+    this.selectedSuppliedPartLists = {};
+    for (var key in this.SuppliedPartLists) {
+      this.selectedSuppliedPartLists[key] = new meiView.SelectedSuppliedPartList[key]
+    }
 
     if (this.mode == meiView.Mode.FULL) {
       // this.UI.showCritRep();
