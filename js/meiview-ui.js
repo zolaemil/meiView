@@ -691,12 +691,30 @@ meiView.UI.prototype.ShowSelectorPanel = function(dotInfo) {
     var altitem = altitems[xmlID];
     var tagname = altitem.tagname;
     var source = altitem.source;
+    var resp = altitem.resp;
     var replacements = {};
     replacements[appID] = xmlID;
     variantSlice.updateSectionView(replacements);
-    var text = 'Lemma';
-    if (source) {
+    var text = '';
+    if (tagname == 'lem') {
+      text = 'Lemma';
+    }
+    else if (tagname == 'sic') {
+      text = 'Original';
+    }
+    else if (tagname == 'corr') {
+      if (resp) {
+        text = 'Corrected (' + resp.replace(/#/g, '').replace(/ /g, ', ') + ')';
+      }
+      else {
+        text = 'Corrected'
+      }
+    }
+    else if (source) {
       text = source.replace(/#/g, '').replace(/ /g, ', ');
+    }
+    else if (resp) {
+      text = resp.replace(/#/g, '').replace(/ /g, ', ');
     }
     var selected = (this.viewer.MEI.sectionplane[appID] === altitem);
     this.dlg.addItem(text+':', variantSlice.sectionview_score, selected, xmlID);
