@@ -13,7 +13,7 @@
 				<useRestrict xml:id="m-00bcc962-87a1-4663-a86a-97d2323be0a9">Copyright © </useRestrict>
 			</availability>
 		</pubStmt>
-	<sourceDesc xml:id="m-df2176b6-69bc-418e-a032-71a9d5d57ccf"><source xml:id="A"/><source xml:id="Source-A"/></sourceDesc></fileDesc>
+	<sourceDesc xml:id="m-df2176b6-69bc-418e-a032-71a9d5d57ccf"><source xml:id="A" type="concordance"/><source xml:id="Source-A" type="variant"/></sourceDesc></fileDesc>
 	<encodingDesc xml:id="m-be93781a-2ca2-46d2-b8c4-06d896f11e70">
 		<appInfo xml:id="m-0522ca43-2cef-4a1a-b30c-4d3f4cb197b0">
 			<application xml:id="sibelius7" version="7">
