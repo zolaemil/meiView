@@ -20,16 +20,16 @@ test( "filterMei", function() {
     ok($(sd[0]).attr(attrname) == value, 'attribute value: '+ attrname + ' == ' + value.toString());
   }
 
-  assertStaffDef(music, "sd1", 'meter.count', '2');
-  assertStaffDef(music, "sd2", 'meter.count', '2');
-  assertStaffDef(music, "sd3", 'meter.count', '2');
-  assertStaffDef(music, "sd4", 'meter.count', '2');
-  assertStaffDef(music, "sd5", 'meter.count', '2');
-  assertStaffDef(music, "sd6", 'meter.count', '2');
-  assertStaffDef(music, "sd7", 'meter.count', '2');
-  assertStaffDef(music, "sd8", 'meter.count', '2');
-  assertStaffDef(music, "sd9", 'meter.count', '2');
-  assertStaffDef(music, "sd10", 'meter.count', '2');
+  assertStaffDef(music, "sd1", 'meter.count', '4');
+  assertStaffDef(music, "sd2", 'meter.count', '4');
+  assertStaffDef(music, "sd3", 'meter.count', '4');
+  assertStaffDef(music, "sd4", 'meter.count', '4');
+  assertStaffDef(music, "sd5", 'meter.count', '4');
+  assertStaffDef(music, "sd6", 'meter.count', '4');
+  assertStaffDef(music, "sd7", 'meter.count', '4');
+  assertStaffDef(music, "sd8", 'meter.count', '4');
+  assertStaffDef(music, "sd9", 'meter.count', '4');
+  assertStaffDef(music, "sd10", 'meter.count', '4');
 
   assertStaffDef(music, "sd1", 'meter.unit', '2');
   assertStaffDef(music, "sd2", 'meter.unit', '2');
