@@ -76,6 +76,10 @@ meiView.filterMei = function(meiXml, options) {
   if (options.noSysBreak) {
     $(music).find('sb').remove();
   }
+  
+  if (options.noMeterSig) {
+    $(music).find('meterSig').remove();
+  }
 
   //4. Substitue longas with breves
   meiView.substituteLonga(music);
