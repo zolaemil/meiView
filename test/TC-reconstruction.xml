@@ -114,7 +114,7 @@
 								<note xml:id="p1ccd5n1536v1b2s1" oct="5" pname="c" dur="breve" dur.ges="4096p"/>
 							</layer>
 						</staff>
-						<app xml:id="app-recon-02" type="supplied" n="2"><rdg type="reconstruction" xml:id="rdgA.app-recon-02" n="3" resp="#A"><staff xml:id="m-09c8c732-6d3c-4ab1-898e-3567d80fb560" n="3">
+						<app xml:id="app-recon-02" n="2"><rdg type="reconstruction" xml:id="rdgA.app-recon-02" n="3" resp="#A"><staff xml:id="m-09c8c732-6d3c-4ab1-898e-3567d80fb560" n="3">
 							<layer xml:id="m-0c069323-6cdd-4c18-95e2-5bdb1c7f6caa" n="1">
 								<note xml:id="p1ced4n0v1b2s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
 								<note xml:id="p1ced4n512v1b2s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
