@@ -101,25 +101,25 @@ meiView.filterMei = function(meiXml, options) {
   
   var music = meiXml.getElementsByTagNameNS("http://www.music-encoding.org/ns/mei", 'music')[0];
 
-  //1. Remove page break elements (<pb>)
+  // Remove page break elements (<pb>)
   $(music).find('pb').remove();
 
-  //2. Propagate meter and key signatures from score def to staff def
+  // Propagate meter and key signatures from score def to staff def
   var scoreDefs = $(music).find('scoreDef');
   $(scoreDefs).each(function() {
     propagateScoreDefAttrs(this);
   });
 
-  //3. Remove system breaks if not needed.
+  // Remove system breaks if not needed.
   if (options.noSysBreak) {
     $(music).find('sb').remove();
   }
   
-  if (options.noMeterSig) {
-    $(music).find('meterSig').remove();
-  }
+  // Remove elements that may cause the renderer to choke
+  $(music).find('meterSig').remove();
+  $(music).find('annot[type="bracket"]').remove();
 
-  //4. Substitue longas with breves
+  // Substitute longas with breves
   meiView.substituteLonga(music);
 
   eliminateAccidElements(music);
