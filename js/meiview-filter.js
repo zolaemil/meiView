@@ -78,7 +78,9 @@ meiView.filterMei = function(meiXml, options) {
           $(dir).attr('startid', parent_note_id);
           var accid_val = $(accid).attr('accid');
           if (accid_val == 's') {
-            $(dir).append('#');
+            $(dir).append('♯');
+          } else if (accid_val == 'n') {
+            $(dir).append('♮');
           } else if (accid_val == 'f') {
             $(dir).append('♭');
           }
