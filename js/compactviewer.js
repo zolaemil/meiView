@@ -60,13 +60,13 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
     // Create an object of supplied parts. Reconstructions, concordances,
     // and any other supplied parts can be added to this object.
     this.SuppliedPartLists = {}
-    for (var var_type in var_type_list)
+    for (var var_type in meiView.VarTypeList)
       this.SuppliedPartLists[var_type] = this.createSuppliedPartList(var_type);
 
     // Create dictionary of selected part lists, matching the
     // part lists which have been created
     this.selectedSuppliedPartLists = {};
-    for (var var_type in meiView.var_type_list) {
+    for (var var_type in meiView.VarTypeList) {
       this.selectedSuppliedPartLists[var_type] = new meiView.SelectedSuppliedPartList(var_type);
     }
 
