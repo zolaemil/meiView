@@ -23,32 +23,24 @@
 // the default line thickness is 2, but this renders poorly with meiView's scaling
 if (typeof Vex !== 'undefined') Vex.Flow.STAVE_LINE_THICKNESS = 1;
 
-
-// Constants associated with each variant (supplied part) type
-cons = function(var_type) {
-  if (var_type == 'reconstruction') {
-    return {
-      title: 'editor',
-      attr: 'resp',
-      el: 'rdg',
-      parent: 'app',
-    }
-  }
-  else if (var_type == 'concordance') {
-    return {
-      title: 'source[type="concordance"]',
-      attr: 'source',
-      el: 'rdg',
-      parent: 'app',
-    }
-  }
-  else {
-    throw "Unsupported supplied part type";
-  }
-}
-
-
 meiView = {};
+
+// Define the list of supplied staff types we will be using.
+// (Perhaps this could be automated in the future.)
+meiView.VarTypeList = {
+  'reconstruction':
+      { 'title': 'editor',
+        'attr': 'resp', 
+        'el': 'rdg',
+        'parent': 'app',
+      },
+  'concordance':
+      { 'title': 'source[type="concordance"]',
+        'attr': 'source', 
+        'el': 'rdg',
+        'parent': 'app',
+      },
+}
 
 meiView.Util = {};
 
@@ -151,10 +143,16 @@ meiView.Viewer.prototype.init = function(options){
   // Create an object of supplied parts. Reconstructions, concordances,
   // and any other supplied parts can be added to this object.
   this.SuppliedPartLists = {};
-  this.SuppliedPartLists['reconstruction'] =
-      this.createSuppliedPartList('reconstruction');
-  this.SuppliedPartLists['concordance'] =
-      this.createSuppliedPartList('concordance');
+  for (var var_type in meiView.VarTypeList) {
+    this.SuppliedPartLists[var_type] = this.createSuppliedPartList(var_type);
+  }
+
+  // Create dictionary of selected part lists, matching the
+  // part lists which have been created
+  this.selectedSuppliedPartLists = {};
+  for (var var_type in meiView.VarTypeList) {
+    this.selectedSuppliedPartLists[var_type] = new meiView.SelectedSuppliedPartList(var_type);
+  }
 
   this_viewer = this;
   this.UI = new meiView.UI({
@@ -162,12 +160,6 @@ meiView.Viewer.prototype.init = function(options){
     maindiv: options.maindiv,
     title: options.title,
   });
-  // Create dictionary of selected part lists, matching the
-  // part lists which have been created
-  this.selectedSuppliedPartLists = {};
-  for (var key in this.SuppliedPartLists) {
-    this.selectedSuppliedPartLists[key] = new meiView.SelectedSuppliedPartList(key)
-  }
 }
 
 meiView.Viewer.prototype.toggleSuppliedPart = function(var_type, origin) {
@@ -176,15 +168,18 @@ meiView.Viewer.prototype.toggleSuppliedPart = function(var_type, origin) {
 }
 
 meiView.Viewer.prototype.createSuppliedPartList = function(var_type) {
+  var title = (meiView.VarTypeList[var_type])['title'];
+  var attr = (meiView.VarTypeList[var_type])['attr'];
+  var el = (meiView.VarTypeList[var_type])['el'];
   var result = {};
-  var origins = $(this.MEI.rich_head).find('fileDesc').find(cons(var_type)['title']);
+  var origins = $(this.MEI.rich_head).find('fileDesc').find(title);
   var me = this;
   $(origins).each(function(i) {
     var orig_id = $(this).attr('xml:id');
     if (!orig_id) {
       throw ("Origin ID is undefined");
     }
-    if ($(me.MEI.rich_score).find(cons(var_type)['el'] + '[' + cons(var_type)['attr'] + '="#' + orig_id + '"]').length > 0) {
+    if ($(me.MEI.rich_score).find(el + '[' + attr + '="#' + orig_id + '"]').length > 0) {
       result[orig_id] = this;
     }
   });
@@ -377,14 +372,18 @@ meiView.Viewer.prototype.displayCurrentPage = function() {
 meiView.Viewer.prototype.selectSuppliedParts = function() {
   var sectionplaneUpdate = {};
   for (var var_type in this.selectedSuppliedPartLists) {
-    origins = this.selectedSuppliedPartLists[var_type].origins
-    var all_apps = $(this.MEI.rich_score).find(cons(var_type)['parent']);
+    var attr = (meiView.VarTypeList[var_type])['attr'];
+    var el = (meiView.VarTypeList[var_type])['el'];
+    var parent = (meiView.VarTypeList[var_type])['parent'];
+
+    var origins = this.selectedSuppliedPartLists[var_type].origins
+    var all_apps = $(this.MEI.rich_score).find(parent);
     for (originID in origins) {
       var i;
       for (i=0; i<all_apps.length; i++) {
         var app = all_apps[i];
         var app_xml_id=$(app).attr('xml:id');
-        var rdgs = $(app).find(cons(var_type)['el'] + '[' + cons(var_type)['attr'] + '="#'+originID+'"]');
+        var rdgs = $(app).find(el + '[' + attr + '="#'+originID+'"]');
         var j;
         for (j=0; j<rdgs.length; j++) {
           var rdg_xml_id = $(rdgs[j]).attr('xml:id');

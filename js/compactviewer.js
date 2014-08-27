@@ -56,14 +56,19 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
     }
     this.scoreHeight = options.height || 1000;
     this.createSourceList(this.MEI.ALTs);
-
+    
     // Create an object of supplied parts. Reconstructions, concordances,
     // and any other supplied parts can be added to this object.
     this.SuppliedPartLists = {}
-    this.SuppliedPartLists['reconstruction'] =
-        this.createSuppliedPartList('reconstruction');
-    this.SuppliedPartLists['concordance'] =
-        this.createSuppliedPartList('concordance');
+    for (var var_type in var_type_list)
+      this.SuppliedPartLists[var_type] = this.createSuppliedPartList(var_type);
+
+    // Create dictionary of selected part lists, matching the
+    // part lists which have been created
+    this.selectedSuppliedPartLists = {};
+    for (var var_type in meiView.var_type_list) {
+      this.selectedSuppliedPartLists[var_type] = new meiView.SelectedSuppliedPartList(var_type);
+    }
 
     this_viewer = this;
     this.UI = new meiView.CompactUI({
@@ -72,12 +77,6 @@ meiView.Inherit(meiView.CompactViewer, meiView.Viewer, {
       title: options.title,
       scale: options.scale,
     });
-    // Create dictionary of selected part lists, matching the
-    // part lists which have been created
-    this.selectedSuppliedPartLists = {};
-    for (var key in this.SuppliedPartLists) {
-      this.selectedSuppliedPartLists[key] = new meiView.SelectedSuppliedPartList(key)
-    }
 
     if (this.mode == meiView.Mode.FULL) {
       // this.UI.showCritRep();

@@ -221,7 +221,6 @@ meiView.UI.prototype.fillSideBar = function(sidebardiv, sidebar_class) {
             '"><ul id="' + var_type + '"></ul></div>');
         listElem = sidebardiv.find('ul[id="' + var_type + '"]');
       }
-      var origin = var_type[originID];
       listElem.append('<li class="meiview-sidebar-item"\
           onclick="meiView.UI.callback(\'' + 
           this.viewer.id + '-ui\', \'onSuppliedPartClick\', { ' +
