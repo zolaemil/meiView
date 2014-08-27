@@ -20,16 +20,16 @@ test( "filterMei", function() {
     ok($(sd[0]).attr(attrname) == value, 'attribute value: '+ attrname + ' == ' + value.toString());
   }
 
-  assertStaffDef(music, "sd1", 'meter.count', '2');
-  assertStaffDef(music, "sd2", 'meter.count', '2');
-  assertStaffDef(music, "sd3", 'meter.count', '2');
-  assertStaffDef(music, "sd4", 'meter.count', '2');
-  assertStaffDef(music, "sd5", 'meter.count', '2');
-  assertStaffDef(music, "sd6", 'meter.count', '2');
-  assertStaffDef(music, "sd7", 'meter.count', '2');
-  assertStaffDef(music, "sd8", 'meter.count', '2');
-  assertStaffDef(music, "sd9", 'meter.count', '2');
-  assertStaffDef(music, "sd10", 'meter.count', '2');
+  assertStaffDef(music, "sd1", 'meter.count', '4');
+  assertStaffDef(music, "sd2", 'meter.count', '4');
+  assertStaffDef(music, "sd3", 'meter.count', '4');
+  assertStaffDef(music, "sd4", 'meter.count', '4');
+  assertStaffDef(music, "sd5", 'meter.count', '4');
+  assertStaffDef(music, "sd6", 'meter.count', '4');
+  assertStaffDef(music, "sd7", 'meter.count', '4');
+  assertStaffDef(music, "sd8", 'meter.count', '4');
+  assertStaffDef(music, "sd9", 'meter.count', '4');
+  assertStaffDef(music, "sd10", 'meter.count', '4');
 
   assertStaffDef(music, "sd1", 'meter.unit', '2');
   assertStaffDef(music, "sd2", 'meter.unit', '2');
@@ -41,6 +41,14 @@ test( "filterMei", function() {
   assertStaffDef(music, "sd8", 'meter.unit', '2');
   assertStaffDef(music, "sd9", 'meter.unit', '2');
   assertStaffDef(music, "sd10", 'meter.unit', '2');
+
+  // assert converted accidentals
+
+  var dir = $(music).find('measure[n="3"]').find('dir');
+  ok(dir.length > 0, 'direction in measure 3');
+  ok($(dir).html() == '#', 'content of direction in measure 3');
+  ok($(dir).attr('startid') == 'p1cgd4n1536v1b4s1', 'startid of dir in measure 3');
+  ok($(music).find('note[xml\\:id="p1cbd4n1280v1b11s3"]').attr('accid') == 'f', 'accid attribute of note#p1cbd4n1280v1b11s3');
   
 });
 

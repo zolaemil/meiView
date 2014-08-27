@@ -60,6 +60,44 @@ meiView.filterMei = function(meiXml, options) {
       propagateAttrValue('key.sig.show', this, scoreDef);
     });
   }
+
+  var eliminateAccidElements = function(music) {
+
+    var eliminateAccid = function(accid) {
+
+      var place_val = $(accid).attr('place');
+      var func_val = $(accid).attr('func');
+
+      if ( place_val == 'above' && func_val == 'edit' ) {
+
+        var parent_note_id = $(accid).parent('supplied').parent('note').attr('xml:id');
+        if (!parent_note_id) {
+          console.log('parent note xml:id is needed in order to attach ficta. Ficta will be ignored.');
+        } else {
+          var dir = meiXml.createElementNS('http://www.music-encoding.org/ns/mei', 'dir');
+          $(dir).attr('startid', parent_note_id);
+          var accid_val = $(accid).attr('accid');
+          if (accid_val == 's') {
+            $(dir).append('#');
+          } else if (accid_val == 'f') {
+            $(dir).append('♭');
+          }
+          $(accid).closest('staff').get(0).parentNode.appendChild(dir);
+        }
+
+      } else {
+        $(accid).parent('note').attr('accid', $(accid).attr('accid'));
+      }
+
+      accid.parentNode.removeChild(accid);
+    }
+
+    var accids = $(music).find('accid');
+    $(accids).each(function() {
+      eliminateAccid(this);
+    });
+
+  }
   
   var music = meiXml.getElementsByTagNameNS("http://www.music-encoding.org/ns/mei", 'music')[0];
 
@@ -83,6 +121,8 @@ meiView.filterMei = function(meiXml, options) {
 
   //4. Substitue longas with breves
   meiView.substituteLonga(music);
+
+  eliminateAccidElements(music);
 
   return meiXml;
 }
