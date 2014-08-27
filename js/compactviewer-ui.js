@@ -447,24 +447,26 @@ meiView.Inherit(meiView.CompactUI, meiView.UI, {
         var sourceresp = (alt.tagname == 'app') ? 'in ' : 'by ';
         for (altid in alt.altitems) {
           var listitem = '';
-          if (alt.altitems[altid].tagname == 'rdg') {
-             listitem = alt.altitems[altid].source;
+          if (alt.altitems[altid].tagname == 'rdg' && $(alt.altitems[altid].elem).attr('type') == 'variant') {
+            listitem = alt.altitems[altid].source;
           } else if (alt.altitems[altid].tagname == 'corr') {
             listitem = alt.altitems[altid].resp;
           }
           if (listitem) {
             sourceresp += comma + listitem.replace(/#/g, '').replace(/ /g, ', ');
-            if (comma == '') comma = ', ';
+            if (comma == '') {
+              comma = ', ';
+            }
+            $(me.maindiv).find('.critrep-div ul').append('<li>' + alt.xmlID + '</li>');
+            $(tbody).append('<tr class="meiview-sidebar-item meiview-critrep-item"' 
+              + me.onClickSideBarMarkup(me, measure_n, alt.xmlID) + '>'
+              + '<td class="critrep-field critrep-measureno">' + 'M' + measure_n.toString() + '</td>'
+              + '<td class="critrep-field critrep-voice">' + this.shortVoiceLabel(alt.elem) + '</td>'
+              + '<td class="critrep-field critrep-type">' + ((alt.tagname == 'app') ? 'Variant' : 'Emendation') + '</td>'
+              + '<td class="critrep-field critrep-sources">' + sourceresp +'</td>'
+            + '</tr>');
           }
         }
-        $(me.maindiv).find('.critrep-div ul').append('<li>' + alt.xmlID + '</li>');
-        $(tbody).append('<tr class="meiview-sidebar-item meiview-critrep-item"' 
-          + me.onClickSideBarMarkup(me, measure_n, alt.xmlID) + '>'
-          + '<td class="critrep-field critrep-measureno">' + 'M' + measure_n.toString() + '</td>'
-          + '<td class="critrep-field critrep-voice">' + this.shortVoiceLabel(alt.elem) + '</td>'
-          + '<td class="critrep-field critrep-type">' + ((alt.tagname == 'app') ? 'Variant' : 'Emendation') + '</td>'
-          + '<td class="critrep-field critrep-sources">' + sourceresp +'</td>'
-        + '</tr>');
       }
     }
     if ($(tbody).find('.meiview-critrep-item').length == 0) {

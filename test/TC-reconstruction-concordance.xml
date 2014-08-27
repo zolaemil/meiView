@@ -7,13 +7,13 @@
 			<respStmt xml:id="m-091a730a-1709-4f2b-86b6-f5bc9aa6ea00">
 				<persName xml:id="m-e3661b0c-d5cd-4f51-bac9-d512252d3f08"/>
 			</respStmt>
-		<editor xml:id="A"/><editor xml:id="B"/><editor xml:id="Komives"/></titleStmt>
+		<editor xml:id="B"/><editor xml:id="Komives"/></titleStmt>
 		<pubStmt xml:id="m-a5f78e6a-b16a-483a-8fb7-399027331a65">
 			<availability xml:id="m-09a0abdc-6ad0-42bb-bedd-08ae8559c041">
 				<useRestrict xml:id="m-00bcc962-87a1-4663-a86a-97d2323be0a9">Copyright © </useRestrict>
 			</availability>
 		</pubStmt>
-	<sourceDesc xml:id="m-df2176b6-69bc-418e-a032-71a9d5d57ccf"><source xml:id="Source-A"/></sourceDesc></fileDesc>
+	<sourceDesc xml:id="m-df2176b6-69bc-418e-a032-71a9d5d57ccf"><source xml:id="A" type="concordance"/><source xml:id="Source-A" type="variant"/></sourceDesc></fileDesc>
 	<encodingDesc xml:id="m-be93781a-2ca2-46d2-b8c4-06d896f11e70">
 		<appInfo xml:id="m-0522ca43-2cef-4a1a-b30c-4d3f4cb197b0">
 			<application xml:id="sibelius7" version="7">
@@ -47,8 +47,7 @@
 					<staffGrp xml:id="m-6ca0ee64-362b-4450-b83e-0b39aedb76f4">
 						<staffGrp xml:id="m-48e61411-1a88-4029-ba29-9f1aa883659e" n="1" symbol="bracket">
 							<staffDef xml:id="sd1" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Superius" lines="5" n="1" meter.count="4" meter.unit="2"/>
-							<staffDef xml:id="sd2" label="Contratenor" n="2" meter.count="4" meter.unit="2"/>
-							<staffDef xml:id="sd3" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Contratenor_Reconstruction_A" lines="5" n="3" meter.count="4" meter.unit="2"/>
+							<staffDef xml:id="sd3" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Contratenor_Concordance_A" lines="5" n="3" meter.count="4" meter.unit="2"/>
 							<staffDef xml:id="sd4" clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Contratenor_Reconstruction_B" lines="5" n="4" meter.count="4" meter.unit="2"/>
 							<staffDef xml:id="sd5" clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Tenor" lines="5" n="5" meter.count="4" meter.unit="2"/>
 							<staffDef xml:id="sd7" clef.line="4" clef.shape="F" key.mode="major" key.sig="0" label="Bassus" lines="5" n="7" meter.count="4" meter.unit="2"/>
@@ -66,7 +65,7 @@
 								<note xml:id="p1ccd5n1536v1b1s1" dur="2" dur.ges="512p" oct="5" pname="c"/>
 							</layer>
 						</staff>
-						<app xml:id="app-recon-01" n="2" type="reconstruction"><rdg xml:id="rdgA.app-recon-01" n="3" resp="#A"><staff xml:id="m-979cb084-c907-41fd-a97c-0eda70d42404" n="3">
+						<app xml:id="app-01" n="2"><rdg type="concordance" xml:id="rdgA.app-conc-01" n="3" source="#A"><staff xml:id="m-979cb084-c907-41fd-a97c-0eda70d42404" n="3">
 							<layer xml:id="m-906802d2-dbcb-414c-ba37-77fcef752a04" n="1">
 								<note xml:id="p1ced4n0v1b1s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
 								<note xml:id="p1ced4n512v1b1s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
@@ -74,7 +73,7 @@
 								<note xml:id="p1ced4n1536v1b1s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
 							</layer>
 						</staff>
-						</rdg><rdg xml:id="rdgB.app-recon-01" n="4" resp="#B"><staff xml:id="m-9f4e2368-202c-4834-a5e6-b7cc5f03eb90" n="4">
+						</rdg><rdg type="reconstruction" xml:id="rdgB.app-recon-01" n="4" resp="#B"><staff xml:id="m-9f4e2368-202c-4834-a5e6-b7cc5f03eb90" n="4">
 							<layer xml:id="m-002363e1-dab7-4558-bccc-951eac6b2278" n="1">
 								<note xml:id="p1ced4n0v1b1s4" dur="4" dur.ges="256p" oct="4" pname="e"/>
 								<note xml:id="p1cgd4n256v1b1s4" dur="4" dur.ges="256p" oct="4" pname="g"/>
@@ -101,7 +100,7 @@
 								<note xml:id="p1ccd3n512v1b1s7" dur="2" dur.ges="512p" oct="3" pname="c"/>
 								<note xml:id="p1ccd3n1024v1b1s7" dur="2" dur.ges="512p" oct="3" pname="c"/>
 								<app xml:id="app-var-01"><lem xml:id="lem.app-var-01"><note xml:id="p1ccd3n1536v1b1s7" dur="2" dur.ges="512p" oct="3" pname="c"/>
-							</lem><rdg xml:id="rdg.app-var-01" source="#Source-A"><note xml:id="p1ccd4n1536v1b1s8" color="rgba(255,0,0,1)" dur="2" dur.ges="512p" oct="4" pname="c"/>
+							</lem><rdg type="variant" xml:id="rdg.app-var-01" source="#Source-A"><note xml:id="p1ccd4n1536v1b1s8" color="rgba(255,0,0,1)" dur="2" dur.ges="512p" oct="4" pname="c"/>
 							</rdg></app></layer>
 						</staff>
 						</measure>
@@ -114,7 +113,7 @@
 								<note xml:id="p1ccd5n1536v1b2s1" oct="5" pname="c" dur="breve" dur.ges="4096p"/>
 							</layer>
 						</staff>
-						<app xml:id="app-recon-02" n="2" type="reconstruction"><rdg xml:id="rdgA.app-recon-02" n="3" resp="#A"><staff xml:id="m-09c8c732-6d3c-4ab1-898e-3567d80fb560" n="3">
+						<app xml:id="app-02" n="2"><rdg type="concordance" xml:id="rdgA.app-conc-02" n="3" source="#A"><staff xml:id="m-09c8c732-6d3c-4ab1-898e-3567d80fb560" n="3">
 							<layer xml:id="m-0c069323-6cdd-4c18-95e2-5bdb1c7f6caa" n="1">
 								<note xml:id="p1ced4n0v1b2s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
 								<note xml:id="p1ced4n512v1b2s3" dur="2" dur.ges="512p" oct="4" pname="e"/>
@@ -122,7 +121,7 @@
 								<note xml:id="p1ced4n1536v1b2s3" oct="4" pname="e" dur="breve" dur.ges="4096p"/>
 							</layer>
 						</staff>
-						</rdg><rdg xml:id="rdgB.app-recon-02" n="4" resp="#B"><staff xml:id="m-522d2912-50e1-4491-a798-0c94c16c5f4d" n="4">
+						</rdg><rdg type="reconstruction" xml:id="rdgB.app-recon-02" n="4" resp="#B"><staff xml:id="m-522d2912-50e1-4491-a798-0c94c16c5f4d" n="4">
 							<layer xml:id="m-f6b6731f-d31d-4ec9-86ed-09529917d1c8" n="1">
 								<note xml:id="p1ced4n0v1b2s4" dur="4" dur.ges="256p" oct="4" pname="e"/>
 								<note xml:id="p1cgd4n256v1b2s4" dur="4" dur.ges="256p" oct="4" pname="g"/>
@@ -144,7 +143,7 @@
 						<staff xml:id="m-90bda29c-dff7-404f-98ec-462c8c316524" n="7">
 							<layer xml:id="m-79cdc975-d3c3-4834-9c6c-ba192e6bdda1" n="1">
 								<app xml:id="app-var-02"><lem xml:id="lem.app-var-02"><note xml:id="p1ccd3n0v1b2s7" dur="2" dur.ges="512p" oct="3" pname="c"/>
-								</lem><rdg xml:id="rdg.app-var-02" source="#Source-A"><note xml:id="p1ccd4n0v1b2s8" color="rgba(255,0,0,1)" dur="2" dur.ges="512p" oct="4" pname="c"/>
+								</lem><rdg type="variant" xml:id="rdg.app-var-02" source="#Source-A"><note xml:id="p1ccd4n0v1b2s8" color="rgba(255,0,0,1)" dur="2" dur.ges="512p" oct="4" pname="c"/>
 								</rdg></app><note xml:id="p1ccd3n512v1b2s7" dur="2" dur.ges="512p" oct="3" pname="c"/>
 								<note xml:id="p1ccd3n1024v1b2s7" dur="2" dur.ges="512p" oct="3" pname="c"/>
 								<note xml:id="p1ccd3n1536v1b2s7" oct="3" pname="c" dur="breve" dur.ges="4096p"/>
@@ -152,7 +151,7 @@
 						</staff>
 						</measure>
 				</section>
-        <annot plist="#app-recon-01 #app-recon-02" type="appGrp"/>
+        <annot plist="#app-01 #app-02" type="appGrp"/>
         <annot plist="#app-var-01 #app-var-02" type="appGrp"/>
 			</score>
 		</mdiv>

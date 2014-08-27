@@ -22,7 +22,7 @@ permissions and limitations under the License.
 <!DOCTYPE html>
 <html>
 <head>
-  <title>meiView - Test</title>
+  <title>meiView - Rogamus te...</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script type="text/JavaScript" src="../bower_components/jquery/dist/jquery.min.js"></script>
@@ -47,31 +47,31 @@ permissions and limitations under the License.
   <link rel="stylesheet" type="text/css" href="../css/compactviewer.css">
   <link  rel="stylesheet" href="test.css">
 
+
   <script type="application/javascript" language="javascript">
 
-    $(document).ready( function(){
-    
-      pagination = new meiView.Pages();
-      pagination.AddPage(1, 4);
+  $(document).ready( function(){
 
-      var tc = {
-        div: $('.tests'),
-        title: 'Canonical MEI - 02',
-        filename: 'DC-CanonicalMEI.02.xml',
-        pagination: pagination,
-      }
+    var pagination = new meiView.Pages();
+    pagination.AddPage(1, 3);
 
-      meiView.Test.LayedoutTest(tc);
-      meiView.Test.CompactTest(tc);
-      
-    })
+    var tc = {
+      div: $('#tests'),
+      title: 'One variant source',
+      filename: 'TC-variants.xml',
+      pagination: pagination,
+    }
+
+    meiView.Test.LayedoutTest(tc);
+    meiView.Test.CompactTest(tc);
+  })
   </script>
 </head>
 
 <body>
   <script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
 
-  <div class="tests">
+  <div id="tests">
   </div>
 
 </body>
