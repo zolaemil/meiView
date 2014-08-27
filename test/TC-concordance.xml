@@ -47,7 +47,6 @@
 					<staffGrp xml:id="m-6ca0ee64-362b-4450-b83e-0b39aedb76f4">
 						<staffGrp xml:id="m-48e61411-1a88-4029-ba29-9f1aa883659e" n="1" symbol="bracket">
 							<staffDef xml:id="sd1" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Superius" lines="5" n="1" meter.count="4" meter.unit="2"/>
-							<staffDef xml:id="sd2" label="Contratenor" n="2" meter.count="4" meter.unit="2"/>
 							<staffDef xml:id="sd3" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Contratenor_Concordance_A" lines="5" n="3" meter.count="4" meter.unit="2"/>
 							<staffDef xml:id="sd4" clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Contratenor_Concordance_B" lines="5" n="4" meter.count="4" meter.unit="2"/>
 							<staffDef xml:id="sd5" clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" label="Tenor" lines="5" n="5" meter.count="4" meter.unit="2"/>
