@@ -41,6 +41,14 @@ test( "filterMei", function() {
   assertStaffDef(music, "sd8", 'meter.unit', '2');
   assertStaffDef(music, "sd9", 'meter.unit', '2');
   assertStaffDef(music, "sd10", 'meter.unit', '2');
+
+  // assert converted accidentals
+
+  var dir = $(music).find('measure[n="3"]').find('dir');
+  ok(dir.length > 0, 'direction in measure 3');
+  ok($(dir).html() == '#', 'content of direction in measure 3');
+  ok($(dir).attr('startid') == 'p1cgd4n1536v1b4s1', 'startid of dir in measure 3');
+  ok($(music).find('note[xml\\:id="p1cbd4n1280v1b11s3"]').attr('accid') == 'f', 'accid attribute of note#p1cbd4n1280v1b11s3');
   
 });
 
