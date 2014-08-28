@@ -17,7 +17,7 @@ meiView.Test = (function () {
     },
 
     LayedoutTest: function(tc) {
-      var meiDoc = this.loadMEIDoc(tc.filename);
+      var meiDoc = this.loadMEIDoc(tc.filename, {noMeterSig: true});
       var testdiv = $('<div/>', {
         class: "test-div",
         text: tc.title + ' - Layout View',
@@ -41,7 +41,7 @@ meiView.Test = (function () {
     },
 
     CompactTest: function(tc) {
-      var meiDoc = this.loadMEIDoc(tc.filename, { noSysBreak:true });
+      var meiDoc = this.loadMEIDoc(tc.filename, { noSysBreak:true, noMeterSig:true });
       var testdiv = $('<div/>', {
         class: "test-div",
         text: tc.title + ' - Layout View',

@@ -36,6 +36,7 @@ meiView.substituteLonga = function(music) {
 
 meiView.filterMei = function(meiXml, options) {
   var options = options || {};
+
   /**
    * Propagate relevant attribute values from scoreDef into staffDef elements
    */
@@ -59,6 +60,33 @@ meiView.filterMei = function(meiXml, options) {
       propagateAttrValue('key.mode', this, scoreDef);
       propagateAttrValue('key.sig.show', this, scoreDef);
     });
+  }
+
+  /**
+   * If the scoreDef doesn't have children, look up the
+   * previous scoreDef within the current score element,
+   * and copy its content.
+   */
+  var completeScoreDef = function(scoredef, current) {
+    if ($(scoredef).find('staffDef').length == 0) {
+      if (!current) {
+        current = scoredef;
+      }
+      var prev = $(current).prev();
+      if (prev.length > 0 && prev[0].localName == 'scoreDef') {
+        $(prev).children().each(function() {
+          $(scoredef).append(this.cloneNode(true));
+        });
+      } else if (prev.length > 0) {
+        completeScoreDef(scoredef, prev[0])
+      } else {
+        var parent = $(current)[0].parentNode;
+        if ( parent && parent.localName != 'score' ) {
+          completeScoreDef(scoredef, parent);
+        }
+      }
+
+    }
   }
 
   var eliminateAccidElements = function(music) {
@@ -100,14 +128,20 @@ meiView.filterMei = function(meiXml, options) {
     });
 
   }
-  
+
   var music = meiXml.getElementsByTagNameNS("http://www.music-encoding.org/ns/mei", 'music')[0];
 
   //1. Remove page break elements (<pb>)
   $(music).find('pb').remove();
 
-  //2. Propagate meter and key signatures from score def to staff def
   var scoreDefs = $(music).find('scoreDef');
+
+  //2. Complete partial scoreDefs
+  $(scoreDefs).each(function() {
+    completeScoreDef(this);
+  });
+
+  //3. Propagate meter and key signatures from score def to staff def
   $(scoreDefs).each(function() {
     propagateScoreDefAttrs(this);
   });

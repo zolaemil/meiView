@@ -53,6 +53,31 @@ test( "filterMei", function() {
 });
 
 
+test( "filterMei:scoreDefs", function() {
+
+  // Test preparation
+
+  var meiXml = meiView.Util.loadXMLDoc('DC0816E.xml');
+
+  //Function under test
+
+  var filteredXml = meiView.filterMei(meiXml);
+
+  //Assertions
+
+  var music = filteredXml.getElementsByTagNameNS("http://www.music-encoding.org/ns/mei", 'music')[0];
+  var pbs = $(music).find('pb');
+
+
+  // assert completed scoreDefs
+
+  var scoreDefs = $(music).find('scoreDef');
+  ok(scoreDefs.length == 3, 'no. of scoreDefs');
+  ok($(scoreDefs[1]).find('staffDef').length == 4, 'no. of staffDefs in 1st milestone scoreDef');
+  ok($(scoreDefs[2]).find('staffDef').length == 4, 'no. of staffDefs in 2nd milestone scoreDef');
+});
+
+
 test( "meiView.Pages - auto", function() {
   console.log(meiView);
   var pgs1 = new meiView.Pages({
