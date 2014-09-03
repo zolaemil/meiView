@@ -1,0 +1,81 @@
+<!--
+meiView.html
+Author: Zoltan Komives
+Contributor: Raffaele Viglianti
+
+Copyright © 2013 Zoltan Komives, Raffaele Viglianti
+University of Maryland
+
+Licensed under the Apache License, Version 2.0 (the "License"); you
+may not use this file except in compliance with the License.  You may
+obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+implied.  See the License for the specific language governing
+permissions and limitations under the License.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>meiView - Test</title>
+
+  <!--
+    Load dependencies managed by bower
+  -->
+  <script type="text/JavaScript" src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script type="text/JavaScript" src="../bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+  <script type="text/JavaScript" src="../bower_components/vexflow/build/vexflow/vexflow-min.js"></script>
+
+  <!--
+    Load dependencies that are shipped with the distribution
+  -->
+  <script type="text/JavaScript" src="../deps/Fabric-all.js"></script>
+  <script type="text/JavaScript" src="../deps/meitovexflow.min.js"></script>
+
+  <!--
+    Load distribution files
+  -->
+  <script type="text/JavaScript" src="../dist/meiview.js"></script>
+  <link  rel="stylesheet" href="../dist/meiview.css"/>
+
+  <!--
+    Add styling
+  -->
+  <link rel="stylesheet" href="../bower_components/jquery-ui/themes/pepper-grinder/jquery-ui.min.css" />
+  <link rel="stylesheet" href="support/bootstrap/css/bootstrap.min.css" media="screen"/>
+  <script type="text/JavaScript" src="support/bootstrap/js/bootstrap.min.js"></script>
+
+  <script type="text/JavaScript" src="test-util.js"></script>
+  <link  rel="stylesheet" href="test.css">
+  <script type="application/javascript" language="javascript">
+
+  $(document).ready( function(){
+
+    pagination = new meiView.Pages();
+    pagination.AddPage(1, 4);
+    var tc = {
+      div: $('.tests'),
+      title: 'Canonical MEI - Triple mensuration',
+      filename: 'TC-triple-mensuration.xml',
+      pagination: pagination,
+    }
+
+    meiView.Test.LayedoutTest(tc);
+    meiView.Test.CompactTest(tc);
+      
+
+  })
+  </script>
+</head>
+
+<body>
+  <div class="tests">
+  </div>
+
+</body>
+</html>
